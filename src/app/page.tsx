@@ -399,7 +399,7 @@ export default function Howner() {
     { q: 'Les annonces sont gratuites ?', a: "Oui. Tu consultes toutes les annonces du marché gratuitement — agrégées depuis LeBonCoin, SeLoger, PAP et les pros inscrits sur Howner." },
     { q: "C'est quoi un crédit IA ?", a: "Un service réalisé par l'IA : recherche de biens personnalisée, recherche d'artisans, analyse de devis, dossier bancaire, analyse de bien, recherche de location. 1 crédit offert à l'inscription, ensuite à partir de 9€." },
     { q: 'Je suis pro, pourquoi venir ?', a: "Annonces illimitées de 0 à 169€/mois sans engagement (vs 200-600€ avec contrat 12 mois chez SeLoger/LeBonCoin). Matching avec des acheteurs et locataires. Données de demande en temps réel." },
-    { q: "C'est légal ?", a: "Oui. Jeu concours conforme à la Directive Européenne 2005/29/CE. Validé par Cabinet Hashtag Avocats (Paris). Tirage sous contrôle d'huissier de justice." },
+    { q: "C'est légal ?", a: "Oui. Jeu concours conforme à la Directive Européenne 2005/29/CE. Validé par notre cabinet d'avocats partenaire. Tirage sous contrôle d'huissier de justice." },
   ]
 
   return (
@@ -580,7 +580,7 @@ export default function Howner() {
         <div style={{ fontFamily: 'var(--b)', fontSize: 7, color: 'rgba(255,255,255,.1)', lineHeight: 1.8 }}>
           Affinity House Factory SAS · SIRET 982 581 506 00010 · Anglet, France
           <br />Jeu concours gratuit · Chaque crédit inclut un service IA réel · Directive EU 2005/29/CE
-          <br />Cabinet Hashtag Avocats (Paris) · Tirage sous contrôle d&apos;huissier · Participation gratuite possible
+          <br />Cabinet d&apos;avocats partenaire · Tirage sous contrôle d&apos;huissier · Participation gratuite possible
           <br />Vérification d&apos;identité requise · Règlement complet sur demande
         </div>
       </footer>
