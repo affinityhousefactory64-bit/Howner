@@ -1,8 +1,15 @@
 import Stripe from 'stripe'
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-03-31.basil',
-})
+let _stripe: Stripe | null = null
+
+export function getStripe() {
+  if (!_stripe) {
+    _stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+      apiVersion: '2026-02-25.clover',
+    })
+  }
+  return _stripe
+}
 
 export const CREDIT_PACKS = [
   { id: 'credit_1', name: '1 crédit', credits: 1, tickets: 1, price: 900, priceLabel: '9€' },
