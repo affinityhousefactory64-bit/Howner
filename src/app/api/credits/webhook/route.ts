@@ -49,8 +49,16 @@ export async function POST(req: NextRequest) {
         await supabase.from('credit_transactions').insert({
           user_id: userId,
           amount: creditAmount,
+          tickets: ticketAmount,
           type: 'purchase',
           stripe_payment_id: session.payment_intent as string,
+        })
+
+        // Log activity
+        await supabase.from('activity_log').insert({
+          user_id: userId,
+          action: 'credit_purchase',
+          details: { credits: creditAmount, tickets: ticketAmount },
         })
       }
     }

@@ -12,10 +12,24 @@ html { scroll-behavior: smooth; }
 ::selection { background: rgba(207,175,75,0.2); }
 
 body {
-  background: #0a0e1a;
+  background: #060a13;
   color: #fff;
   font-family: 'Syne', sans-serif;
 }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(207,175,75,0.15); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(207,175,75,0.25); }
+
+/* Focus */
+input:focus, textarea:focus { border-color: rgba(207,175,75,0.3) !important; }
+
+/* Button hover */
+button { transition: opacity 0.15s; }
+button:hover:not(:disabled) { opacity: 0.9; }
+button:active:not(:disabled) { transform: scale(0.98); }
 
 @keyframes pulse {
   0%, 100% { opacity: 1; }
@@ -33,3 +47,15 @@ body {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
+
+/* ═══ MOBILE ═══ */
+@media (max-width: 480px) {
+  /* Hide live ticker on small screens */
+  .live-ticker { display: none !important; }
+}
+
+/* Prevent horizontal overflow on mobile */
+html, body { overflow-x: hidden; max-width: 100vw; }
+
+/* Tap highlight */
+a, button { -webkit-tap-highlight-color: transparent; }

@@ -40,15 +40,28 @@ export async function POST(req: NextRequest) {
 
       if (referrer) {
         referredBy = referrer.id
-        // Give referrer a bonus ticket
-        await supabase
+        // Give referrer a bonus ticket (increment)
+        const { data: referrerData } = await supabase
           .from('users')
-          .update({ tickets: referrer.id })
+          .select('tickets')
           .eq('id', referrer.id)
+          .single()
+        if (referrerData) {
+          await supabase
+            .from('users')
+            .update({ tickets: referrerData.tickets + 1 })
+            .eq('id', referrer.id)
+        }
         await supabase.from('credit_transactions').insert({
           user_id: referrer.id,
           amount: 0,
+          tickets: 1,
           type: 'referral',
+        })
+        await supabase.from('activity_log').insert({
+          user_id: referrer.id,
+          action: 'referral',
+          details: { bonus: '1 ticket' },
         })
       }
     }
@@ -76,7 +89,15 @@ export async function POST(req: NextRequest) {
     await supabase.from('credit_transactions').insert({
       user_id: newUser.id,
       amount: 1,
+      tickets: 1,
       type: 'signup_bonus',
+    })
+
+    // Log activity
+    await supabase.from('activity_log').insert({
+      user_id: newUser.id,
+      action: 'signup',
+      details: { name: name || 'Anonyme', type: type || 'particulier' },
     })
 
     await createSession(newUser.id)
