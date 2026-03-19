@@ -24,16 +24,17 @@ function useVis(ref: RefObject<HTMLElement | null>, t = 0.1) {
 
 /* ═══ LIVE ACTIVITY TICKER ═══ */
 const FAKE_ACTIVITIES = [
-  { icon: '🎟️', text: 'Marie L. vient de s\'inscrire', sub: '+1 ticket', time: 'il y a 12s' },
-  { icon: '🤖', text: 'Thomas D. a lancé une Recherche IA', sub: '+1 ticket bonus', time: 'il y a 34s' },
-  { icon: '💳', text: 'Julie R. a acheté le Pack 5', sub: '+5 tickets', time: 'il y a 1min' },
+  { icon: '🎟️', text: 'Marie L. vient de s\'inscrire', sub: '+1 ticket offert', time: 'il y a 12s' },
+  { icon: '📢', text: 'Thomas D. a posté une annonce', sub: 'Annonce gratuite', time: 'il y a 34s' },
+  { icon: '💳', text: 'Julie R. a acheté 5 crédits', sub: '+5 tickets bonus', time: 'il y a 1min' },
   { icon: '🎁', text: 'Karim B. a parrainé un ami', sub: '+1 ticket chacun', time: 'il y a 2min' },
-  { icon: '🔍', text: 'Sophie M. a analysé un bien', sub: '+1 ticket bonus', time: 'il y a 3min' },
-  { icon: '💳', text: 'Pierre V. a acheté le Pack 15', sub: '+15 tickets', time: 'il y a 4min' },
-  { icon: '🎟️', text: 'Léa C. vient de s\'inscrire', sub: '+1 ticket', time: 'il y a 5min' },
-  { icon: '🔨', text: 'Marc F. a trouvé un artisan IA', sub: '+1 ticket bonus', time: 'il y a 6min' },
-  { icon: '💰', text: 'Nadia K. a monté son dossier bancaire', sub: '+1 ticket bonus', time: 'il y a 7min' },
-  { icon: '💳', text: 'Antoine G. a acheté le Pack 40', sub: '+40 tickets', time: 'il y a 8min' },
+  { icon: '🚀', text: 'Sophie M. a boosté son annonce', sub: '+1 ticket bonus', time: 'il y a 3min' },
+  { icon: '💳', text: 'Pierre V. a acheté 10 crédits', sub: '+10 tickets', time: 'il y a 4min' },
+  { icon: '🎟️', text: 'Lea C. vient de s\'inscrire', sub: '+1 ticket', time: 'il y a 5min' },
+  { icon: '🔔', text: 'Marc F. a active une alerte', sub: '+1 ticket bonus', time: 'il y a 6min' },
+  { icon: '📢', text: 'Nadia K. a poste 2 annonces', sub: '+2 tickets bonus', time: 'il y a 7min' },
+  { icon: '💳', text: 'Antoine G. a acheté 20 crédits', sub: '+20 tickets', time: 'il y a 8min' },
+  { icon: '⚡', text: '14 personnes ont acheté des crédits', sub: 'cette heure', time: 'il y a 9min' },
 ]
 
 function LiveTicker() {
@@ -158,8 +159,8 @@ function StepCard({ step, icon, title, desc, bonus, index }: { step: number; ico
   )
 }
 
-/* ═══ AI SERVICE CARD ═══ */
-function AICard({ icon, title, desc, index }: { icon: string; title: string; desc: string; index: number }) {
+/* ═══ CREDIT USAGE CARD ═══ */
+function CreditCard({ icon, title, desc, detail, index }: { icon: string; title: string; desc: string; detail: string; index: number }) {
   const ref = useRef<HTMLDivElement>(null)
   const vis = useVis(ref)
   const [h, setH] = useState(false)
@@ -169,21 +170,22 @@ function AICard({ icon, title, desc, index }: { icon: string; title: string; des
       onMouseEnter={() => setH(true)}
       onMouseLeave={() => setH(false)}
       style={{
-        flex: '1 1 170px', maxWidth: 200, padding: '18px 14px',
+        flex: '1 1 200px', maxWidth: 240, padding: '20px 16px',
         background: h ? 'rgba(207,175,75,.04)' : 'rgba(255,255,255,.015)',
         border: h ? '1px solid rgba(207,175,75,.15)' : '1px solid rgba(255,255,255,.05)',
         borderRadius: 12, cursor: 'pointer',
         opacity: vis ? 1 : 0, transform: vis ? (h ? 'translateY(-2px)' : 'none') : 'translateY(16px)',
-        transition: `all .5s cubic-bezier(.16,1,.3,1) ${index * 0.06}s`,
+        transition: `all .5s cubic-bezier(.16,1,.3,1) ${index * 0.08}s`,
       }}
     >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
-        <span style={{ fontSize: 24 }}>{icon}</span>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
+        <span style={{ fontSize: 28 }}>{icon}</span>
         <span style={{ padding: '2px 8px', borderRadius: 5, background: 'rgba(207,175,75,.08)', border: '1px solid rgba(207,175,75,.15)', fontFamily: 'var(--m)', fontSize: 8, fontWeight: 700, color: 'var(--a)' }}>1 cr</span>
       </div>
-      <div style={{ fontFamily: 'var(--b)', fontWeight: 700, fontSize: 12, color: '#fff', marginBottom: 4 }}>{title}</div>
-      <div style={{ fontFamily: 'var(--b)', fontSize: 10, color: 'rgba(255,255,255,.35)', lineHeight: 1.5 }}>{desc}</div>
-      <div style={{ marginTop: 8, fontFamily: 'var(--b)', fontSize: 9, color: '#34d399', fontWeight: 600 }}>+1 ticket bonus</div>
+      <div style={{ fontFamily: 'var(--b)', fontWeight: 700, fontSize: 13, color: '#fff', marginBottom: 4 }}>{title}</div>
+      <div style={{ fontFamily: 'var(--b)', fontSize: 11, color: 'rgba(255,255,255,.35)', lineHeight: 1.5, marginBottom: 4 }}>{desc}</div>
+      <div style={{ fontFamily: 'var(--b)', fontSize: 10, color: 'rgba(255,255,255,.22)', lineHeight: 1.4, marginBottom: 8 }}>{detail}</div>
+      <div style={{ display: 'inline-block', padding: '3px 10px', borderRadius: 6, background: 'rgba(52,211,153,.08)', border: '1px solid rgba(52,211,153,.15)', fontFamily: 'var(--b)', fontSize: 10, fontWeight: 700, color: '#34d399' }}>+1 ticket bonus</div>
     </div>
   )
 }
@@ -193,12 +195,12 @@ function ListingPreview() {
   const ref = useRef<HTMLDivElement>(null)
   const vis = useVis(ref)
   const items = [
-    { cat: 'Vente', title: 'T3 lumineux centre-ville', loc: 'Bayonne · Petit Bayonne', price: '245 000€', info: '68m² · 2 ch · DPE C', src: 'SeLoger', pro: false },
-    { cat: 'Vente', title: 'Villa T5 piscine', loc: 'Biarritz · Côte des Basques', price: '895 000€', info: '165m² · 5 ch · Jardin 400m²', src: 'Howner', pro: true },
-    { cat: 'Location', title: 'T2 meublé standing', loc: 'Anglet · Chambre d\'Amour', price: '890€/mois', info: '45m² · 1 ch · Parking', src: 'LeBonCoin', pro: false },
-    { cat: 'Neuf', title: 'Programme Les Allées', loc: 'Bayonne · Saint-Esprit', price: 'Dès 195K€', info: 'T2→T4 · RT2020 · PTZ', src: 'Howner', pro: true },
+    { cat: 'Vente', title: 'T3 lumineux centre-ville', loc: 'Bayonne', price: '245 000\u20AC', info: '68m\u00B2 \u00B7 2 ch \u00B7 DPE C', pro: false },
+    { cat: 'Location', title: 'T2 meuble standing', loc: 'Anglet \u00B7 Chambre d\'Amour', price: '890\u20AC/mois', info: '45m\u00B2 \u00B7 1 ch \u00B7 Parking', pro: false },
+    { cat: 'Service', title: 'Menuiserie Ospital', loc: 'Anglet \u00B7 Artisan', price: 'Devis gratuit', info: 'Cuisines \u00B7 Agencement \u00B7 Decennale', pro: true },
+    { cat: 'Demande', title: 'Couple cherche T3', loc: 'Bayonne \u00B7 900-1200\u20AC', price: 'Recherche active', info: 'Parking \u00B7 Ecole \u00B7 Disponible', pro: false },
   ]
-  const colors: Record<string, string> = { Vente: '#cfaf4b', Location: '#60a5fa', Neuf: '#a78bfa' }
+  const colors: Record<string, string> = { Vente: '#cfaf4b', Location: '#60a5fa', Service: '#34d399', Demande: '#a78bfa' }
 
   return (
     <div ref={ref} style={{ maxWidth: 520, width: '100%', margin: '0 auto', opacity: vis ? 1 : 0, transform: vis ? 'none' : 'translateY(18px)', transition: 'all .8s cubic-bezier(.16,1,.3,1)' }}>
@@ -209,7 +211,6 @@ function ListingPreview() {
               <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 4 }}>
                 <span style={{ padding: '2px 7px', borderRadius: 4, background: `${colors[l.cat]}12`, border: `1px solid ${colors[l.cat]}25`, fontSize: 8, fontWeight: 700, color: colors[l.cat], fontFamily: 'var(--b)', textTransform: 'uppercase', letterSpacing: 0.5 }}>{l.cat}</span>
                 {l.pro && <span style={{ padding: '2px 6px', borderRadius: 4, background: 'rgba(207,175,75,0.08)', fontSize: 7, fontWeight: 700, color: 'var(--a)', fontFamily: 'var(--b)', letterSpacing: 0.5 }}>PRO</span>}
-                <span style={{ fontFamily: 'var(--b)', fontSize: 8, color: 'rgba(255,255,255,0.18)' }}>via {l.src}</span>
               </div>
               <div style={{ fontFamily: 'var(--b)', fontWeight: 700, fontSize: 13, color: '#fff', marginBottom: 2 }}>{l.title}</div>
               <div style={{ fontFamily: 'var(--b)', fontSize: 10, color: 'rgba(255,255,255,0.3)' }}>{l.loc}</div>
@@ -220,8 +221,8 @@ function ListingPreview() {
         ))}
       </div>
       <div style={{ textAlign: 'center', marginTop: 10 }}>
-        <Link href="/browse" style={{ fontFamily: 'var(--b)', fontSize: 11, color: 'var(--a)', textDecoration: 'none', fontWeight: 600 }}>
-          Voir toutes les annonces →
+        <Link href="/annonces" style={{ fontFamily: 'var(--b)', fontSize: 11, color: 'var(--a)', textDecoration: 'none', fontWeight: 600 }}>
+          Voir toutes les annonces &rarr;
         </Link>
       </div>
     </div>
@@ -240,11 +241,11 @@ interface Profile {
 
 function MatchDemo() {
   const ps: Profile[] = [
-    { type: 'Vendeur', c: '#cfaf4b', name: 'Villa T4 vue mer', sub: 'Biarritz · Particulier', price: '785 000€', tags: ['142m²', '4 ch', 'Jardin', 'Vue mer'] },
-    { type: 'Promoteur', c: '#a78bfa', name: 'Programme Les Allées', sub: 'Bayonne · 4 lots dispo', price: 'Dès 195K€', tags: ['T2→T4', 'RT2020', 'PTZ'] },
-    { type: 'Artisan ⭐4.9', c: '#34d399', name: 'Menuiserie Ospital', sub: 'Anglet · Super Pro', price: null, tags: ['Cuisines', 'Agencement', 'Décennale'] },
-    { type: 'Locataire', c: '#60a5fa', name: 'Couple + enfant', sub: 'Cherche T3 · Bayonne · 900-1200€', price: null, tags: ['Parking', 'École', 'Dispo'] },
-    { type: 'Courtier ⭐4.6', c: '#f472b6', name: 'Cabinet Duval', sub: 'Pays Basque · 203 avis', price: null, tags: ['Taux 3.2%', 'PTZ', 'Dossier 48h'] },
+    { type: 'Vendeur', c: '#cfaf4b', name: 'Villa T4 vue mer', sub: 'Biarritz \u00B7 Particulier', price: '785 000\u20AC', tags: ['142m\u00B2', '4 ch', 'Jardin', 'Vue mer'] },
+    { type: 'Promoteur', c: '#a78bfa', name: 'Programme Les Allees', sub: 'Bayonne \u00B7 4 lots dispo', price: 'Des 195K\u20AC', tags: ['T2\u2192T4', 'RT2020', 'PTZ'] },
+    { type: 'Artisan', c: '#34d399', name: 'Menuiserie Ospital', sub: 'Anglet \u00B7 Super Pro', price: null, tags: ['Cuisines', 'Agencement', 'Decennale'] },
+    { type: 'Locataire', c: '#60a5fa', name: 'Couple + enfant', sub: 'Cherche T3 \u00B7 Bayonne \u00B7 900-1200\u20AC', price: null, tags: ['Parking', 'Ecole', 'Dispo'] },
+    { type: 'Courtier', c: '#f472b6', name: 'Cabinet Duval', sub: 'Pays Basque \u00B7 203 avis', price: null, tags: ['Taux 3.2%', 'PTZ', 'Dossier 48h'] },
   ]
 
   const [i, setI] = useState(0)
@@ -282,9 +283,10 @@ function MatchDemo() {
       {match && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,.7)', backdropFilter: 'blur(10px)', animation: 'fadeIn .3s' }}>
           <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 44, marginBottom: 8 }}>🎉</div>
+            <div style={{ fontSize: 44, marginBottom: 8 }}>💞</div>
             <div style={{ fontFamily: 'var(--d)', fontSize: 26, fontWeight: 700, background: 'linear-gradient(135deg, var(--a), #f5e6a3)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>It&apos;s a Match !</div>
             <div style={{ fontFamily: 'var(--b)', fontSize: 13, color: 'rgba(255,255,255,.5)', marginTop: 4 }}>{p.name}</div>
+            <div style={{ fontFamily: 'var(--b)', fontSize: 10, color: 'rgba(255,255,255,.25)', marginTop: 6 }}>Contact gratuit apres match mutuel</div>
           </div>
         </div>
       )}
@@ -301,7 +303,7 @@ function MatchDemo() {
           style={{ position: 'absolute', width: '100%', transform: `translateX(${tx}px) rotate(${ox * 0.06}deg)`, opacity: sw ? 0 : 1, transition: sw ? 'all .28s' : ox === 0 ? 'all .28s' : 'none', cursor: 'grab', userSelect: 'none' }}
         >
           <div style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: '18px 16px', position: 'relative' }}>
-            {ox > 35 && <div style={{ position: 'absolute', top: 12, left: 12, background: 'rgba(52,211,153,.15)', border: '2px solid #34d399', borderRadius: 7, padding: '2px 12px', fontFamily: 'var(--b)', fontWeight: 800, fontSize: 13, color: '#34d399', transform: 'rotate(-10deg)' }}>MATCH ✓</div>}
+            {ox > 35 && <div style={{ position: 'absolute', top: 12, left: 12, background: 'rgba(52,211,153,.15)', border: '2px solid #34d399', borderRadius: 7, padding: '2px 12px', fontFamily: 'var(--b)', fontWeight: 800, fontSize: 13, color: '#34d399', transform: 'rotate(-10deg)' }}>MATCH</div>}
             {ox < -35 && <div style={{ position: 'absolute', top: 12, right: 12, background: 'rgba(239,68,68,.12)', border: '2px solid #ef4444', borderRadius: 7, padding: '2px 12px', fontFamily: 'var(--b)', fontWeight: 800, fontSize: 13, color: '#ef4444', transform: 'rotate(10deg)' }}>PASSER</div>}
             <div style={{ display: 'inline-block', padding: '2px 7px', borderRadius: 4, background: `${p.c}12`, border: `1px solid ${p.c}25`, fontSize: 8, fontWeight: 700, color: p.c, fontFamily: 'var(--b)', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 6 }}>{p.type}</div>
             <div style={{ fontFamily: 'var(--b)', fontWeight: 700, fontSize: 15, color: '#fff', marginBottom: 1 }}>{p.name}</div>
@@ -316,16 +318,16 @@ function MatchDemo() {
         </div>
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', gap: 14 }}>
-        <button onClick={() => { setSw('l'); setTimeout(() => { setSw(null); setI(j => (j + 1) % ps.length) }, 280) }} style={{ width: 42, height: 42, borderRadius: '50%', background: 'rgba(239,68,68,.06)', border: '1.5px solid rgba(239,68,68,.16)', color: '#ef4444', fontSize: 16, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✗</button>
-        <button onClick={() => { setSw('r'); setMatch(true); setTimeout(() => setMatch(false), 1400); setTimeout(() => { setSw(null); setI(j => (j + 1) % ps.length) }, 280) }} style={{ width: 42, height: 42, borderRadius: '50%', background: 'rgba(52,211,153,.06)', border: '1.5px solid rgba(52,211,153,.16)', color: '#34d399', fontSize: 16, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>♥</button>
+        <button onClick={() => { setSw('l'); setTimeout(() => { setSw(null); setI(j => (j + 1) % ps.length) }, 280) }} style={{ width: 42, height: 42, borderRadius: '50%', background: 'rgba(239,68,68,.06)', border: '1.5px solid rgba(239,68,68,.16)', color: '#ef4444', fontSize: 16, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>&#10005;</button>
+        <button onClick={() => { setSw('r'); setMatch(true); setTimeout(() => setMatch(false), 1400); setTimeout(() => { setSw(null); setI(j => (j + 1) % ps.length) }, 280) }} style={{ width: 42, height: 42, borderRadius: '50%', background: 'rgba(52,211,153,.06)', border: '1.5px solid rgba(52,211,153,.16)', color: '#34d399', fontSize: 16, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>&hearts;</button>
       </div>
     </div>
   )
 }
 
-/* ═══ PRICING CARD ═══ */
-function PCard({ title, sub, price, period, hl, features, idx, badge, note }: {
-  title: string; sub: string; price: string; period?: string; hl?: boolean; features: string[]; idx: number; badge?: string; note?: string
+/* ═══ PRICING PACK CARD ═══ */
+function PackCard({ credits, price, perCredit, discount, tickets, hl, badge, idx }: {
+  credits: number; price: string; perCredit: string; discount?: string; tickets: number; hl?: boolean; badge?: string; idx: number
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const vis = useVis(ref)
@@ -339,39 +341,31 @@ function PCard({ title, sub, price, period, hl, features, idx, badge, note }: {
       style={{
         background: hl ? 'linear-gradient(160deg, rgba(207,175,75,.08), rgba(10,14,26,.95))' : 'rgba(255,255,255,.015)',
         border: hl ? '1px solid rgba(207,175,75,.3)' : '1px solid rgba(255,255,255,.05)',
-        borderRadius: 14, padding: '24px 18px',
-        display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden',
+        borderRadius: 14, padding: '22px 16px',
+        display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', overflow: 'hidden',
         transform: vis ? (h ? 'translateY(-4px)' : 'none') : 'translateY(18px)',
         opacity: vis ? 1 : 0, transition: `all .5s cubic-bezier(.16,1,.3,1) ${idx * 0.06}s`,
-        flex: '1 1 165px', maxWidth: 210, minWidth: 150,
+        flex: '1 1 140px', maxWidth: 180, minWidth: 130,
         boxShadow: hl ? '0 8px 32px rgba(207,175,75,.08)' : 'none',
+        textAlign: 'center',
       }}
     >
       {badge && (
         <div style={{ position: 'absolute', top: 8, right: -22, background: 'var(--a)', color: '#0a0e1a', fontSize: 7, fontWeight: 800, letterSpacing: 1.5, padding: '2px 28px', transform: 'rotate(45deg)', fontFamily: 'var(--b)' }}>{badge}</div>
       )}
-      <div style={{ fontSize: 9, letterSpacing: 2, textTransform: 'uppercase', color: hl ? 'var(--a)' : 'rgba(255,255,255,.3)', fontFamily: 'var(--b)', fontWeight: 700, marginBottom: 8 }}>{title}</div>
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 2 }}>
-        <span style={{ fontFamily: 'var(--m)', fontSize: 32, color: '#fff', lineHeight: 1, fontWeight: 700 }}>{price}</span>
-        {period && <span style={{ fontSize: 10, color: 'rgba(255,255,255,.25)', fontFamily: 'var(--b)' }}>{period}</span>}
-      </div>
-      {note && <div style={{ fontSize: 10, color: '#34d399', fontFamily: 'var(--b)', fontWeight: 700, marginTop: 3 }}>{note}</div>}
-      <div style={{ fontSize: 10, color: 'rgba(255,255,255,.3)', fontFamily: 'var(--b)', marginTop: 2, marginBottom: 14, lineHeight: 1.4 }}>{sub}</div>
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 16 }}>
-        {features.map((f, i) => (
-          <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 6, fontSize: 10, color: 'rgba(255,255,255,.5)', fontFamily: 'var(--b)' }}>
-            <span style={{ color: 'var(--a)', fontSize: 7, marginTop: 3 }}>◆</span>
-            <span>{f}</span>
-          </div>
-        ))}
-      </div>
+      <div style={{ fontFamily: 'var(--m)', fontSize: 28, color: '#fff', fontWeight: 700, lineHeight: 1 }}>{credits}</div>
+      <div style={{ fontFamily: 'var(--b)', fontSize: 10, color: 'rgba(255,255,255,.35)', marginTop: 2, marginBottom: 8 }}>{credits === 1 ? 'credit' : 'credits'}</div>
+      <div style={{ fontFamily: 'var(--m)', fontSize: 22, color: 'var(--a)', fontWeight: 700 }}>{price}</div>
+      <div style={{ fontFamily: 'var(--b)', fontSize: 9, color: 'rgba(255,255,255,.3)', marginTop: 2 }}>{perCredit}/credit</div>
+      {discount && <div style={{ fontFamily: 'var(--b)', fontSize: 9, color: '#f472b6', fontWeight: 700, marginTop: 2 }}>{discount}</div>}
+      <div style={{ marginTop: 8, display: 'inline-block', padding: '3px 10px', borderRadius: 6, background: 'rgba(52,211,153,.08)', border: '1px solid rgba(52,211,153,.15)', fontFamily: 'var(--b)', fontSize: 10, fontWeight: 700, color: '#34d399' }}>+{tickets} ticket{tickets > 1 ? 's' : ''}</div>
       <Link href="/login" style={{
-        width: '100%', padding: '10px 0', textAlign: 'center', display: 'block', textDecoration: 'none',
+        width: '100%', padding: '9px 0', textAlign: 'center', display: 'block', textDecoration: 'none', marginTop: 12,
         background: hl ? 'linear-gradient(135deg, var(--a), #b8932e)' : 'rgba(255,255,255,.04)',
         border: hl ? 'none' : '1px solid rgba(255,255,255,.08)', borderRadius: 8,
         color: hl ? '#0a0e1a' : 'rgba(255,255,255,.6)', fontFamily: 'var(--b)', fontWeight: 700, fontSize: 11,
       }}>
-        {price === '0€' ? 'Commencer' : 'Choisir'}
+        Acheter
       </Link>
     </div>
   )
@@ -396,14 +390,14 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
   )
 }
 
-/* ═══ TESTIMONIAL ═══ */
+/* ═══ TESTIMONIALS ═══ */
 function Testimonials() {
   const ref = useRef<HTMLDivElement>(null)
   const vis = useVis(ref)
   const items = [
-    { name: 'Marie L.', type: 'Particulier', text: "J'ai trouvé mon T3 à Bayonne en 2 jours grâce à la recherche IA. Le crédit offert m'a convaincu de tester, j'ai fini par prendre le Pack 5.", stars: 5 },
-    { name: 'Thomas M.', type: 'Artisan', text: "3 leads qualifiés en 1 semaine. Mieux que LeBonCoin Pro pour 5x moins cher. Et mes clients peuvent vérifier mes avis.", stars: 5 },
-    { name: 'Sophie R.', type: 'Particulier', text: "L'analyse de devis m'a fait économiser 3 200€ sur ma rénovation cuisine. L'IA a détecté 2 postes surfacturés que j'aurais jamais vus.", stars: 5 },
+    { name: 'Marie L.', type: 'Particulier', text: "J'ai poste mon annonce gratuitement et j'ai eu 3 contacts en 48h grace au matching. J'ai pris des credits pour booster, ca a tout accelere.", stars: 5 },
+    { name: 'Thomas M.', type: 'Artisan', text: "En tant qu'artisan, les leads arrivent tout seuls via le matching. J'ai poste mon profil et en 1 semaine j'avais 3 demandes de devis.", stars: 5 },
+    { name: 'Sophie R.', type: 'Particulier', text: "J'adore le systeme de tickets. Chaque credit achete me rapproche du tirage. J'ai deja 12 tickets, et mon annonce est boostee en tete.", stars: 5 },
   ]
 
   return (
@@ -434,32 +428,33 @@ export default function Howner() {
   }, [])
 
   const faqs = [
-    { q: "C'est quoi Howner ?", a: "Une plateforme qui réunit toutes les annonces immobilières du marché, un système de matching entre utilisateurs, et des outils IA pour chercher des biens, analyser des devis, trouver des artisans et monter des dossiers bancaires." },
-    { q: "C'est quoi le jeu concours ?", a: "En t'inscrivant tu reçois 1 ticket + 1 crédit IA offerts. Chaque crédit acheté te donne un ticket bonus. À 200 000 tickets, tirage en direct avec huissier de justice. Le gagnant repart avec la villa." },
-    { q: "C'est quoi un crédit IA ?", a: "1 crédit = 1 service IA (recherche de biens, analyse de devis, dossier bancaire, etc.) + 1 ticket bonus pour le jeu concours. 1 crédit offert à l'inscription, ensuite à partir de 9€." },
-    { q: 'Les annonces sont gratuites ?', a: "Oui. Toutes les annonces du marché sont consultables gratuitement — agrégées depuis LeBonCoin, SeLoger, PAP et les pros Howner." },
-    { q: 'Je suis pro, pourquoi venir ?', a: "Annonces illimitées de 0 à 169€/mois sans engagement (vs 200-600€/mois avec contrat 12 mois chez SeLoger/LeBonCoin). Matching avec des acheteurs et locataires. Données de demande en temps réel." },
-    { q: "C'est légal ?", a: "Oui. Jeu concours conforme à la Directive Européenne 2005/29/CE. Tirage sous contrôle d'huissier de justice. Participation gratuite possible." },
+    { q: "C'est quoi Howner ?", a: "Howner est une plateforme immobiliere qui te permet de poster des annonces, scroller les biens du marche, matcher avec des pros et particuliers, et gagner des tickets pour le tirage d'une villa a 695 000\u20AC. L'inscription est gratuite, ta 1ere annonce aussi." },
+    { q: "C'est quoi un credit ?", a: "1 credit = 1 action premium : poster une annonce supplementaire, booster une annonce en tete pendant 24h, ou activer une alerte prioritaire pendant 30 jours. Chaque credit achete te donne aussi 1 ticket bonus pour le jeu concours." },
+    { q: "Qu'est-ce qui est gratuit ?", a: "L'inscription, ta 1ere annonce, le scroll illimite des annonces, le matching illimite, et le contact apres match mutuel. Tu recois aussi 1 ticket offert a l'inscription." },
+    { q: "C'est quoi le jeu concours ?", a: "Chaque credit achete = 1 ticket. Chaque parrainage = 1 ticket. 1 ticket offert a l'inscription. A 200 000 tickets distribues, tirage en direct sous huissier de justice. Le gagnant remporte la villa." },
+    { q: "Comment fonctionne le matching ?", a: "Tu swipes les profils (vendeurs, acheteurs, artisans, promoteurs, courtiers). Quand c'est un match mutuel, vous pouvez vous contacter gratuitement. Aucun credit necessaire pour matcher." },
+    { q: "C'est legal ?", a: "Oui. Jeu concours conforme a la Directive Europeenne 2005/29/CE. Tirage sous controle d'huissier de justice. Participation gratuite possible via inscription (1 ticket offert)." },
   ]
 
   return (
     <div style={{ minHeight: '100vh', background: '#060a13', color: '#fff', overflowX: 'hidden' }}>
 
-      {/* ═══ TICKER BAR ═══ */}
+      {/* ═══ 1. TICKER BAR ═══ */}
       <div style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200, background: 'linear-gradient(90deg, var(--a), #e8c84a, var(--a))', padding: '5px 0', overflow: 'hidden' }}>
         <div style={{ display: 'flex', gap: 50, whiteSpace: 'nowrap', animation: 'slide 40s linear infinite', fontFamily: 'var(--b)', fontSize: 10, fontWeight: 700, color: '#0a0e1a', letterSpacing: 0.5, textTransform: 'uppercase' }}>
           {[...Array(3)].map((_, i) => (
             <span key={i} style={{ display: 'flex', gap: 50 }}>
-              <span>🎁 Villa 695 000€ à gagner — Jeu concours gratuit</span>
-              <span>🎟️ 1 ticket + 1 crédit IA offerts à l&apos;inscription</span>
-              <span>🤖 6 services IA immobiliers — 1 crédit offert</span>
-              <span>⚡ Tirage dès 200 000 tickets · Huissier de justice</span>
+              <span>🏠 Villa 695 000&#8364; a gagner</span>
+              <span>🎟️ 1 ticket offert a l&apos;inscription</span>
+              <span>📢 1ere annonce gratuite</span>
+              <span>💞 Matching illimite et gratuit</span>
+              <span>⚡ Tirage des 200 000 tickets &middot; Huissier de justice</span>
             </span>
           ))}
         </div>
       </div>
 
-      {/* ═══ NAV ═══ */}
+      {/* ═══ 2. NAV ═══ */}
       <nav style={{ position: 'fixed', top: 24, left: 0, right: 0, zIndex: 100, padding: '10px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: sY > 80 ? 'rgba(6,10,19,.95)' : 'transparent', backdropFilter: sY > 80 ? 'blur(16px)' : 'none', borderBottom: sY > 80 ? '1px solid rgba(255,255,255,.04)' : 'none', transition: 'all .4s' }}>
         <span style={{ fontFamily: 'var(--m)', fontWeight: 700, fontSize: 16, color: 'var(--a)', letterSpacing: 2 }}>HOWNER</span>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
@@ -470,7 +465,7 @@ export default function Howner() {
         </div>
       </nav>
 
-      {/* ═══ HERO ═══ */}
+      {/* ═══ 3. HERO ═══ */}
       <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '120px 20px 60px', position: 'relative' }}>
         {/* Ambient glow */}
         <div style={{ position: 'absolute', width: 600, height: 600, borderRadius: '50%', background: 'radial-gradient(circle, rgba(207,175,75,.06) 0%, transparent 65%)', top: '35%', left: '50%', transform: `translate(-50%,-50%) translateY(${sY * 0.04}px)`, pointerEvents: 'none' }} />
@@ -479,26 +474,26 @@ export default function Howner() {
 
           {/* Badge */}
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(207,175,75,.06)', border: '1px solid rgba(207,175,75,.15)', borderRadius: 100, padding: '5px 16px', marginBottom: 24 }}>
-            <span style={{ fontSize: 9, letterSpacing: 2, textTransform: 'uppercase', color: 'var(--a)', fontFamily: 'var(--b)', fontWeight: 700 }}>🎁 Inscription gratuite · 1 crédit IA + 1 ticket offerts</span>
+            <span style={{ fontSize: 9, letterSpacing: 2, textTransform: 'uppercase', color: 'var(--a)', fontFamily: 'var(--b)', fontWeight: 700 }}>🎁 Inscription gratuite &middot; 1 ticket offert &middot; 1ere annonce gratuite</span>
           </div>
 
           {/* Headline */}
           <h1 style={{ fontFamily: 'var(--d)', fontSize: 'clamp(36px, 6vw, 68px)', fontWeight: 800, lineHeight: 1, maxWidth: 680, marginBottom: 16 }}>
             <span style={{ color: 'rgba(255,255,255,.95)' }}>Gagnez cette</span><br />
-            <span style={{ background: 'linear-gradient(135deg, var(--a), #f5e6a3, var(--a))', backgroundSize: '200% auto', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', animation: 'shimmer 5s linear infinite' }}>villa à 695 000€</span>
+            <span style={{ background: 'linear-gradient(135deg, var(--a), #f5e6a3, var(--a))', backgroundSize: '200% auto', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', animation: 'shimmer 5s linear infinite' }}>villa a 695 000&#8364;</span>
           </h1>
 
           {/* Villa specs */}
           <div style={{ display: 'flex', gap: 6, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 16 }}>
-            {['149m²', '4 chambres', 'Boucau', 'Pays Basque', 'Architecte'].map((t, i) => (
+            {['149m\u00B2', '4 chambres', 'Boucau', 'Pays Basque'].map((t, i) => (
               <span key={i} style={{ padding: '4px 10px', borderRadius: 100, background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)', fontSize: 10, color: 'rgba(255,255,255,.4)', fontFamily: 'var(--b)', fontWeight: 600 }}>{t}</span>
             ))}
           </div>
 
           {/* Sub text */}
           <p style={{ fontFamily: 'var(--b)', fontSize: 'clamp(12px, 1.5vw, 15px)', color: 'rgba(255,255,255,.4)', maxWidth: 480, lineHeight: 1.7, marginBottom: 28 }}>
-            Inscris-toi gratuitement. Utilise l&apos;IA pour tes projets immobiliers.
-            Chaque crédit te donne un ticket pour le tirage au sort.
+            Postez vos annonces, trouvez des biens, matchez avec des pros.
+            Chaque credit vous rapproche du tirage.
           </p>
 
           {/* CTA Buttons */}
@@ -506,7 +501,7 @@ export default function Howner() {
             <Link href="/login" style={{ padding: '14px 28px', background: 'linear-gradient(135deg, var(--a), #b8932e)', border: 'none', borderRadius: 10, color: '#0a0e1a', fontFamily: 'var(--b)', fontWeight: 800, fontSize: 14, textDecoration: 'none', boxShadow: '0 4px 20px rgba(207,175,75,.3)', display: 'flex', alignItems: 'center', gap: 8 }}>
               🎁 S&apos;inscrire gratuitement
             </Link>
-            <Link href="/browse" style={{ padding: '14px 24px', background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.1)', borderRadius: 10, color: 'rgba(255,255,255,.6)', fontFamily: 'var(--b)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>
+            <Link href="/annonces" style={{ padding: '14px 24px', background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.1)', borderRadius: 10, color: 'rgba(255,255,255,.6)', fontFamily: 'var(--b)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>
               Voir les annonces
             </Link>
           </div>
@@ -516,7 +511,7 @@ export default function Howner() {
 
           {/* Trust badges */}
           <div style={{ marginTop: 20, display: 'flex', gap: 14, flexWrap: 'wrap', justifyContent: 'center' }}>
-            {['📢 6 portails agrégés', '💞 Matching', '🤖 IA immobilière', '🎟️ Jeu concours', '⚖️ Huissier'].map((t, i) => (
+            {['📢 Annonces gratuites', '💞 Matching gratuit', '🎟️ Jeu concours', '⚖️ Huissier'].map((t, i) => (
               <span key={i} style={{ fontSize: 9, color: 'rgba(255,255,255,.2)', fontFamily: 'var(--b)', fontWeight: 500 }}>{t}</span>
             ))}
           </div>
@@ -530,64 +525,61 @@ export default function Howner() {
         </div>
       </section>
 
-      {/* ═══ STATS ═══ */}
+      {/* ═══ 4. STATS ═══ */}
       <section style={{ padding: '40px 20px', borderTop: '1px solid rgba(255,255,255,.04)', borderBottom: '1px solid rgba(255,255,255,.04)', background: 'rgba(255,255,255,.008)' }}>
         <div style={{ maxWidth: 650, margin: '0 auto', display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', gap: 16 }}>
-          <Ct end={847000} label="Biens référencés" suffix="+" />
-          <Ct end={4283} label="Tickets distribués" />
-          <Ct end={312} label="Matchs réalisés" />
-          <Ct end={47} label="Pros inscrits" />
+          <Ct end={1247} label="Annonces" suffix="+" />
+          <Ct end={4283} label="Tickets distribues" />
+          <Ct end={312} label="Matchs realises" />
+          <Ct end={89} label="Pros inscrits" />
         </div>
       </section>
 
-      {/* ═══ HOW IT WORKS ═══ */}
+      {/* ═══ 5. HOW IT WORKS ═══ */}
       <section style={{ padding: '70px 20px', maxWidth: 900, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: 36 }}>
           <h2 style={{ fontFamily: 'var(--d)', fontSize: 'clamp(22px, 3.5vw, 32px)', fontWeight: 800, color: '#fff', marginBottom: 6 }}>Comment gagner des tickets ?</h2>
           <p style={{ fontFamily: 'var(--b)', fontSize: 12, color: 'rgba(255,255,255,.3)' }}>Plus tu as de tickets, plus tu as de chances de gagner la villa.</p>
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
-          <StepCard step={1} icon="🎟️" title="Inscris-toi" desc="Créé ton compte en 30 secondes avec ton numéro de téléphone." bonus="+1 ticket + 1 crédit IA gratuits" index={0} />
-          <StepCard step={2} icon="🤖" title="Utilise l'IA" desc="Achète des crédits et utilise nos 6 services IA immobiliers." bonus="+1 ticket par crédit acheté" index={1} />
-          <StepCard step={3} icon="🎁" title="Parraine" desc="Invite tes amis. Chacun reçoit un ticket bonus gratuit." bonus="+1 ticket par ami" index={2} />
+          <StepCard step={1} icon="🎟️" title="Inscris-toi" desc="Cree ton compte en 30 secondes. C'est gratuit." bonus="+1 ticket gratuit + 1ere annonce gratuite" index={0} />
+          <StepCard step={2} icon="💳" title="Achete des credits" desc="Poste des annonces, booste-les, active des alertes. Chaque credit = 1 ticket." bonus="+1 ticket par credit achete" index={1} />
+          <StepCard step={3} icon="🎁" title="Parraine" desc="Invite tes amis. Chacun recoit un ticket bonus gratuit." bonus="+1 ticket par ami inscrit" index={2} />
         </div>
       </section>
 
-      {/* ═══ AI SERVICES ═══ */}
+      {/* ═══ 6. WHAT CREDITS DO ═══ */}
       <section style={{ padding: '60px 20px', maxWidth: 800, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: 30 }}>
-          <h2 style={{ fontFamily: 'var(--d)', fontSize: 'clamp(22px, 3.5vw, 32px)', fontWeight: 800, color: '#fff', marginBottom: 6 }}>L&apos;IA travaille pour toi</h2>
-          <p style={{ fontFamily: 'var(--b)', fontSize: 12, color: 'rgba(255,255,255,.3)', maxWidth: 460, margin: '0 auto' }}>6 services IA immobiliers. 1 crédit = 1 service + 1 ticket bonus pour le jeu concours.</p>
+          <h2 style={{ fontFamily: 'var(--d)', fontSize: 'clamp(22px, 3.5vw, 32px)', fontWeight: 800, color: '#fff', marginBottom: 6 }}>A quoi servent les credits ?</h2>
+          <p style={{ fontFamily: 'var(--b)', fontSize: 12, color: 'rgba(255,255,255,.3)', maxWidth: 460, margin: '0 auto' }}>1 credit = 1 action premium + 1 ticket bonus pour le jeu concours.</p>
         </div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, justifyContent: 'center' }}>
-          <AICard icon="🔍" title="Recherche bien IA" desc="L'IA analyse tes critères et sélectionne les meilleures opportunités du marché." index={0} />
-          <AICard icon="🏘️" title="Recherche location" desc="Scan du marché locatif complet. Les meilleurs biens selon tes critères." index={1} />
-          <AICard icon="🔨" title="Recherche artisan" desc="Trouve le bon artisan : noté, vérifié, dans ta zone. Devis comparés." index={2} />
-          <AICard icon="💰" title="Dossier bancaire" desc="L'IA monte ton dossier complet, prêt à envoyer à ta banque." index={3} />
-          <AICard icon="📄" title="Analyse de devis" desc="Upload un devis, l'IA compare chaque ligne au prix du marché." index={4} />
-          <AICard icon="📊" title="Analyse de bien" desc="Estimation DVF, analyse quartier, rentabilité, potentiel plus-value." index={5} />
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
+          <CreditCard icon="📢" title="Poster une annonce" desc="Au-dela de ta 1ere annonce gratuite, chaque annonce supplementaire coute 1 credit." detail="Vente, location, service, demande... toutes categories." index={0} />
+          <CreditCard icon="🚀" title="Booster une annonce" desc="Passe ton annonce en tete de liste pendant 24 heures." detail="Visibilite maximale. Ideal pour vendre ou louer vite." index={1} />
+          <CreditCard icon="🔔" title="Alerte prioritaire" desc="Recois une notification immediate des qu'un bien ou un profil correspond a tes criteres." detail="Active pendant 30 jours. Ne rate plus rien." index={2} />
         </div>
-        <div style={{ textAlign: 'center', marginTop: 16 }}>
-          <Link href="/login" style={{ fontFamily: 'var(--b)', fontSize: 12, color: 'var(--a)', textDecoration: 'none', fontWeight: 700 }}>
-            Tester avec mon crédit offert →
-          </Link>
+        <div style={{ textAlign: 'center', marginTop: 20 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 18px', borderRadius: 8, background: 'rgba(52,211,153,.04)', border: '1px solid rgba(52,211,153,.1)' }}>
+            <span style={{ fontFamily: 'var(--b)', fontSize: 11, color: '#34d399', fontWeight: 700 }}>Rappel : scroll illimite + matching + contact apres match = toujours GRATUIT</span>
+          </div>
         </div>
       </section>
 
-      {/* ═══ BROWSE ═══ */}
+      {/* ═══ 7. LISTING PREVIEW ═══ */}
       <section style={{ padding: '60px 20px', maxWidth: 640, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: 24 }}>
           <h2 style={{ fontFamily: 'var(--d)', fontSize: 'clamp(22px, 3.5vw, 30px)', fontWeight: 800, color: '#fff', marginBottom: 6 }}>Toutes les annonces. Un seul endroit.</h2>
-          <p style={{ fontFamily: 'var(--b)', fontSize: 12, color: 'rgba(255,255,255,.3)' }}>LeBonCoin, SeLoger, PAP, Bien&apos;ici + annonces natives des pros Howner.</p>
+          <p style={{ fontFamily: 'var(--b)', fontSize: 12, color: 'rgba(255,255,255,.3)' }}>Vente, location, services, demandes. Scroll gratuit et illimite.</p>
         </div>
         <ListingPreview />
       </section>
 
-      {/* ═══ MATCHING ═══ */}
+      {/* ═══ 8. MATCHING ═══ */}
       <section style={{ padding: '60px 20px', maxWidth: 600, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: 24 }}>
-          <h2 style={{ fontFamily: 'var(--d)', fontSize: 'clamp(22px, 3.5vw, 30px)', fontWeight: 800, color: '#fff', marginBottom: 6 }}>Matching immobilier</h2>
-          <p style={{ fontFamily: 'var(--b)', fontSize: 12, color: 'rgba(255,255,255,.3)' }}>Swipe pour connecter avec vendeurs, acheteurs, artisans, promoteurs et courtiers.</p>
+          <h2 style={{ fontFamily: 'var(--d)', fontSize: 'clamp(22px, 3.5vw, 30px)', fontWeight: 800, color: '#fff', marginBottom: 6 }}>Matching immobilier gratuit</h2>
+          <p style={{ fontFamily: 'var(--b)', fontSize: 12, color: 'rgba(255,255,255,.3)' }}>Swipe, matche, contacte. Aucun credit necessaire.</p>
           <div style={{ display: 'flex', gap: 6, justifyContent: 'center', marginTop: 10 }}>
             {['👤↔👤', '👤↔🏢', '🏢↔🏢'].map((t, i) => (
               <span key={i} style={{ padding: '3px 10px', borderRadius: 6, background: 'rgba(207,175,75,.04)', border: '1px solid rgba(207,175,75,.1)', fontFamily: 'var(--b)', fontSize: 10, color: 'rgba(255,255,255,.35)' }}>{t}</span>
@@ -597,7 +589,7 @@ export default function Howner() {
         <MatchDemo />
       </section>
 
-      {/* ═══ TESTIMONIALS ═══ */}
+      {/* ═══ 9. TESTIMONIALS ═══ */}
       <section style={{ padding: '60px 20px' }}>
         <div style={{ textAlign: 'center', marginBottom: 24 }}>
           <h2 style={{ fontFamily: 'var(--d)', fontSize: 'clamp(22px, 3.5vw, 30px)', fontWeight: 800, color: '#fff', marginBottom: 6 }}>Ce qu&apos;ils en pensent</h2>
@@ -605,61 +597,70 @@ export default function Howner() {
         <Testimonials />
       </section>
 
-      {/* ═══ PRICING ═══ */}
-      <section style={{ padding: '60px 20px', maxWidth: 1050, margin: '0 auto' }}>
+      {/* ═══ 10. PRICING ═══ */}
+      <section style={{ padding: '60px 20px', maxWidth: 900, margin: '0 auto' }}>
         <div style={{ display: 'flex', gap: 6, justifyContent: 'center', marginBottom: 16 }}>
-          <button onClick={() => setPro(false)} style={{ padding: '8px 16px', background: !pro ? 'rgba(207,175,75,.1)' : 'rgba(255,255,255,.02)', border: !pro ? '1px solid rgba(207,175,75,.3)' : '1px solid rgba(255,255,255,.06)', borderRadius: 8, color: !pro ? 'var(--a)' : 'rgba(255,255,255,.4)', fontFamily: 'var(--b)', fontWeight: !pro ? 700 : 500, fontSize: 11, cursor: 'pointer' }}>👤 Particulier</button>
+          <button onClick={() => setPro(false)} style={{ padding: '8px 16px', background: !pro ? 'rgba(207,175,75,.1)' : 'rgba(255,255,255,.02)', border: !pro ? '1px solid rgba(207,175,75,.3)' : '1px solid rgba(255,255,255,.06)', borderRadius: 8, color: !pro ? 'var(--a)' : 'rgba(255,255,255,.4)', fontFamily: 'var(--b)', fontWeight: !pro ? 700 : 500, fontSize: 11, cursor: 'pointer' }}>👤 Standard</button>
           <button onClick={() => setPro(true)} style={{ padding: '8px 16px', background: pro ? 'rgba(207,175,75,.1)' : 'rgba(255,255,255,.02)', border: pro ? '1px solid rgba(207,175,75,.3)' : '1px solid rgba(255,255,255,.06)', borderRadius: 8, color: pro ? 'var(--a)' : 'rgba(255,255,255,.4)', fontFamily: 'var(--b)', fontWeight: pro ? 700 : 500, fontSize: 11, cursor: 'pointer' }}>🏢 Pro</button>
         </div>
 
         {!pro ? (
           <>
             <div style={{ textAlign: 'center', marginBottom: 28 }}>
-              <h2 style={{ fontFamily: 'var(--d)', fontSize: 'clamp(20px, 3vw, 28px)', fontWeight: 800, color: '#fff', marginBottom: 4 }}>Crédits IA · 1 crédit = 1 service + 1 ticket</h2>
-              <p style={{ fontFamily: 'var(--b)', fontSize: 11, color: 'rgba(255,255,255,.3)' }}>Plus tu achètes, moins c&apos;est cher — et plus tu as de chances de gagner.</p>
+              <h2 style={{ fontFamily: 'var(--d)', fontSize: 'clamp(20px, 3vw, 28px)', fontWeight: 800, color: '#fff', marginBottom: 4 }}>Packs credits &middot; Standard</h2>
+              <p style={{ fontFamily: 'var(--b)', fontSize: 11, color: 'rgba(255,255,255,.3)' }}>1 credit = 1 annonce, 1 boost ou 1 alerte + 1 ticket bonus.</p>
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, justifyContent: 'center' }}>
-              <PCard idx={0} title="Offert" sub="1 crédit IA + 1 ticket" price="0€" features={['Consultation annonces illimitée', 'Matching entre utilisateurs', '1 crédit IA pour tester', '1 ticket jeu concours', 'Parrainage = tickets gratuits']} />
-              <PCard idx={1} title="1 crédit" sub="1 service IA + 1 ticket" price="9€" features={['1 service IA au choix', '1 ticket bonus jeu concours', 'Résultat sauvegardé', 'Utilisation immédiate']} />
-              <PCard idx={2} hl badge="POPULAIRE" title="Pack 5" sub="5 crédits + 5 tickets" price="39€" note="7,80€/crédit · -13%" features={['5 services IA au choix', '5 tickets bonus', 'Alertes personnalisées', 'Résultats sauvegardés', 'Meilleur rapport qualité/prix']} />
-              <PCard idx={3} title="Pack 15" sub="15 crédits + 15 tickets" price="99€" note="6,60€/crédit · -27%" features={['15 services IA', 'Tout le Pack 5 inclus', 'Support prioritaire', '15 tickets bonus']} />
-              <PCard idx={4} title="Pack 40" sub="40 crédits + 40 tickets" price="199€" note="4,98€ · Le moins cher" features={['40 services IA', 'Analyses approfondies', 'Dossier bancaire complet', '40 tickets bonus', 'Support VIP']} />
+              <PackCard idx={0} credits={1} price="9\u20AC" perCredit="9\u20AC" tickets={1} />
+              <PackCard idx={1} credits={5} price="39\u20AC" perCredit="7,80\u20AC" discount="-13%" tickets={5} hl badge="POPULAIRE" />
+              <PackCard idx={2} credits={10} price="69\u20AC" perCredit="6,90\u20AC" discount="-23%" tickets={10} />
+              <PackCard idx={3} credits={20} price="119\u20AC" perCredit="5,95\u20AC" discount="-34%" tickets={20} badge="BEST" />
             </div>
           </>
         ) : (
           <>
             <div style={{ textAlign: 'center', marginBottom: 28 }}>
-              <h2 style={{ fontFamily: 'var(--d)', fontSize: 'clamp(20px, 3vw, 28px)', fontWeight: 800, color: '#fff', marginBottom: 4 }}>Pros · Sans engagement · Résiliable en 1 clic</h2>
-              <p style={{ fontFamily: 'var(--b)', fontSize: 11, color: 'rgba(255,255,255,.3)' }}>5x moins cher que SeLoger. Sans contrat 12 mois.</p>
+              <h2 style={{ fontFamily: 'var(--d)', fontSize: 'clamp(20px, 3vw, 28px)', fontWeight: 800, color: '#fff', marginBottom: 4 }}>Packs credits &middot; Pro</h2>
+              <p style={{ fontFamily: 'var(--b)', fontSize: 11, color: 'rgba(255,255,255,.3)' }}>Volume pour les agents, artisans, promoteurs. Pas d&apos;abonnement.</p>
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, justifyContent: 'center' }}>
-              <PCard idx={0} title="Pro Gratuit" sub="3 annonces · Matching · Avis" price="0€" features={['Profil pro vérifié', '3 annonces actives', 'Matching acheteurs/locataires', 'Avis clients', 'Données demande basiques']} />
-              <PCard idx={1} title="Artisan" sub="Illimité · Leads · Notes" price="79€" period="/mois" note="Sans engagement" features={['Annonces illimitées', 'Leads qualifiés zone', 'Matching clients', 'Profil noté', 'Données demande temps réel']} />
-              <PCard idx={2} hl badge="TOP" title="Agent Immo" sub="Illimité · Matching · Analytics" price="129€" period="/mois" note="Sans engagement" features={['Annonces illimitées', 'Matching acheteurs qualifiés', 'Scoring IA annonces', 'Dashboard analytics', 'Données temps réel']} />
-              <PCard idx={3} title="Promoteur" sub="Écoulez votre stock" price="169€" period="/mois" badge="NEW" note="Sans engagement" features={['Tous vos lots listés', 'Matching pré-qualifiés', 'Données par programme', 'Scoring prix vs marché', 'Visibilité prioritaire']} />
+              <PackCard idx={0} credits={10} price="59\u20AC" perCredit="5,90\u20AC" discount="-34%" tickets={10} />
+              <PackCard idx={1} credits={30} price="149\u20AC" perCredit="4,97\u20AC" discount="-45%" tickets={30} hl badge="TOP PRO" />
+              <PackCard idx={2} credits={50} price="229\u20AC" perCredit="4,58\u20AC" discount="-49%" tickets={50} />
+              <PackCard idx={3} credits={100} price="399\u20AC" perCredit="3,99\u20AC" discount="-56%" tickets={100} badge="BEST" />
             </div>
           </>
         )}
+
+        {/* Free reminder */}
+        <div style={{ textAlign: 'center', marginTop: 20 }}>
+          <p style={{ fontFamily: 'var(--b)', fontSize: 10, color: 'rgba(255,255,255,.2)' }}>
+            Rappel : 1ere annonce gratuite &middot; Scroll illimite &middot; Matching illimite &middot; Contact apres match mutuel
+          </p>
+        </div>
       </section>
 
-      {/* ═══ VILLA DETAIL ═══ */}
+      {/* ═══ 11. VILLA SECTION ═══ */}
       <section style={{ padding: '60px 20px', textAlign: 'center' }}>
         <div style={{ maxWidth: 480, margin: '0 auto', background: 'linear-gradient(160deg, rgba(207,175,75,.06), rgba(6,10,19,.95))', border: '1px solid rgba(207,175,75,.12)', borderRadius: 16, padding: '36px 24px', position: 'relative', overflow: 'hidden' }}>
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, transparent, var(--a), transparent)' }} />
           <div style={{ fontFamily: 'var(--m)', fontSize: 9, letterSpacing: 3, color: 'var(--a)', textTransform: 'uppercase', marginBottom: 8 }}>Lot du jeu concours</div>
           <h2 style={{ fontFamily: 'var(--d)', fontSize: 28, fontWeight: 800, color: '#fff', marginBottom: 10 }}>Villa Boucau</h2>
           <div style={{ display: 'flex', gap: 6, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 16 }}>
-            {['149m²', '4 chambres', 'R+1', 'Boucau Haut', 'Pays Basque'].map((t, i) => (
+            {['149m\u00B2', '4 chambres', 'R+1', 'Boucau Haut', 'Pays Basque'].map((t, i) => (
               <span key={i} style={{ padding: '3px 10px', borderRadius: 100, background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)', fontSize: 10, color: 'rgba(255,255,255,.4)', fontFamily: 'var(--b)', fontWeight: 500 }}>{t}</span>
             ))}
           </div>
-          <p style={{ fontFamily: 'var(--b)', fontSize: 12, color: 'rgba(255,255,255,.4)', lineHeight: 1.6, marginBottom: 18, maxWidth: 380, margin: '0 auto 18px' }}>Architecte intégré · Finitions Porcelanosa · Construction LSF · Clé en main · Livrée par Affinity Home</p>
-          <div style={{ fontFamily: 'var(--m)', fontSize: 36, color: 'var(--a)', fontWeight: 700, textShadow: '0 0 20px rgba(207,175,75,.15)' }}>695 000€</div>
-          <div style={{ marginTop: 10, fontFamily: 'var(--b)', fontSize: 10, color: 'rgba(255,255,255,.2)' }}>Participation gratuite possible · Aucun achat requis</div>
+          <p style={{ fontFamily: 'var(--b)', fontSize: 12, color: 'rgba(255,255,255,.4)', lineHeight: 1.6, marginBottom: 18, maxWidth: 380, margin: '0 auto 18px' }}>Architecte integre &middot; Finitions Porcelanosa &middot; Construction LSF &middot; Cle en main &middot; Livree par Affinity Home</p>
+          <div style={{ fontFamily: 'var(--m)', fontSize: 36, color: 'var(--a)', fontWeight: 700, textShadow: '0 0 20px rgba(207,175,75,.15)' }}>695 000&#8364;</div>
+          <div style={{ marginTop: 10, fontFamily: 'var(--b)', fontSize: 10, color: 'rgba(255,255,255,.2)' }}>Participation gratuite possible &middot; Aucun achat requis</div>
+          <Link href="/villa" style={{ display: 'inline-block', marginTop: 16, padding: '10px 24px', background: 'rgba(207,175,75,.08)', border: '1px solid rgba(207,175,75,.2)', borderRadius: 8, fontFamily: 'var(--b)', fontWeight: 700, fontSize: 11, color: 'var(--a)', textDecoration: 'none' }}>
+            Decouvrir la villa &rarr;
+          </Link>
         </div>
       </section>
 
-      {/* ═══ FAQ ═══ */}
+      {/* ═══ 12. FAQ ═══ */}
       <section style={{ padding: '50px 20px', maxWidth: 500, margin: '0 auto' }}>
         <h2 style={{ fontFamily: 'var(--d)', fontSize: 24, fontWeight: 800, color: '#fff', textAlign: 'center', marginBottom: 20 }}>FAQ</h2>
         {faqs.map((faq, i) => (
@@ -667,31 +668,35 @@ export default function Howner() {
         ))}
       </section>
 
-      {/* ═══ FINAL CTA ═══ */}
+      {/* ═══ 13. FINAL CTA ═══ */}
       <section style={{ padding: '50px 20px 70px', textAlign: 'center' }}>
-        <h2 style={{ fontFamily: 'var(--d)', fontSize: 'clamp(22px, 4vw, 34px)', fontWeight: 800, color: '#fff', marginBottom: 8 }}>1 ticket offert. 1 crédit IA offert.</h2>
-        <p style={{ fontFamily: 'var(--b)', fontSize: 13, color: 'rgba(255,255,255,.3)', marginBottom: 20 }}>Gratuit · Pas de carte bancaire · Tirage sous huissier</p>
+        <h2 style={{ fontFamily: 'var(--d)', fontSize: 'clamp(22px, 4vw, 34px)', fontWeight: 800, color: '#fff', marginBottom: 8 }}>1 ticket offert. 1ere annonce gratuite.</h2>
+        <p style={{ fontFamily: 'var(--b)', fontSize: 13, color: 'rgba(255,255,255,.3)', marginBottom: 20 }}>Gratuit &middot; Pas de carte bancaire &middot; Tirage sous huissier</p>
         <Link href="/login" style={{ padding: '14px 32px', background: 'linear-gradient(135deg, var(--a), #b8932e)', border: 'none', borderRadius: 10, color: '#0a0e1a', fontFamily: 'var(--b)', fontWeight: 800, fontSize: 14, textDecoration: 'none', boxShadow: '0 4px 20px rgba(207,175,75,.25)', display: 'inline-block' }}>
           🎁 C&apos;est parti — Inscription gratuite
         </Link>
       </section>
 
-      {/* ═══ FOOTER ═══ */}
+      {/* ═══ 14. FOOTER ═══ */}
       <footer style={{ padding: '24px 20px', borderTop: '1px solid rgba(255,255,255,.04)', textAlign: 'center' }}>
         <div style={{ fontFamily: 'var(--m)', fontSize: 11, color: 'var(--a)', marginBottom: 6, letterSpacing: 2 }}>HOWNER</div>
-        <div style={{ display: 'flex', gap: 16, justifyContent: 'center', marginBottom: 10 }}>
-          <Link href="/browse" style={{ fontFamily: 'var(--b)', fontSize: 10, color: 'rgba(255,255,255,.25)', textDecoration: 'none' }}>Annonces</Link>
+        <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 10 }}>
+          <Link href="/annonces" style={{ fontFamily: 'var(--b)', fontSize: 10, color: 'rgba(255,255,255,.25)', textDecoration: 'none' }}>Annonces</Link>
           <Link href="/match" style={{ fontFamily: 'var(--b)', fontSize: 10, color: 'rgba(255,255,255,.25)', textDecoration: 'none' }}>Matching</Link>
+          <Link href="/villa" style={{ fontFamily: 'var(--b)', fontSize: 10, color: 'rgba(255,255,255,.25)', textDecoration: 'none' }}>La Villa</Link>
           <Link href="/login" style={{ fontFamily: 'var(--b)', fontSize: 10, color: 'rgba(255,255,255,.25)', textDecoration: 'none' }}>Connexion</Link>
+          <Link href="/cgv" style={{ fontFamily: 'var(--b)', fontSize: 10, color: 'rgba(255,255,255,.25)', textDecoration: 'none' }}>CGV</Link>
+          <Link href="/mentions" style={{ fontFamily: 'var(--b)', fontSize: 10, color: 'rgba(255,255,255,.25)', textDecoration: 'none' }}>Mentions legales</Link>
+          <Link href="/reglement" style={{ fontFamily: 'var(--b)', fontSize: 10, color: 'rgba(255,255,255,.25)', textDecoration: 'none' }}>Reglement du jeu</Link>
         </div>
         <div style={{ fontFamily: 'var(--b)', fontSize: 8, color: 'rgba(255,255,255,.1)', lineHeight: 1.8 }}>
-          Affinity House Factory SAS · SIRET 982 581 506 00010 · Anglet, France
-          <br />Jeu concours gratuit · Directive EU 2005/29/CE · Huissier de justice
-          <br />Règlement complet sur demande · Vérification d&apos;identité requise
+          Affinity House Factory SAS &middot; SIRET 982 581 506 00010 &middot; Anglet, France
+          <br />Jeu concours gratuit &middot; Directive EU 2005/29/CE &middot; Huissier de justice
+          <br />Reglement complet sur demande &middot; Verification d&apos;identite requise
         </div>
       </footer>
 
-      {/* ═══ LIVE TICKER ═══ */}
+      {/* ═══ 15. LIVE TICKER ═══ */}
       <LiveTicker />
     </div>
   )

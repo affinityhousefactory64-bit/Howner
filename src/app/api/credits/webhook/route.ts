@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session
-    const { userId, credits, tickets } = session.metadata || {}
+    const { userId, packId, credits, tickets } = session.metadata || {}
 
     if (userId && credits && tickets) {
       const creditAmount = parseInt(credits)
@@ -45,12 +45,13 @@ export async function POST(req: NextRequest) {
           })
           .eq('id', userId)
 
-        // Log transaction
-        await supabase.from('credit_transactions').insert({
+        // Log purchase
+        await supabase.from('credit_purchases').insert({
           user_id: userId,
-          amount: creditAmount,
+          pack_type: packId || 'standard_1',
+          credits: creditAmount,
           tickets: ticketAmount,
-          type: 'purchase',
+          amount_cents: session.amount_total || 0,
           stripe_payment_id: session.payment_intent as string,
         })
 
@@ -58,7 +59,7 @@ export async function POST(req: NextRequest) {
         await supabase.from('activity_log').insert({
           user_id: userId,
           action: 'credit_purchase',
-          details: { credits: creditAmount, tickets: ticketAmount },
+          details: { credits: creditAmount, tickets: ticketAmount, pack: packId },
         })
       }
     }

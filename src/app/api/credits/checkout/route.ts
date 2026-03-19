@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getStripe, CREDIT_PACKS } from '@/lib/stripe'
+import { getStripe, ALL_PACKS } from '@/lib/stripe'
 import { getSession } from '@/lib/auth'
 
 export async function POST(req: NextRequest) {
@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     }
 
     const { packId } = await req.json()
-    const pack = CREDIT_PACKS.find((p) => p.id === packId)
+    const pack = ALL_PACKS.find(p => p.id === packId)
 
     if (!pack) {
       return NextResponse.json({ error: 'Pack invalide' }, { status: 400 })
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
             currency: 'eur',
             product_data: {
               name: pack.name,
-              description: `${pack.credits} crédit${pack.credits > 1 ? 's' : ''} IA + ${pack.tickets} ticket${pack.tickets > 1 ? 's' : ''} jeu concours`,
+              description: `${pack.credits} crédit${pack.credits > 1 ? 's' : ''} + ${pack.tickets} ticket${pack.tickets > 1 ? 's' : ''} jeu concours villa`,
             },
             unit_amount: pack.price,
           },
@@ -38,8 +38,8 @@ export async function POST(req: NextRequest) {
         credits: pack.credits.toString(),
         tickets: pack.tickets.toString(),
       },
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?payment=success`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?payment=cancelled`,
+      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/compte?payment=success`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/credits?payment=cancelled`,
     })
 
     return NextResponse.json({ url: checkoutSession.url })

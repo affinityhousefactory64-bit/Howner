@@ -5,7 +5,7 @@ import { createSession } from '@/lib/auth'
 
 export async function POST(req: NextRequest) {
   try {
-    const { phone, code, name, type, referralCode } = await req.json()
+    const { phone, code, name, type, proType, referralCode } = await req.json()
 
     if (!phone || !code) {
       return NextResponse.json({ error: 'Téléphone et code requis' }, { status: 400 })
@@ -34,47 +34,38 @@ export async function POST(req: NextRequest) {
     if (referralCode) {
       const { data: referrer } = await supabase
         .from('users')
-        .select('id')
+        .select('id, tickets')
         .eq('referral_code', referralCode)
         .single()
 
       if (referrer) {
         referredBy = referrer.id
-        // Give referrer a bonus ticket (increment)
-        const { data: referrerData } = await supabase
+        // Give referrer a bonus ticket
+        await supabase
           .from('users')
-          .select('tickets')
+          .update({ tickets: referrer.tickets + 1 })
           .eq('id', referrer.id)
-          .single()
-        if (referrerData) {
-          await supabase
-            .from('users')
-            .update({ tickets: referrerData.tickets + 1 })
-            .eq('id', referrer.id)
-        }
-        await supabase.from('credit_transactions').insert({
-          user_id: referrer.id,
-          amount: 0,
-          tickets: 1,
-          type: 'referral',
-        })
-        await supabase.from('activity_log').insert({
+
+        try { await supabase.from('activity_log').insert({
           user_id: referrer.id,
           action: 'referral',
           details: { bonus: '1 ticket' },
-        })
+        }) } catch { /* ignore */ }
       }
     }
 
-    // Create new user with 1 free credit + 1 free ticket
+    // Create new user — 1 free ticket (no free credits in new model)
+    const userType = type === 'pro' ? 'pro' : 'particulier'
     const { data: newUser, error } = await supabase
       .from('users')
       .insert({
         phone,
         name: name || '',
-        type: type || 'particulier',
-        credits: 1,
+        type: userType,
+        pro_type: userType === 'pro' ? (proType || 'agent') : null,
+        credits: 0,
         tickets: 1,
+        free_listing_used: false,
         referred_by: referredBy,
       })
       .select()
@@ -85,20 +76,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Erreur création compte' }, { status: 500 })
     }
 
-    // Log signup bonus
-    await supabase.from('credit_transactions').insert({
-      user_id: newUser.id,
-      amount: 1,
-      tickets: 1,
-      type: 'signup_bonus',
-    })
-
     // Log activity
-    await supabase.from('activity_log').insert({
+    try { await supabase.from('activity_log').insert({
       user_id: newUser.id,
       action: 'signup',
-      details: { name: name || 'Anonyme', type: type || 'particulier' },
-    })
+      details: { name: name || 'Anonyme', type: userType },
+    }) } catch { /* ignore */ }
 
     await createSession(newUser.id)
 

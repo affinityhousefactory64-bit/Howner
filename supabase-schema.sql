@@ -1,45 +1,58 @@
 -- ═══════════════════════════════════════════════
--- HOWNER MVP — Supabase Schema
--- Run this in: Supabase Dashboard > SQL Editor
+-- HOWNER MVP v2 — Supabase Schema
+-- Run in: Supabase Dashboard > SQL Editor
+-- ⚠️  DROP + RECREATE — only for fresh installs
 -- ═══════════════════════════════════════════════
 
--- 1. USERS
-create table if not exists users (
+-- Drop old tables if they exist (dev only)
+drop table if exists activity_log cascade;
+drop table if exists credit_usage cascade;
+drop table if exists credit_purchases cascade;
+drop table if exists credit_transactions cascade;
+drop table if exists ai_tasks cascade;
+drop table if exists pro_subscriptions cascade;
+drop table if exists swipes cascade;
+drop table if exists matches cascade;
+drop table if exists listings cascade;
+drop table if exists contest cascade;
+drop table if exists users cascade;
+
+-- ═══ 1. USERS ═══
+create table users (
   id uuid primary key default gen_random_uuid(),
   phone text unique not null,
   name text default '',
-  type text default 'particulier' check (type in ('particulier','artisan','agent','promoteur','courtier')),
+  type text not null default 'particulier' check (type in ('particulier','pro')),
+  pro_type text check (pro_type in ('artisan','agent','courtier','promoteur')),
   credits integer default 0,
-  tickets integer default 0,
+  tickets integer default 1,
+  free_listing_used boolean default false,
   referral_code text unique default substr(replace(gen_random_uuid()::text, '-', ''), 1, 8),
   referred_by uuid references users(id),
-  avatar_url text,
-  bio text default '',
-  location text default '',
   created_at timestamptz default now()
 );
 
--- 2. LISTINGS
-create table if not exists listings (
+-- ═══ 2. LISTINGS ═══
+create table listings (
   id uuid primary key default gen_random_uuid(),
-  user_id uuid references users(id),
-  type text not null check (type in ('vente','location','neuf')),
+  user_id uuid not null references users(id),
+  category text not null check (category in ('immo','service','demande')),
+  subcategory text not null check (subcategory in ('vente','location','recherche_achat','recherche_location','offre_service','recherche_service')),
   title text not null,
-  location text not null,
-  price integer not null,
-  surface integer default 0,
-  rooms integer default 0,
   description text default '',
-  source text default 'howner' check (source in ('howner','leboncoin','seloger','pap','bienici')),
-  external_url text,
-  is_native boolean default true,
-  images text[] default '{}',
-  dpe text default '',
+  location text not null,
+  price integer,
+  surface integer,
+  rooms integer,
+  is_boosted boolean default false,
+  boost_expires_at timestamptz,
+  alert_active boolean default false,
+  alert_expires_at timestamptz,
   created_at timestamptz default now()
 );
 
--- 3. SWIPES
-create table if not exists swipes (
+-- ═══ 3. SWIPES ═══
+create table swipes (
   id uuid primary key default gen_random_uuid(),
   swiper_id uuid not null references users(id),
   swiped_id uuid not null references users(id),
@@ -48,48 +61,37 @@ create table if not exists swipes (
   unique(swiper_id, swiped_id)
 );
 
--- 4. MATCHES
-create table if not exists matches (
+-- ═══ 4. MATCHES ═══
+create table matches (
   id uuid primary key default gen_random_uuid(),
   user_a uuid not null references users(id),
   user_b uuid not null references users(id),
-  status text default 'matched' check (status in ('pending_a','pending_b','matched','rejected')),
   created_at timestamptz default now()
 );
 
--- 5. CREDIT TRANSACTIONS
-create table if not exists credit_transactions (
+-- ═══ 5. CREDIT PURCHASES ═══
+create table credit_purchases (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references users(id),
-  amount integer default 0,
-  tickets integer default 0,
-  type text not null check (type in ('purchase','referral','signup_bonus','ai_usage')),
+  pack_type text not null check (pack_type in ('standard_1','standard_5','standard_10','standard_20','pro_10','pro_30','pro_50','pro_100')),
+  credits integer not null,
+  tickets integer not null,
+  amount_cents integer not null,
   stripe_payment_id text,
   created_at timestamptz default now()
 );
 
--- 6. AI TASKS
-create table if not exists ai_tasks (
+-- ═══ 6. CREDIT USAGE ═══
+create table credit_usage (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references users(id),
-  type text not null,
-  input jsonb default '{}',
-  output jsonb default '{}',
+  action text not null check (action in ('listing','boost','alert')),
+  listing_id uuid references listings(id),
   created_at timestamptz default now()
 );
 
--- 7. PRO SUBSCRIPTIONS
-create table if not exists pro_subscriptions (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid not null references users(id),
-  plan text not null check (plan in ('free','artisan','agent','promoteur')),
-  stripe_subscription_id text,
-  active boolean default true,
-  created_at timestamptz default now()
-);
-
--- 8. CONTEST (tirage)
-create table if not exists contest (
+-- ═══ 7. CONTEST ═══
+create table contest (
   id uuid primary key default gen_random_uuid(),
   name text not null,
   villa_title text not null,
@@ -101,61 +103,47 @@ create table if not exists contest (
   created_at timestamptz default now()
 );
 
--- 9. ACTIVITY LOG (for live ticker)
-create table if not exists activity_log (
+-- ═══ 8. ACTIVITY LOG ═══
+create table activity_log (
   id uuid primary key default gen_random_uuid(),
   user_id uuid references users(id),
-  action text not null check (action in ('signup','referral','credit_purchase','ai_usage','match','listing_created')),
+  action text not null check (action in ('signup','referral','credit_purchase','credit_usage','match','listing_created','boost','alert')),
   details jsonb default '{}',
   created_at timestamptz default now()
 );
 
 -- ═══ INDEXES ═══
-create index if not exists idx_users_phone on users(phone);
-create index if not exists idx_users_referral on users(referral_code);
-create index if not exists idx_listings_type on listings(type);
-create index if not exists idx_listings_location on listings(location);
-create index if not exists idx_swipes_swiper on swipes(swiper_id);
-create index if not exists idx_swipes_swiped on swipes(swiped_id);
-create index if not exists idx_ai_tasks_user on ai_tasks(user_id);
-create index if not exists idx_activity_log_recent on activity_log(created_at desc);
-create index if not exists idx_credit_tx_user on credit_transactions(user_id);
+create index idx_users_phone on users(phone);
+create index idx_users_referral on users(referral_code);
+create index idx_listings_user on listings(user_id);
+create index idx_listings_category on listings(category);
+create index idx_listings_boosted on listings(is_boosted) where is_boosted = true;
+create index idx_swipes_swiper on swipes(swiper_id);
+create index idx_swipes_swiped on swipes(swiped_id);
+create index idx_matches_users on matches(user_a, user_b);
+create index idx_credit_purchases_user on credit_purchases(user_id);
+create index idx_credit_usage_user on credit_usage(user_id);
+create index idx_activity_log_recent on activity_log(created_at desc);
 
 -- ═══ ROW LEVEL SECURITY ═══
--- (Using service key in API routes so RLS is bypassed,
---  but enable it as good practice)
 alter table users enable row level security;
 alter table listings enable row level security;
 alter table swipes enable row level security;
 alter table matches enable row level security;
-alter table credit_transactions enable row level security;
-alter table ai_tasks enable row level security;
-alter table pro_subscriptions enable row level security;
+alter table credit_purchases enable row level security;
+alter table credit_usage enable row level security;
+alter table contest enable row level security;
 alter table activity_log enable row level security;
 
--- Service role policy (allows everything for service key)
 create policy "service_all" on users for all using (true) with check (true);
 create policy "service_all" on listings for all using (true) with check (true);
 create policy "service_all" on swipes for all using (true) with check (true);
 create policy "service_all" on matches for all using (true) with check (true);
-create policy "service_all" on credit_transactions for all using (true) with check (true);
-create policy "service_all" on ai_tasks for all using (true) with check (true);
-create policy "service_all" on pro_subscriptions for all using (true) with check (true);
+create policy "service_all" on credit_purchases for all using (true) with check (true);
+create policy "service_all" on credit_usage for all using (true) with check (true);
+create policy "service_all" on contest for all using (true) with check (true);
 create policy "service_all" on activity_log for all using (true) with check (true);
 
--- ═══ SEED: Mock Listings ═══
-insert into listings (type, title, location, price, surface, rooms, description, source, is_native, external_url) values
-  ('vente', 'T3 lumineux centre-ville', 'Bayonne · Petit Bayonne', 245000, 68, 3, 'Bel appartement traversant, 2 chambres, cuisine équipée, cave. Proche commerces et Nive.', 'seloger', false, null),
-  ('location', 'T2 meublé standing', 'Anglet · Chambre d''Amour', 890, 45, 2, 'Meublé neuf, 1 chambre, parking, à 300m de la plage. Charges comprises.', 'leboncoin', false, null),
-  ('vente', 'Villa T5 piscine', 'Biarritz · Côte des Basques', 895000, 165, 5, 'Villa architecte, 5 chambres, piscine chauffée, jardin 400m², vue océan.', 'howner', true, null),
-  ('neuf', 'Programme Les Allées — 4 lots', 'Bayonne · Saint-Esprit', 195000, 45, 2, 'Du T2 au T4, RT2020, PTZ éligible, livraison Q3 2027. Parking inclus.', 'howner', true, null),
-  ('location', 'Maison T4 avec jardin', 'Boucau · Boucau Haut', 1350, 110, 4, '3 chambres, jardin 200m², garage, quartier calme, proche écoles.', 'pap', false, null),
-  ('vente', 'T4 rénové vue Nive', 'Bayonne · Grand Bayonne', 320000, 85, 4, 'Rénové 2024, 3 chambres, terrasse 12m², parquet, DPE B.', 'bienici', false, null),
-  ('vente', 'T2 investisseur', 'Anglet · 5 Cantons', 178000, 38, 2, 'Idéal investissement locatif, 1 chambre, loué 680€/mois, rentabilité 4.6%.', 'seloger', false, null),
-  ('neuf', 'Résidence Océane — 8 lots', 'Biarritz · La Négresse', 285000, 62, 3, 'T3 neuf, terrasse 15m², 2 parkings, prestations haut de gamme. RE2020.', 'howner', true, null),
-  ('location', 'Studio meublé étudiant', 'Bayonne · Marracq', 520, 22, 1, 'Meublé, proche fac et gare, coin cuisine, SDB neuve. Charges incluses.', 'leboncoin', false, null),
-  ('vente', 'Maison T6 familiale', 'Mouguerre · Centre', 425000, 145, 6, '5 chambres, jardin 600m², garage double, vue Pyrénées. Quartier recherché.', 'pap', false, null);
-
--- ═══ SEED: Active Contest ═══
+-- ═══ SEED: Contest ═══
 insert into contest (name, villa_title, villa_price, villa_location, villa_details, is_active) values
-  ('Concours Villa Boucau', 'Villa Boucau', 695000, 'Boucau · Pays Basque', '149m² · 4 chambres · R+1 · Architecte intégré · Finitions Porcelanosa · Construction LSF · Livrée par Affinity Home', true);
+  ('Concours Villa Boucau', 'Villa Boucau', 695000, 'Boucau · Pays Basque', '149m² · 4 chambres · R+1 · Architecte intégré · Finitions Porcelanosa · Construction LSF · Clé en main · Livrée par Affinity Home', true);

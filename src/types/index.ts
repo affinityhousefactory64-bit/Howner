@@ -1,26 +1,27 @@
-export type UserType = 'particulier' | 'artisan' | 'agent' | 'promoteur' | 'courtier'
+export type UserType = 'particulier' | 'pro'
+export type ProType = 'artisan' | 'agent' | 'courtier' | 'promoteur'
 
-export type ListingType = 'vente' | 'location' | 'neuf'
-
-export type ListingSource = 'howner' | 'leboncoin' | 'seloger' | 'pap' | 'bienici'
-
-export type MatchStatus = 'pending_a' | 'pending_b' | 'matched' | 'rejected'
+export type ListingCategory = 'immo' | 'service' | 'demande'
+export type ListingSubcategory =
+  | 'vente' | 'location' | 'recherche_achat' | 'recherche_location'
+  | 'offre_service' | 'recherche_service'
 
 export type SwipeDirection = 'left' | 'right'
+export type CreditAction = 'listing' | 'boost' | 'alert'
 
-export type CreditTransactionType = 'purchase' | 'referral' | 'signup_bonus'
-
-export type AITaskType = 'search_buy' | 'search_rent' | 'search_artisan' | 'bank_file' | 'quote_analysis' | 'property_analysis'
-
-export type ProPlan = 'free' | 'artisan' | 'agent' | 'promoteur'
+export type PackType =
+  | 'standard_1' | 'standard_5' | 'standard_10' | 'standard_20'
+  | 'pro_10' | 'pro_30' | 'pro_50' | 'pro_100'
 
 export interface User {
   id: string
   phone: string
-  type: UserType
   name: string
+  type: UserType
+  pro_type: ProType | null
   credits: number
   tickets: number
+  free_listing_used: boolean
   referral_code: string
   referred_by: string | null
   created_at: string
@@ -28,17 +29,19 @@ export interface User {
 
 export interface Listing {
   id: string
-  user_id: string | null
-  type: ListingType
+  user_id: string
+  category: ListingCategory
+  subcategory: ListingSubcategory
   title: string
-  location: string
-  price: number
-  surface: number
-  rooms: number
   description: string
-  source: ListingSource
-  external_url: string | null
-  is_native: boolean
+  location: string
+  price: number | null
+  surface: number | null
+  rooms: number | null
+  is_boosted: boolean
+  boost_expires_at: string | null
+  alert_active: boolean
+  alert_expires_at: string | null
   created_at: string
 }
 
@@ -46,7 +49,6 @@ export interface Match {
   id: string
   user_a: string
   user_b: string
-  status: MatchStatus
   created_at: string
 }
 
@@ -58,29 +60,21 @@ export interface Swipe {
   created_at: string
 }
 
-export interface CreditTransaction {
+export interface CreditPurchase {
   id: string
   user_id: string
-  amount: number
-  type: CreditTransactionType
+  pack_type: PackType
+  credits: number
+  tickets: number
+  amount_cents: number
   stripe_payment_id: string | null
   created_at: string
 }
 
-export interface AITask {
+export interface CreditUsage {
   id: string
   user_id: string
-  type: AITaskType
-  input: Record<string, unknown>
-  output: Record<string, unknown>
-  created_at: string
-}
-
-export interface ProSubscription {
-  id: string
-  user_id: string
-  plan: ProPlan
-  stripe_subscription_id: string | null
-  active: boolean
+  action: CreditAction
+  listing_id: string | null
   created_at: string
 }
