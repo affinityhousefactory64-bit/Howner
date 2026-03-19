@@ -641,22 +641,38 @@ export default function Howner() {
       </section>
 
       {/* ═══ 11. VILLA SECTION ═══ */}
-      <section style={{ padding: '60px 20px', textAlign: 'center' }}>
-        <div style={{ maxWidth: 480, margin: '0 auto', background: 'linear-gradient(160deg, rgba(207,175,75,.06), rgba(6,10,19,.95))', border: '1px solid rgba(207,175,75,.12)', borderRadius: 16, padding: '36px 24px', position: 'relative', overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, transparent, var(--a), transparent)' }} />
-          <div style={{ fontFamily: 'var(--m)', fontSize: 9, letterSpacing: 3, color: 'var(--a)', textTransform: 'uppercase', marginBottom: 8 }}>Lot du jeu concours</div>
-          <h2 style={{ fontFamily: 'var(--d)', fontSize: 28, fontWeight: 800, color: '#fff', marginBottom: 10 }}>Villa Boucau</h2>
-          <div style={{ display: 'flex', gap: 6, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 16 }}>
-            {['149m\u00B2', '4 chambres', 'R+1', 'Boucau Haut', 'Pays Basque'].map((t, i) => (
-              <span key={i} style={{ padding: '3px 10px', borderRadius: 100, background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)', fontSize: 10, color: 'rgba(255,255,255,.4)', fontFamily: 'var(--b)', fontWeight: 500 }}>{t}</span>
+      <section style={{ padding: '60px 20px' }}>
+        <div style={{ maxWidth: 700, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 24 }}>
+            <div style={{ fontFamily: 'var(--m)', fontSize: 9, letterSpacing: 3, color: 'var(--a)', textTransform: 'uppercase', marginBottom: 8 }}>Lot du jeu concours &middot; Terrain + construction</div>
+            <h2 style={{ fontFamily: 'var(--d)', fontSize: 'clamp(24px, 4vw, 34px)', fontWeight: 800, color: '#fff', marginBottom: 6 }}>Villa Boucau</h2>
+            <div style={{ fontFamily: 'var(--m)', fontSize: 36, color: 'var(--a)', fontWeight: 700 }}>695 000&#8364;</div>
+          </div>
+          {/* Image gallery */}
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 6, marginBottom: 12, borderRadius: 14, overflow: 'hidden' }}>
+            <img src="https://lh3.googleusercontent.com/d/1A9yVRhLP_Iv8kmmrbpf_uPkfjoPUil8c" alt="Villa Boucau - Exterieur" style={{ width: '100%', height: 280, objectFit: 'cover', display: 'block' }} />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <img src="https://lh3.googleusercontent.com/d/1tkeKSJf80s53aSPJt7NAtAV8st9s7va2" alt="Villa Boucau - Interieur cuisine" style={{ width: '100%', height: 137, objectFit: 'cover', display: 'block', borderRadius: '0 14px 0 0' }} />
+              <img src="https://lh3.googleusercontent.com/d/1Gt6edrAlJQK4j4noXBGg6asDxi3Q7ECZ" alt="Villa Boucau - Interieur salon" style={{ width: '100%', height: 137, objectFit: 'cover', display: 'block' }} />
+            </div>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6, marginBottom: 16 }}>
+            <img src="https://lh3.googleusercontent.com/d/1IPKfEMgg1UPxG_Tkh5hQ_Ym4qnZbEmLf" alt="Villa Boucau - Vue arriere" style={{ width: '100%', height: 120, objectFit: 'cover', borderRadius: 10, display: 'block' }} />
+            <img src="https://lh3.googleusercontent.com/d/1nblqBWNbwN2BTjAwvIm0I-1N7tXS9CMe" alt="Villa Boucau - Chambre" style={{ width: '100%', height: 120, objectFit: 'cover', borderRadius: 10, display: 'block' }} />
+            <img src="https://lh3.googleusercontent.com/d/1jg2irqsMMIbX23xYHh4Y6JRjxnfdPl5c" alt="Terrain Boucau" style={{ width: '100%', height: 120, objectFit: 'cover', borderRadius: 10, display: 'block' }} />
+          </div>
+          {/* Specs */}
+          <div style={{ display: 'flex', gap: 6, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 12 }}>
+            {['149m²', '4 chambres', 'R+1', 'Terrain inclus', 'Boucau Haut', 'Pays Basque'].map((t, i) => (
+              <span key={i} style={{ padding: '4px 12px', borderRadius: 100, background: 'rgba(207,175,75,.04)', border: '1px solid rgba(207,175,75,.1)', fontSize: 10, color: 'var(--a)', fontFamily: 'var(--b)', fontWeight: 600 }}>{t}</span>
             ))}
           </div>
-          <p style={{ fontFamily: 'var(--b)', fontSize: 12, color: 'rgba(255,255,255,.4)', lineHeight: 1.6, marginBottom: 18, maxWidth: 380, margin: '0 auto 18px' }}>Architecte integre &middot; Finitions Porcelanosa &middot; Construction LSF &middot; Cle en main &middot; Livree par Affinity Home</p>
-          <div style={{ fontFamily: 'var(--m)', fontSize: 36, color: 'var(--a)', fontWeight: 700, textShadow: '0 0 20px rgba(207,175,75,.15)' }}>695 000&#8364;</div>
-          <div style={{ marginTop: 10, fontFamily: 'var(--b)', fontSize: 10, color: 'rgba(255,255,255,.2)' }}>Participation gratuite possible &middot; Aucun achat requis</div>
-          <Link href="/villa" style={{ display: 'inline-block', marginTop: 16, padding: '10px 24px', background: 'rgba(207,175,75,.08)', border: '1px solid rgba(207,175,75,.2)', borderRadius: 8, fontFamily: 'var(--b)', fontWeight: 700, fontSize: 11, color: 'var(--a)', textDecoration: 'none' }}>
-            Decouvrir la villa &rarr;
-          </Link>
+          <p style={{ fontFamily: 'var(--b)', fontSize: 12, color: 'rgba(255,255,255,.4)', lineHeight: 1.6, textAlign: 'center', maxWidth: 500, margin: '0 auto 16px' }}>Architecte integre &middot; Finitions Porcelanosa &middot; Construction LSF &middot; Cle en main &middot; Livree par Affinity Home</p>
+          <div style={{ textAlign: 'center' }}>
+            <Link href="/villa" style={{ display: 'inline-block', padding: '12px 28px', background: 'linear-gradient(135deg, var(--a), #b8932e)', borderRadius: 10, fontFamily: 'var(--b)', fontWeight: 700, fontSize: 13, color: '#0a0e1a', textDecoration: 'none', boxShadow: '0 3px 14px rgba(207,175,75,.2)' }}>
+              Decouvrir la villa &rarr;
+            </Link>
+          </div>
         </div>
       </section>
 

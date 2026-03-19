@@ -4,38 +4,38 @@ import Nav from '@/components/Nav'
 import Link from 'next/link'
 import { useState } from 'react'
 
-const specs = ['149m\u00B2', '4 chambres', 'R+1', 'Boucau Haut', 'Pays Basque']
+const specs = ['149m²', '4 chambres', 'R+1', 'Terrain inclus', 'Boucau Haut', 'Pays Basque']
 
 const steps = [
   { num: '01', title: 'Inscris-toi', desc: '1 ticket gratuit', icon: '\u2713' },
-  { num: '02', title: 'Ach\u00E8te des cr\u00E9dits', desc: '1 ticket par cr\u00E9dit', icon: '\u25C8' },
+  { num: '02', title: 'Ach\u00E8te des crédits', desc: '1 ticket par crédit', icon: '\u25C8' },
   { num: '03', title: 'Parraine tes amis', desc: '1 ticket par ami', icon: '\u2605' },
 ]
 
 const rules = [
   {
     title: 'Organisateur',
-    content: 'Affinity House Factory SAS, SIRET 982 581 506 00010, sise \u00E0 Anglet (64600). Jeu-concours organis\u00E9 conform\u00E9ment \u00E0 la l\u00E9gislation fran\u00E7aise en vigueur.',
+    content: 'Affinity House Factory SAS, SIRET 982 581 506 00010, sise \u00E0 Anglet (64600). Jeu-concours organisé conformément \u00E0 la législation fran\u00E7aise en vigueur.',
   },
   {
     title: 'Conditions de participation',
-    content: 'R\u00E9sider en France m\u00E9tropolitaine, \u00EAtre \u00E2g\u00E9(e) de 18 ans ou plus, un seul compte par personne physique. Toute tentative de fraude entra\u00EEne la disqualification imm\u00E9diate.',
+    content: 'Résider en France métropolitaine, \u00EAtre \u00E2gé(e) de 18 ans ou plus, un seul compte par personne physique. Toute tentative de fraude entra\u00EEne la disqualification immédiate.',
   },
   {
-    title: 'M\u00E9canique du tirage',
-    content: 'Le tirage au sort est d\u00E9clench\u00E9 automatiquement lorsque le seuil de 200\u202F000 tickets est atteint. Chaque ticket dispose d\u2019une chance \u00E9gale.',
+    title: 'Mécanique du tirage',
+    content: 'Le tirage au sort est déclenché automatiquement lorsque le seuil de 200\u202F000 tickets est atteint. Chaque ticket dispose d\u2019une chance égale.',
   },
   {
-    title: 'Contr\u00F4le et v\u00E9rification',
-    content: 'Le tirage est supervis\u00E9 par un huissier de justice. Le gagnant devra fournir une pi\u00E8ce d\u2019identit\u00E9 valide pour la v\u00E9rification de son \u00E9ligibilit\u00E9.',
+    title: 'Contr\u00F4le et vérification',
+    content: 'Le tirage est supervisé par un huissier de justice. Le gagnant devra fournir une pi\u00E8ce d\u2019identité valide pour la vérification de son éligibilité.',
   },
   {
     title: 'Participation gratuite',
-    content: '1 ticket offert \u00E0 l\u2019inscription. Parrainage illimit\u00E9 : chaque ami inscrit via votre lien vous rapporte 1 ticket suppl\u00E9mentaire.',
+    content: '1 ticket offert \u00E0 l\u2019inscription. Parrainage illimité : chaque ami inscrit via votre lien vous rapporte 1 ticket supplémentaire.',
   },
   {
-    title: 'Conformit\u00E9 europ\u00E9enne',
-    content: 'Ce jeu-concours respecte la Directive EU 2005/29/CE relative aux pratiques commerciales d\u00E9loyales.',
+    title: 'Conformité européenne',
+    content: 'Ce jeu-concours respecte la Directive EU 2005/29/CE relative aux pratiques commerciales déloyales.',
   },
   {
     title: 'Conseil juridique',
@@ -117,7 +117,7 @@ export default function VillaPage() {
           lineHeight: 1.1,
           marginBottom: 8,
         }}>
-          695 000\u20AC
+          695 000€
         </div>
         <p style={{
           fontFamily: 'var(--m)',
@@ -126,8 +126,28 @@ export default function VillaPage() {
           letterSpacing: 1,
           marginTop: 0,
         }}>
-          Valeur estim\u00E9e du lot
+          Valeur estimée du lot
         </p>
+      </section>
+
+      {/* PHOTO GALLERY */}
+      <section style={{ maxWidth: 800, margin: '0 auto', padding: '0 20px 40px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 6, marginBottom: 8, borderRadius: 14, overflow: 'hidden' }}>
+          <img src="https://lh3.googleusercontent.com/d/1A9yVRhLP_Iv8kmmrbpf_uPkfjoPUil8c" alt="Villa Boucau - Extérieur piscine" style={{ width: '100%', height: 320, objectFit: 'cover', display: 'block' }} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <img src="https://lh3.googleusercontent.com/d/1IPKfEMgg1UPxG_Tkh5hQ_Ym4qnZbEmLf" alt="Villa Boucau - Vue arrière" style={{ width: '100%', height: 157, objectFit: 'cover', display: 'block' }} />
+            <img src="https://lh3.googleusercontent.com/d/1PhHHRCnpSuveWSUnHxBxiD4Cc_Jyeglx" alt="Villa Boucau - Vue latérale" style={{ width: '100%', height: 157, objectFit: 'cover', display: 'block' }} />
+          </div>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6 }}>
+          <img src="https://lh3.googleusercontent.com/d/1tkeKSJf80s53aSPJt7NAtAV8st9s7va2" alt="Intérieur - Cuisine" style={{ width: '100%', height: 120, objectFit: 'cover', borderRadius: 10, display: 'block' }} />
+          <img src="https://lh3.googleusercontent.com/d/1Gt6edrAlJQK4j4noXBGg6asDxi3Q7ECZ" alt="Intérieur - Salon" style={{ width: '100%', height: 120, objectFit: 'cover', borderRadius: 10, display: 'block' }} />
+          <img src="https://lh3.googleusercontent.com/d/1nblqBWNbwN2BTjAwvIm0I-1N7tXS9CMe" alt="Intérieur - Chambre" style={{ width: '100%', height: 120, objectFit: 'cover', borderRadius: 10, display: 'block' }} />
+          <img src="https://lh3.googleusercontent.com/d/1jg2irqsMMIbX23xYHh4Y6JRjxnfdPl5c" alt="Terrain à Boucau" style={{ width: '100%', height: 120, objectFit: 'cover', borderRadius: 10, display: 'block', border: '2px solid rgba(207,175,75,.2)' }} />
+        </div>
+        <div style={{ textAlign: 'center', marginTop: 8 }}>
+          <span style={{ fontFamily: 'var(--b)', fontSize: 10, color: 'rgba(255,255,255,.25)' }}>📍 Terrain + Construction neuve par Affinity Home · Boucau Haut, Pays Basque</span>
+        </div>
       </section>
 
       {/* DIVIDER */}
@@ -136,7 +156,7 @@ export default function VillaPage() {
       {/* DESCRIPTION */}
       <section style={{ maxWidth: 700, margin: '0 auto', padding: '0 20px 60px', textAlign: 'center' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 12 }}>
-          {['Architecte int\u00E9gr\u00E9', 'Finitions Porcelanosa', 'Construction LSF', 'Cl\u00E9 en main', 'Livr\u00E9e par Affinity Home'].map(item => (
+          {['Architecte intégré', 'Finitions Porcelanosa', 'Construction LSF', 'Clé en main', 'Livrée par Affinity Home'].map(item => (
             <span key={item} style={{
               fontFamily: 'var(--b)',
               fontSize: 13,
@@ -344,9 +364,9 @@ export default function VillaPage() {
         }}>
           Affinity House Factory SAS &middot; SIRET 982 581 506 00010 &middot; Anglet (64600)
           <br />
-          Jeu-concours r\u00E9gi par le droit fran\u00E7ais &middot; Directive EU 2005/29/CE
+          Jeu-concours régi par le droit fran\u00E7ais &middot; Directive EU 2005/29/CE
           <br />
-          R\u00E8glement complet disponible sur demande &middot; Donn\u00E9es trait\u00E9es conform\u00E9ment au RGPD
+          R\u00E8glement complet disponible sur demande &middot; Données traitées conformément au RGPD
         </p>
         <p style={{
           fontFamily: 'var(--m)',
