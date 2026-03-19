@@ -648,6 +648,10 @@ export default function Howner() {
             <h2 style={{ fontFamily: 'var(--d)', fontSize: 'clamp(24px, 4vw, 34px)', fontWeight: 800, color: '#fff', marginBottom: 6 }}>Villa Boucau</h2>
             <div style={{ fontFamily: 'var(--m)', fontSize: 36, color: 'var(--a)', fontWeight: 700 }}>695 000&#8364;</div>
           </div>
+          {/* Video */}
+          <div style={{ borderRadius: 14, overflow: 'hidden', border: '1px solid rgba(207,175,75,.12)', background: '#000', aspectRatio: '9/16', maxHeight: 380, maxWidth: 214, margin: '0 auto 16px' }}>
+            <iframe src="https://drive.google.com/file/d/1HHinz5llZ3LHbovBf8r20cD5tGhR5zET/preview" style={{ width: '100%', height: '100%', border: 'none' }} allow="autoplay" title="Villa Boucau" />
+          </div>
           {/* Image gallery */}
           <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 6, marginBottom: 12, borderRadius: 14, overflow: 'hidden' }}>
             <img src="https://lh3.googleusercontent.com/d/1A9yVRhLP_Iv8kmmrbpf_uPkfjoPUil8c" alt="Villa Boucau - Exterieur" style={{ width: '100%', height: 280, objectFit: 'cover', display: 'block' }} />

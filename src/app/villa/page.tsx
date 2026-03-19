@@ -130,6 +130,21 @@ export default function VillaPage() {
         </p>
       </section>
 
+      {/* VIDEO */}
+      <section style={{ maxWidth: 500, margin: '0 auto', padding: '0 20px 30px' }}>
+        <div style={{ position: 'relative', borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(207,175,75,.15)', background: '#000', aspectRatio: '9/16', maxHeight: 500, margin: '0 auto' }}>
+          <iframe
+            src="https://drive.google.com/file/d/1HHinz5llZ3LHbovBf8r20cD5tGhR5zET/preview"
+            style={{ width: '100%', height: '100%', border: 'none' }}
+            allow="autoplay"
+            title="Villa Boucau - Visite vidéo"
+          />
+        </div>
+        <div style={{ textAlign: 'center', marginTop: 8 }}>
+          <span style={{ fontFamily: 'var(--b)', fontSize: 10, color: 'rgba(255,255,255,.3)' }}>🎬 Visite virtuelle de la Villa Boucau</span>
+        </div>
+      </section>
+
       {/* PHOTO GALLERY */}
       <section style={{ maxWidth: 800, margin: '0 auto', padding: '0 20px 40px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 6, marginBottom: 8, borderRadius: 14, overflow: 'hidden' }}>
