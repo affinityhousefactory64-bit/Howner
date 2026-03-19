@@ -195,10 +195,10 @@ function ListingPreview() {
   const ref = useRef<HTMLDivElement>(null)
   const vis = useVis(ref)
   const items = [
-    { cat: 'Vente', title: 'T3 lumineux centre-ville', loc: 'Bayonne', price: '245 000\u20AC', info: '68m\u00B2 \u00B7 2 ch \u00B7 DPE C', pro: false },
-    { cat: 'Location', title: 'T2 meuble standing', loc: 'Anglet \u00B7 Chambre d\'Amour', price: '890\u20AC/mois', info: '45m\u00B2 \u00B7 1 ch \u00B7 Parking', pro: false },
+    { cat: 'Vente', title: 'T3 lumineux centre-ville', loc: 'Bayonne', price: '245 000€', info: '68m\u00B2 \u00B7 2 ch \u00B7 DPE C', pro: false },
+    { cat: 'Location', title: 'T2 meuble standing', loc: 'Anglet \u00B7 Chambre d\'Amour', price: '890€/mois', info: '45m\u00B2 \u00B7 1 ch \u00B7 Parking', pro: false },
     { cat: 'Service', title: 'Menuiserie Ospital', loc: 'Anglet \u00B7 Artisan', price: 'Devis gratuit', info: 'Cuisines \u00B7 Agencement \u00B7 Decennale', pro: true },
-    { cat: 'Demande', title: 'Couple cherche T3', loc: 'Bayonne \u00B7 900-1200\u20AC', price: 'Recherche active', info: 'Parking \u00B7 Ecole \u00B7 Disponible', pro: false },
+    { cat: 'Demande', title: 'Couple cherche T3', loc: 'Bayonne \u00B7 900-1200€', price: 'Recherche active', info: 'Parking \u00B7 Ecole \u00B7 Disponible', pro: false },
   ]
   const colors: Record<string, string> = { Vente: '#cfaf4b', Location: '#60a5fa', Service: '#34d399', Demande: '#a78bfa' }
 
@@ -241,10 +241,10 @@ interface Profile {
 
 function MatchDemo() {
   const ps: Profile[] = [
-    { type: 'Vendeur', c: '#cfaf4b', name: 'Villa T4 vue mer', sub: 'Biarritz \u00B7 Particulier', price: '785 000\u20AC', tags: ['142m\u00B2', '4 ch', 'Jardin', 'Vue mer'] },
-    { type: 'Promoteur', c: '#a78bfa', name: 'Programme Les Allees', sub: 'Bayonne \u00B7 4 lots dispo', price: 'Des 195K\u20AC', tags: ['T2\u2192T4', 'RT2020', 'PTZ'] },
+    { type: 'Vendeur', c: '#cfaf4b', name: 'Villa T4 vue mer', sub: 'Biarritz \u00B7 Particulier', price: '785 000€', tags: ['142m\u00B2', '4 ch', 'Jardin', 'Vue mer'] },
+    { type: 'Promoteur', c: '#a78bfa', name: 'Programme Les Allees', sub: 'Bayonne \u00B7 4 lots dispo', price: 'Des 195K€', tags: ['T2\u2192T4', 'RT2020', 'PTZ'] },
     { type: 'Artisan', c: '#34d399', name: 'Menuiserie Ospital', sub: 'Anglet \u00B7 Super Pro', price: null, tags: ['Cuisines', 'Agencement', 'Decennale'] },
-    { type: 'Locataire', c: '#60a5fa', name: 'Couple + enfant', sub: 'Cherche T3 \u00B7 Bayonne \u00B7 900-1200\u20AC', price: null, tags: ['Parking', 'Ecole', 'Dispo'] },
+    { type: 'Locataire', c: '#60a5fa', name: 'Couple + enfant', sub: 'Cherche T3 \u00B7 Bayonne \u00B7 900-1200€', price: null, tags: ['Parking', 'Ecole', 'Dispo'] },
     { type: 'Courtier', c: '#f472b6', name: 'Cabinet Duval', sub: 'Pays Basque \u00B7 203 avis', price: null, tags: ['Taux 3.2%', 'PTZ', 'Dossier 48h'] },
   ]
 
@@ -428,7 +428,7 @@ export default function Howner() {
   }, [])
 
   const faqs = [
-    { q: "C'est quoi Howner ?", a: "Howner est une plateforme immobiliere qui te permet de poster des annonces, scroller les biens du marche, matcher avec des pros et particuliers, et gagner des tickets pour le tirage d'une villa a 695 000\u20AC. L'inscription est gratuite, ta 1ere annonce aussi." },
+    { q: "C'est quoi Howner ?", a: "Howner est une plateforme immobiliere qui te permet de poster des annonces, scroller les biens du marche, matcher avec des pros et particuliers, et gagner des tickets pour le tirage d'une villa a 695 000€. L'inscription est gratuite, ta 1ere annonce aussi." },
     { q: "C'est quoi un credit ?", a: "1 credit = 1 action premium : poster une annonce supplementaire, booster une annonce en tete pendant 24h, ou activer une alerte prioritaire pendant 30 jours. Chaque credit achete te donne aussi 1 ticket bonus pour le jeu concours." },
     { q: "Qu'est-ce qui est gratuit ?", a: "L'inscription, ta 1ere annonce, le scroll illimite des annonces, le matching illimite, et le contact apres match mutuel. Tu recois aussi 1 ticket offert a l'inscription." },
     { q: "C'est quoi le jeu concours ?", a: "Chaque credit achete = 1 ticket. Chaque parrainage = 1 ticket. 1 ticket offert a l'inscription. A 200 000 tickets distribues, tirage en direct sous huissier de justice. Le gagnant remporte la villa." },
@@ -611,10 +611,10 @@ export default function Howner() {
               <p style={{ fontFamily: 'var(--b)', fontSize: 11, color: 'rgba(255,255,255,.3)' }}>1 credit = 1 annonce, 1 boost ou 1 alerte + 1 ticket bonus.</p>
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, justifyContent: 'center' }}>
-              <PackCard idx={0} credits={1} price="9\u20AC" perCredit="9\u20AC" tickets={1} />
-              <PackCard idx={1} credits={5} price="39\u20AC" perCredit="7,80\u20AC" discount="-13%" tickets={5} hl badge="POPULAIRE" />
-              <PackCard idx={2} credits={10} price="69\u20AC" perCredit="6,90\u20AC" discount="-23%" tickets={10} />
-              <PackCard idx={3} credits={20} price="119\u20AC" perCredit="5,95\u20AC" discount="-34%" tickets={20} badge="BEST" />
+              <PackCard idx={0} credits={1} price="9€" perCredit="9€" tickets={1} />
+              <PackCard idx={1} credits={5} price="39€" perCredit="7,80€" discount="-13%" tickets={5} hl badge="POPULAIRE" />
+              <PackCard idx={2} credits={10} price="69€" perCredit="6,90€" discount="-23%" tickets={10} />
+              <PackCard idx={3} credits={20} price="119€" perCredit="5,95€" discount="-34%" tickets={20} badge="BEST" />
             </div>
           </>
         ) : (
@@ -624,10 +624,10 @@ export default function Howner() {
               <p style={{ fontFamily: 'var(--b)', fontSize: 11, color: 'rgba(255,255,255,.3)' }}>Volume pour les agents, artisans, promoteurs. Pas d&apos;abonnement.</p>
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, justifyContent: 'center' }}>
-              <PackCard idx={0} credits={10} price="59\u20AC" perCredit="5,90\u20AC" discount="-34%" tickets={10} />
-              <PackCard idx={1} credits={30} price="149\u20AC" perCredit="4,97\u20AC" discount="-45%" tickets={30} hl badge="TOP PRO" />
-              <PackCard idx={2} credits={50} price="229\u20AC" perCredit="4,58\u20AC" discount="-49%" tickets={50} />
-              <PackCard idx={3} credits={100} price="399\u20AC" perCredit="3,99\u20AC" discount="-56%" tickets={100} badge="BEST" />
+              <PackCard idx={0} credits={10} price="59€" perCredit="5,90€" discount="-34%" tickets={10} />
+              <PackCard idx={1} credits={30} price="149€" perCredit="4,97€" discount="-45%" tickets={30} hl badge="TOP PRO" />
+              <PackCard idx={2} credits={50} price="229€" perCredit="4,58€" discount="-49%" tickets={50} />
+              <PackCard idx={3} credits={100} price="399€" perCredit="3,99€" discount="-56%" tickets={100} badge="BEST" />
             </div>
           </>
         )}
