@@ -28,8 +28,6 @@ const LIVE_MESSAGES = [
 
 const FAQ_DATA = [
   { q: 'C\u2019est quoi Howner ?', a: 'Howner connecte les particuliers (acheteurs, vendeurs, locataires) avec les professionnels de l\u2019immobilier (agents, courtiers) par matching. Vous publiez ce que vous cherchez, le matching fait le reste. Inscription gratuite, 1ère annonce offerte, matching illimité.' },
-  { q: 'Comment ça fonctionne pour un particulier ?', a: 'Vous vous inscrivez gratuitement. Vous postez votre recherche ("Je cherche un T3 à Bayonne", "Je cherche un courtier"). Les pros inscrits voient votre demande et vous apparaissez dans leur matching. Match mutuel = contact débloqué. Pas de spam, pas de harcèlement.' },
-  { q: 'Comment ça fonctionne pour un professionnel ?', a: 'Agent immo ou courtier : vous créez votre profil personnel (pas celui de votre agence). Les particuliers qui cherchent vos services vous trouvent par matching. Vous boostez vos annonces avec des crédits pour être en tête. Vos clients viennent à vous.' },
   { q: 'C\u2019est quoi l\u2019histoire de la villa ?', a: 'Le ticket est OFFERT gratuitement avec chaque achat de crédit. C\u2019est un bonus, pas un produit. Chaque crédit acheté sur Howner offre un ticket bonus pour gagner une villa à 695\u202F000€ construite au Pays Basque. Quand 200\u202F000 tickets sont distribués, tirage en direct par huissier de justice. Le gagnant repart avec la villa. Puis un nouveau cycle commence.' },
   { q: 'C\u2019est légal ?', a: 'Oui. On vend des crédits (un service réel : poster, booster, alerter). Le ticket est un bonus offert avec l\u2019achat. Conforme à la Directive Européenne 2005/29/CE. Règlement déposé chez huissier de justice. Participation gratuite possible via inscription + parrainage.' },
   { q: 'Qu\u2019est-ce qui est gratuit ?', a: 'Presque tout. L\u2019inscription, la 1ère annonce, le scroll illimité, le matching, le contact après match mutuel, le parrainage illimité. Le seul produit payant = les crédits (pour poster des annonces supplémentaires, booster, ou activer des alertes).' },
@@ -46,29 +44,6 @@ const COMPARISON = [
   { feature: 'Ticket villa offert', howner: true, leboncoin: '—', seloger: '—', travaux: '—' },
 ]
 
-const EXAMPLES = [
-  {
-    cat: 'IMMOBILIER', color: '#3b82f6',
-    items: [
-      { title: 'T3 lumineux avec terrasse', loc: 'Bayonne centre', price: '245 000€', by: 'Agent immo', stars: '4.8★' },
-      { title: 'Maison 5p avec jardin', loc: 'Anglet', price: '380 000€', by: 'Particulier', stars: '' },
-    ]
-  },
-  {
-    cat: 'PROS', color: '#f59e0b',
-    items: [
-      { title: 'Estimation gratuite de votre bien', loc: 'Côte Basque', price: 'Gratuit', by: 'Agent immo', stars: '4.9★' },
-      { title: 'Courtier — Meilleur taux garanti', loc: 'Bayonne · Biarritz', price: 'Gratuit', by: 'Courtier', stars: '4.7★' },
-    ]
-  },
-  {
-    cat: 'DEMANDES', color: '#a855f7',
-    items: [
-      { title: 'Recherche T2/T3 à louer', loc: 'Bayonne', price: 'Max 800€/mois', by: 'Particulier', stars: '' },
-      { title: 'Cherche maison avec jardin', loc: 'Anglet · Boucau', price: 'Budget 350 000€', by: 'Particulier', stars: '' },
-    ]
-  },
-]
 
 /* ═══ SCROLL REVEAL ═══ */
 function useReveal() {
@@ -210,7 +185,7 @@ export default function Home() {
             <Link href="/login" className="btn-primary btn-shine" style={{ padding: '16px 40px', fontSize: 16 }}>
               Commencer gratuitement
             </Link>
-            <Link href="#villa-section" className="btn-secondary">Voir la villa à gagner →</Link>
+            <Link href="/villa" className="btn-secondary">Voir la villa à gagner →</Link>
           </div>
 
           <p className="text-muted text-xs" style={{ marginBottom: 32 }}>
@@ -314,113 +289,50 @@ export default function Home() {
 
 
       {/* ════════════════════════════════════════════════════════════
-          LE PROBLÈME — Pourquoi les solutions actuelles ne marchent pas
+          POURQUOI HOWNER — Avant / Après comparaison
           ════════════════════════════════════════════════════════════ */}
       <Reveal>
         <section className="section section-dark">
           <div className="container">
-            <h2 className="heading-lg text-center" style={{ marginBottom: 8 }}>Pourquoi tout est cassé</h2>
+            <h2 className="heading-lg text-center" style={{ marginBottom: 8 }}>Pourquoi <span className="text-gradient">Howner</span></h2>
             <p className="text-muted text-sm text-center" style={{ maxWidth: 500, margin: '0 auto 32px' }}>
-              L&apos;immobilier en ligne n&apos;a pas changé depuis 15 ans. Personne n&apos;y gagne.
+              L&apos;immobilier en ligne n&apos;a pas changé depuis 15 ans.
             </p>
 
             <div className="grid-2" style={{ gap: 20 }}>
-              {/* Particuliers */}
+              {/* Avant */}
               <div className="card-glass" style={{ borderColor: 'rgba(248,113,113,.12)' }}>
-                <h3 className="heading-md" style={{ marginBottom: 16 }}>Si vous êtes particulier</h3>
+                <h3 className="heading-md" style={{ marginBottom: 16, color: '#f87171' }}>Avant</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                   {[
-                    { problem: 'SeLoger', pain: 'Des milliers d\'annonces mais aucun matching. Vous cherchez seul pendant des mois.' },
-                    { problem: 'LeBonCoin', pain: 'Pas de vérification, pas de profil agent, des annonces douteuses. Vous ne savez pas à qui vous parlez.' },
-                    { problem: 'Agences classiques', pain: 'Vous poussez la porte d\'une agence et on vous propose ce qu\'ils ont, pas ce que vous cherchez.' },
+                    'SeLoger, LeBonCoin : vous cherchez seul',
+                    '10 agents vous appellent, spam',
+                    'Boost 200\u20AC/mois',
+                    'Profil agence, pas personnel',
+                    'Aucune récompense',
                   ].map((item, i) => (
                     <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
                       <span style={{ color: '#f87171', fontSize: 14, lineHeight: 1.3, fontWeight: 700 }}>✗</span>
-                      <div>
-                        <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,.8)' }}>{item.problem}</div>
-                        <div className="text-muted text-xs" style={{ lineHeight: 1.6 }}>{item.pain}</div>
-                      </div>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,.7)', lineHeight: 1.5 }}>{item}</div>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Pros */}
-              <div className="card-glass" style={{ borderColor: 'rgba(248,113,113,.12)' }}>
-                <h3 className="heading-md" style={{ marginBottom: 16 }}>Si vous êtes professionnel</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-                  {[
-                    { problem: 'SeLoger / LeBonCoin', pain: 'Vous payez 200€/mois minimum pour être visible. Résultat : des curieux, pas des acheteurs.' },
-                    { problem: 'Prospection terrain', pain: 'Porte-à-porte, flyers, cold calling. Du temps perdu sur des contacts non qualifiés.' },
-                    { problem: 'Profil agence', pain: 'Vos clients choisissent une enseigne, pas vous. Votre réputation personnelle n\'existe pas en ligne.' },
-                  ].map((item, i) => (
-                    <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-                      <span style={{ color: '#f87171', fontSize: 14, lineHeight: 1.3, fontWeight: 700 }}>✗</span>
-                      <div>
-                        <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,.8)' }}>{item.problem}</div>
-                        <div className="text-muted text-xs" style={{ lineHeight: 1.6 }}>{item.pain}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </Reveal>
-
-
-      {/* ════════════════════════════════════════════════════════════
-          LA SOLUTION — Howner résout chaque problème
-          ════════════════════════════════════════════════════════════ */}
-      <Reveal>
-        <section className="section section-mid">
-          <div className="container">
-            <h2 className="heading-lg text-center" style={{ marginBottom: 8 }}>
-              La solution : <span className="text-gradient">Howner</span>
-            </h2>
-            <p className="text-muted text-sm text-center" style={{ maxWidth: 480, margin: '0 auto 32px' }}>
-              On connecte les bonnes personnes. Par matching. Sans spam.
-            </p>
-
-            <div className="grid-2" style={{ gap: 20 }}>
-              {/* Pour les particuliers */}
+              {/* Avec Howner */}
               <div className="card-glass" style={{ borderColor: 'rgba(52,211,153,.12)' }}>
-                <h3 className="heading-md" style={{ marginBottom: 16 }}>Pour les particuliers</h3>
+                <h3 className="heading-md" style={{ marginBottom: 16, color: '#34d399' }}>Avec Howner</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                   {[
-                    { title: 'Vous choisissez qui vous contacte', desc: 'Match mutuel = seuls les agents que vous avez sélectionnés peuvent vous écrire. Zéro démarchage.' },
-                    { title: 'Des agents avec profil et avis', desc: 'Vous voyez leur nom, leur zone, leurs avis, leurs ventes. Vous choisissez en connaissance de cause.' },
-                    { title: 'Publiez votre recherche gratuitement', desc: '"Je cherche un T3 à Bayonne max 250K" — les agents qui ont le bien vous trouvent.' },
-                    { title: 'Inscription gratuite + 1 ticket OFFERT', desc: 'Vous n\'avez rien à payer pour utiliser Howner. Et on vous offre un ticket pour la villa.' },
+                    'Matching intelligent : le bon contact vient à vous',
+                    'Match mutuel : vous choisissez qui vous contacte',
+                    'Boost 9\u20AC pour 24h. Pas d\u2019abonnement',
+                    'Votre nom, vos avis, votre réputation',
+                    '1 ticket OFFERT pour une villa à 695\u202F000\u20AC',
                   ].map((item, i) => (
                     <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
                       <span style={{ color: '#34d399', fontSize: 14, lineHeight: 1.3, fontWeight: 700 }}>✓</span>
-                      <div>
-                        <div style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>{item.title}</div>
-                        <div className="text-muted text-xs" style={{ lineHeight: 1.6 }}>{item.desc}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Pour les pros */}
-              <div className="card-glass" style={{ borderColor: 'rgba(207,175,75,.12)' }}>
-                <h3 className="heading-md" style={{ marginBottom: 16 }}>Pour les professionnels</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-                  {[
-                    { title: 'Vos clients viennent à vous', desc: 'Les acheteurs et locataires publient ce qu\'ils cherchent. Vous apparaissez dans leur matching.' },
-                    { title: 'Votre nom, pas celui de votre agence', desc: '"Sophie D. · Agent immo · Bayonne · 4.7★ · 43 ventes" — vos clients vous choisissent VOUS.' },
-                    { title: 'Boostez pour 9€, pas 200€', desc: '1 crédit = 9€ = votre annonce en tête 24h. Pack Pro 30 crédits = 149€. Pas d\'abonnement.' },
-                    { title: '+ 1 ticket OFFERT par crédit', desc: 'Chaque crédit acheté vous offre gratuitement un ticket pour gagner une villa à 695 000€.' },
-                  ].map((item, i) => (
-                    <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-                      <span style={{ color: '#cfaf4b', fontSize: 14, lineHeight: 1.3, fontWeight: 700 }}>✓</span>
-                      <div>
-                        <div style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>{item.title}</div>
-                        <div className="text-muted text-xs" style={{ lineHeight: 1.6 }}>{item.desc}</div>
-                      </div>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: '#fff', lineHeight: 1.5 }}>{item}</div>
                     </div>
                   ))}
                 </div>
@@ -453,43 +365,6 @@ export default function Home() {
         </section>
       </Reveal>
 
-
-      {/* ════════ EXEMPLES D'ANNONCES ════════ */}
-      <Reveal>
-        <section className="section section-mid">
-          <div className="container">
-            <h2 className="heading-lg text-center" style={{ marginBottom: 8 }}>Ce que vous trouverez</h2>
-            <p className="text-muted text-sm text-center" style={{ maxWidth: 480, margin: '0 auto 32px' }}>
-              Biens immobiliers, pros vérifiés, demandes de particuliers — tout au même endroit.
-            </p>
-            <div className="grid-3">
-              {EXAMPLES.map(cat => (
-                <div key={cat.cat}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-                    <div style={{ width: 4, height: 20, borderRadius: 2, background: cat.color }} />
-                    <span style={{ fontSize: 11, fontWeight: 700, color: cat.color, textTransform: 'uppercase', letterSpacing: 1.5 }}>{cat.cat}</span>
-                  </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                    {cat.items.map((l, i) => (
-                      <div key={i} className="card-glass" style={{ padding: '16px 18px' }}>
-                        <div style={{ fontSize: 14, fontWeight: 600, color: '#fff', marginBottom: 4, lineHeight: 1.3 }}>{l.title}</div>
-                        <div className="text-muted text-xs" style={{ marginBottom: 8 }}>{l.loc} · {l.price}</div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <span className="text-xs" style={{ color: 'rgba(255,255,255,.4)' }}>{l.by}</span>
-                          {l.stars && <span className="text-xs" style={{ color: '#fbbf24' }}>{l.stars}</span>}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="text-center" style={{ marginTop: 28 }}>
-              <Link href="/annonces" className="btn-secondary">Explorer les annonces →</Link>
-            </div>
-          </div>
-        </section>
-      </Reveal>
 
 
       {/* ════════ COMPARAISON ════════ */}
@@ -588,52 +463,22 @@ export default function Home() {
       </Reveal>
 
 
-      {/* ════════ VILLA ════════ */}
-      <Reveal>
-        <section className="section section-dark" id="villa-section">
-          <div className="container">
-            <h2 className="heading-lg text-center" style={{ marginBottom: 8 }}>La villa du Cycle 1</h2>
-            <p className="text-muted text-sm text-center" style={{ marginBottom: 24 }}>
-              Construite par Affinity Home · Finitions Porcelanosa · Construction LSF · Clé en main
-            </p>
-            <div className="gallery-main">
-              <img className="gallery-img" src="/villa/exterior-1.jpg" alt="Villa Boucau — Extérieur" />
-              <div className="gallery-side">
-                <img className="gallery-side-img" src="/villa/cuisine.jpg" alt="Cuisine" />
-                <img className="gallery-side-img" src="/villa/salon.jpg" alt="Salon" />
-              </div>
-            </div>
-            <div className="gallery-thumbs" style={{ marginBottom: 20 }}>
-              <img className="gallery-thumb" src="/villa/exterior-2.jpg" alt="Vue arrière" />
-              <img className="gallery-thumb" src="/villa/chambre.jpg" alt="Chambre" />
-              <img className="gallery-thumb" src="/villa/terrain.jpg" alt="Terrain" />
-            </div>
-            <div className="text-center">
-              <Link href="/villa" className="btn-secondary">Voir la villa et le règlement →</Link>
-            </div>
-          </div>
-        </section>
-      </Reveal>
-
 
       {/* ════════ CONFIANCE ════════ */}
       <Reveal>
         <section className="section section-mid">
           <div className="container">
-            <h2 className="heading-lg text-center" style={{ marginBottom: 32 }}>Confiance et garanties</h2>
-            <div className="grid-3">
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 32, textAlign: 'center' }}>
               {[
-                { title: 'Huissier de justice', desc: 'Tirage filmé en direct sous contrôle d\u2019un huissier. Résultat incontestable.' },
-                { title: 'Conforme EU 2005/29/CE', desc: 'Règlement déposé. Validé par Cabinet Hashtag Avocats (Paris).' },
-                { title: 'Remboursement garanti', desc: 'Seuil non atteint = remboursement intégral sous 30 jours.' },
-                { title: 'Paiement Stripe', desc: 'Vos données bancaires ne passent jamais par nos serveurs.' },
-                { title: '1 compte = 1 numéro', desc: 'Vérification SMS. Anti-fraude. Anti multi-comptes.' },
-                { title: 'Société française', desc: 'Affinity House Factory SAS · SIRET 982 581 506 00010 · Anglet.' },
-                { title: 'Tickets OFFERTS, jamais vendus', desc: 'Les tickets sont un cadeau gratuit avec l\u2019achat de crédits. Le jeu-concours est accessible gratuitement par inscription et parrainage.' },
+                { title: 'Huissier de justice', desc: 'Tirage filmé sous contrôle' },
+                { title: 'Conforme EU 2005/29/CE', desc: 'Règlement déposé' },
+                { title: 'Remboursement garanti', desc: 'Seuil non atteint = 100% remboursé' },
+                { title: 'Paiement Stripe', desc: 'Données bancaires sécurisées' },
+                { title: 'Tickets OFFERTS', desc: 'Jamais vendus, toujours gratuits' },
               ].map((x, i) => (
-                <div key={i} className="card-glass text-center" style={{ padding: '20px 18px' }}>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#fff', marginBottom: 4 }}>{x.title}</div>
-                  <div className="text-muted text-xs" style={{ lineHeight: 1.6 }}>{x.desc}</div>
+                <div key={i} style={{ minWidth: 140, maxWidth: 180 }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: '#fff', marginBottom: 4 }}>{x.title}</div>
+                  <div className="text-muted text-xs" style={{ lineHeight: 1.5 }}>{x.desc}</div>
                 </div>
               ))}
             </div>
@@ -641,36 +486,6 @@ export default function Home() {
         </section>
       </Reveal>
 
-
-      {/* ════════ MISSION ════════ */}
-      <Reveal>
-        <section className="section section-dark">
-          <div className="container">
-            <div className="card-glow" style={{ maxWidth: 720, margin: '0 auto' }}>
-              <div className="card-glow-inner text-center">
-                <h3 className="heading-md text-gold" style={{ marginBottom: 20 }}>Plus qu&apos;une plateforme — une mission</h3>
-                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 24, marginBottom: 20 }}>
-                  {[
-                    { val: '4,2M', label: 'de mal-logés en France' },
-                    { val: '350 000', label: 'sans-abri' },
-                    { val: '274 000', label: 'constructions/an (besoin : 400 000)' },
-                  ].map(stat => (
-                    <div key={stat.label} style={{ minWidth: 100 }}>
-                      <div className="counter-num text-gold" style={{ fontSize: 24 }}>{stat.val}</div>
-                      <div className="text-muted text-xs" style={{ marginTop: 2 }}>{stat.label}</div>
-                    </div>
-                  ))}
-                </div>
-                <p style={{ fontSize: 14, lineHeight: 1.8, color: 'rgba(255,255,255,.7)', maxWidth: 500, margin: '0 auto' }}>
-                  Howner finance la construction de logements neufs grâce à sa communauté.
-                  On ne revend pas une villa existante — on la construit.<br />
-                  <strong className="text-gold">Chaque cycle = 1 villa construite = emplois locaux + logement créé.</strong>
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-      </Reveal>
 
 
       {/* ════════ FAQ ════════ */}
@@ -727,7 +542,7 @@ export default function Home() {
             ))}
           </div>
           <p className="text-muted text-xs" style={{ lineHeight: 1.8, marginBottom: 8 }}>
-            Howner finance la construction de logements neufs en France.<br />
+            Chaque cycle finance la construction d&apos;un logement neuf en France.<br />
             Affinity House Factory SAS · SIRET 982 581 506 00010 · Anglet, Pays Basque
           </p>
           <p className="text-muted text-xs">© 2025 Howner. Tous droits réservés.</p>
