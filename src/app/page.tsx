@@ -9,21 +9,21 @@ const TOTAL = 200000
 const INIT = 4283
 
 const TICKER_MESSAGES = [
-  '🏠 PLATEFORME D\'ANNONCES IMMOBILIÈRES AVEC MATCHING',
-  '🏗️ DEVENEZ PROPRIÉTAIRE — VILLA 695 000€ À GAGNER',
-  '📢 INSCRIPTION GRATUITE · 1ÈRE ANNONCE OFFERTE',
-  '💞 MATCHING IMMOBILIER GRATUIT ET ILLIMITÉ',
-  '🎁 TICKETS OFFERTS GRATUITEMENT · JAMAIS VENDUS',
-  '⚖️ HUISSIER DE JUSTICE · CONFORME EU 2005/29/CE',
+  'PLATEFORME D\'ANNONCES IMMOBILIÈRES AVEC MATCHING',
+  'DEVENEZ PROPRIÉTAIRE — VILLA 695 000€ À GAGNER',
+  'INSCRIPTION GRATUITE · 1ÈRE ANNONCE OFFERTE',
+  'MATCHING IMMOBILIER GRATUIT ET ILLIMITÉ',
+  'TICKETS OFFERTS GRATUITEMENT · JAMAIS VENDUS',
+  'HUISSIER DE JUSTICE · CONFORME EU 2005/29/CE',
 ]
 
 const LIVE_MESSAGES = [
-  { icon: '🏠', text: 'Nouvelle annonce — T4 vue mer Biarritz', sub: 'Vente · 420 000€', color: '#3b82f6' },
-  { icon: '✅', text: 'Profil vérifié — Agent immo Bayonne', sub: 'Sophie D. · ⭐ 4.8', color: '#34d399' },
-  { icon: '💞', text: 'Match : acheteur ↔ vendeur à Anglet', sub: 'Contact débloqué', color: '#f472b6' },
-  { icon: '🔑', text: 'Annonce publiée — Studio Bayonne', sub: 'Location · 650€/mois', color: '#a855f7' },
-  { icon: '🚀', text: 'Annonce boostée — Maison Boucau', sub: 'En tête 24h', color: '#cfaf4b' },
-  { icon: '💳', text: 'Pack Pro acheté — Courtier Biarritz', sub: '+30 tickets OFFERTS', color: '#f59e0b' },
+  { text: 'Nouvelle annonce — T4 vue mer Biarritz', sub: 'Vente · 420 000€', color: '#3b82f6' },
+  { text: 'Profil vérifié — Agent immo Bayonne', sub: 'Sophie D. · 4.8★', color: '#34d399' },
+  { text: 'Match : acheteur ↔ vendeur à Anglet', sub: 'Contact débloqué', color: '#f472b6' },
+  { text: 'Annonce publiée — Studio Bayonne', sub: 'Location · 650€/mois', color: '#a855f7' },
+  { text: 'Annonce boostée — Maison Boucau', sub: 'En tête 24h', color: '#cfaf4b' },
+  { text: 'Pack Pro acheté — Courtier Biarritz', sub: '+30 tickets offerts', color: '#f59e0b' },
 ]
 
 const FAQ_DATA = [
@@ -50,15 +50,15 @@ const EXAMPLES = [
   {
     cat: 'IMMOBILIER', color: '#3b82f6',
     items: [
-      { title: 'T3 lumineux avec terrasse', loc: 'Bayonne centre', price: '245 000€', by: 'Agent immo', stars: '⭐ 4.8' },
+      { title: 'T3 lumineux avec terrasse', loc: 'Bayonne centre', price: '245 000€', by: 'Agent immo', stars: '4.8★' },
       { title: 'Maison 5p avec jardin', loc: 'Anglet', price: '380 000€', by: 'Particulier', stars: '' },
     ]
   },
   {
     cat: 'PROS', color: '#f59e0b',
     items: [
-      { title: 'Estimation gratuite de votre bien', loc: 'Côte Basque', price: 'Gratuit', by: 'Agent immo', stars: '⭐ 4.9' },
-      { title: 'Courtier — Meilleur taux garanti', loc: 'Bayonne · Biarritz', price: 'Gratuit', by: 'Courtier', stars: '⭐ 4.7' },
+      { title: 'Estimation gratuite de votre bien', loc: 'Côte Basque', price: 'Gratuit', by: 'Agent immo', stars: '4.9★' },
+      { title: 'Courtier — Meilleur taux garanti', loc: 'Bayonne · Biarritz', price: 'Gratuit', by: 'Courtier', stars: '4.7★' },
     ]
   },
   {
@@ -107,7 +107,7 @@ function LiveTicker() {
       opacity: show ? 1 : 0, transform: show ? 'translateY(0)' : 'translateY(10px)',
       transition: 'all .4s cubic-bezier(.16,1,.3,1)', borderLeft: `3px solid ${msg.color}`,
     }}>
-      <span style={{ fontSize: 18 }}>{msg.icon}</span>
+      <div style={{ width: 8, height: 8, borderRadius: '50%', background: msg.color, flexShrink: 0 }} />
       <div style={{ flex: 1 }}>
         <div style={{ fontSize: 12, fontWeight: 600, lineHeight: 1.3 }}>{msg.text}</div>
         {msg.sub && <div style={{ fontSize: 10, color: '#34d399', fontWeight: 700, marginTop: 2 }}>{msg.sub}</div>}
@@ -126,7 +126,7 @@ function StickyCTA() {
   }, [])
   return (
     <div className={`sticky-cta${visible ? ' visible' : ''}`}>
-      <span className="text-muted text-xs" style={{ fontWeight: 600 }}>🏗️ Cycle 1 en cours</span>
+      <span className="text-muted text-xs" style={{ fontWeight: 600 }}>Cycle 1 en cours</span>
       <Link href="/login" className="btn-primary btn-shine" style={{ padding: '10px 24px', fontSize: 13 }}>
         Commencer — gratuit
       </Link>
@@ -190,8 +190,8 @@ export default function Home() {
 
         <div className="container text-center" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ marginBottom: 20 }}>
-            <span className="badge" style={{ background: 'rgba(207,175,75,.06)', border: '1px solid rgba(207,175,75,.12)', color: 'var(--a)', fontSize: 12, padding: '6px 16px' }}>
-              🏗️ Nouveau concept · Lancement Cycle 1
+            <span className="badge" style={{ background: 'transparent', border: 'none', color: 'rgba(207,175,75,.5)', fontSize: 11, padding: '4px 0', letterSpacing: 2, textTransform: 'uppercase' }}>
+              Nouveau concept · Lancement Cycle 1
             </span>
           </div>
 
@@ -284,23 +284,22 @@ export default function Home() {
             <div className="grid-3">
               {[
                 {
-                  icon: '🏠', title: 'Vous cherchez un bien',
+                  title: 'Vous cherchez un bien',
                   desc: 'Publiez votre recherche. Les agents qui ont votre bien vous trouvent. Match mutuel = contact sans spam.',
                   action: 'Trouver mon bien', color: '#3b82f6',
                 },
                 {
-                  icon: '🔑', title: 'Vous vendez ou louez',
+                  title: 'Vous vendez ou louez',
                   desc: '1ère annonce gratuite. Les acheteurs et locataires qui matchent vous contactent directement.',
                   action: 'Publier mon annonce', color: '#a855f7',
                 },
                 {
-                  icon: '💼', title: 'Vous êtes pro',
+                  title: 'Vous êtes pro',
                   desc: 'Agent immo, courtier, promoteur : vos clients vous trouvent par matching. Profil personnel, avis vérifiés.',
                   action: 'Créer mon profil pro', color: '#cfaf4b',
                 },
               ].map((card, i) => (
                 <div key={i} className="card-glass text-center" style={{ borderColor: `${card.color}15` }}>
-                  <div style={{ fontSize: 36, marginBottom: 12 }}>{card.icon}</div>
                   <h3 style={{ fontSize: 16, fontWeight: 700, color: '#fff', marginBottom: 8, fontFamily: 'var(--d)' }}>{card.title}</h3>
                   <p className="text-muted text-xs" style={{ lineHeight: 1.6, marginBottom: 14 }}>{card.desc}</p>
                   <Link href="/login" style={{ fontSize: 12, fontWeight: 700, color: card.color, textDecoration: 'none' }}>
@@ -328,7 +327,7 @@ export default function Home() {
             <div className="grid-2" style={{ gap: 20 }}>
               {/* Particuliers */}
               <div className="card-glass" style={{ borderColor: 'rgba(248,113,113,.12)' }}>
-                <h3 className="heading-md" style={{ marginBottom: 16 }}>😤 Si vous êtes particulier</h3>
+                <h3 className="heading-md" style={{ marginBottom: 16 }}>Si vous êtes particulier</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                   {[
                     { problem: 'SeLoger', pain: 'Des milliers d\'annonces mais aucun matching. Vous cherchez seul pendant des mois.' },
@@ -348,7 +347,7 @@ export default function Home() {
 
               {/* Pros */}
               <div className="card-glass" style={{ borderColor: 'rgba(248,113,113,.12)' }}>
-                <h3 className="heading-md" style={{ marginBottom: 16 }}>😤 Si vous êtes professionnel</h3>
+                <h3 className="heading-md" style={{ marginBottom: 16 }}>Si vous êtes professionnel</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                   {[
                     { problem: 'SeLoger / LeBonCoin', pain: 'Vous payez 200€/mois minimum pour être visible. Résultat : des curieux, pas des acheteurs.' },
@@ -387,7 +386,7 @@ export default function Home() {
             <div className="grid-2" style={{ gap: 20 }}>
               {/* Pour les particuliers */}
               <div className="card-glass" style={{ borderColor: 'rgba(52,211,153,.12)' }}>
-                <h3 className="heading-md" style={{ marginBottom: 16 }}>✅ Pour les particuliers</h3>
+                <h3 className="heading-md" style={{ marginBottom: 16 }}>Pour les particuliers</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                   {[
                     { title: 'Vous choisissez qui vous contacte', desc: 'Match mutuel = seuls les agents que vous avez sélectionnés peuvent vous écrire. Zéro démarchage.' },
@@ -408,11 +407,11 @@ export default function Home() {
 
               {/* Pour les pros */}
               <div className="card-glass" style={{ borderColor: 'rgba(207,175,75,.12)' }}>
-                <h3 className="heading-md" style={{ marginBottom: 16 }}>✅ Pour les professionnels</h3>
+                <h3 className="heading-md" style={{ marginBottom: 16 }}>Pour les professionnels</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                   {[
                     { title: 'Vos clients viennent à vous', desc: 'Les acheteurs et locataires publient ce qu\'ils cherchent. Vous apparaissez dans leur matching.' },
-                    { title: 'Votre nom, pas celui de votre agence', desc: '"Sophie D. · Agent immo · Bayonne · ⭐ 4.7 · 43 ventes" — vos clients vous choisissent VOUS.' },
+                    { title: 'Votre nom, pas celui de votre agence', desc: '"Sophie D. · Agent immo · Bayonne · 4.7★ · 43 ventes" — vos clients vous choisissent VOUS.' },
                     { title: 'Boostez pour 9€, pas 200€', desc: '1 crédit = 9€ = votre annonce en tête 24h. Pack Pro 30 crédits = 149€. Pas d\'abonnement.' },
                     { title: '+ 1 ticket OFFERT par crédit', desc: 'Chaque crédit acheté vous offre gratuitement un ticket pour gagner une villa à 695 000€.' },
                   ].map((item, i) => (
@@ -439,13 +438,12 @@ export default function Home() {
             <h2 className="heading-lg text-center" style={{ marginBottom: 32 }}>Comment ça marche</h2>
             <div className="grid-3">
               {[
-                { step: '01', icon: '✍️', title: 'Inscrivez-vous', desc: 'Gratuit. 1 ticket offert. Postez votre 1ère annonce ou demande — offerte.', color: '#3b82f6' },
-                { step: '02', icon: '💞', title: 'Matchez', desc: 'Parcourez les annonces et profils. Match mutuel = contact débloqué gratuitement.', color: '#a855f7' },
-                { step: '03', icon: '💳', title: 'Boostez avec des crédits', desc: 'Postez plus, boostez 24h, activez des alertes. Chaque crédit = 1 ticket pour la villa.', color: '#cfaf4b' },
+                { step: '01', title: 'Inscrivez-vous', desc: 'Gratuit. 1 ticket offert. Postez votre 1ère annonce ou demande — offerte.', color: '#3b82f6' },
+                { step: '02', title: 'Matchez', desc: 'Parcourez les annonces et profils. Match mutuel = contact débloqué gratuitement.', color: '#a855f7' },
+                { step: '03', title: 'Boostez avec des crédits', desc: 'Postez plus, boostez 24h, activez des alertes. Chaque crédit = 1 ticket pour la villa.', color: '#cfaf4b' },
               ].map(s => (
                 <div key={s.step} className="card-glass text-center">
-                  <div className="mono" style={{ fontSize: 11, color: s.color, fontWeight: 700, marginBottom: 8, letterSpacing: 2 }}>ÉTAPE {s.step}</div>
-                  <div style={{ fontSize: 36, marginBottom: 12 }}>{s.icon}</div>
+                  <div className="mono" style={{ fontSize: 48, fontWeight: 800, color: s.color, opacity: 0.15, lineHeight: 1, marginBottom: 8 }}>{s.step}</div>
                   <h3 className="heading-md" style={{ marginBottom: 8 }}>{s.title}</h3>
                   <p className="text-muted text-sm" style={{ lineHeight: 1.6 }}>{s.desc}</p>
                 </div>
@@ -538,7 +536,7 @@ export default function Home() {
               1 crédit = poster une annonce, booster 24h, ou activer une alerte 30 jours
             </p>
             <p className="text-gold text-xs" style={{ marginBottom: 28, fontWeight: 700 }}>
-              🎁 1 ticket OFFERT pour la villa à chaque crédit acheté — le ticket est gratuit
+              1 ticket OFFERT pour la villa à chaque crédit acheté — le ticket est gratuit
             </p>
 
             <div style={{ display: 'inline-flex', borderRadius: 12, border: '1px solid rgba(255,255,255,.08)', overflow: 'hidden', marginBottom: 28, background: 'rgba(255,255,255,.02)' }}>
@@ -574,7 +572,7 @@ export default function Home() {
                     )}
                     <div style={{ marginBottom: 14 }}>
                       <span className="badge text-gold" style={{ background: 'rgba(207,175,75,.1)', fontSize: 11 }}>
-                        +{pack.tickets} ticket{pack.tickets > 1 ? 's' : ''} villa
+                        +{pack.tickets} ticket{pack.tickets > 1 ? 's' : ''} offert{pack.tickets > 1 ? 's' : ''}
                       </span>
                     </div>
                     <Link href="/login" className="btn-primary btn-shine" style={{ width: '100%', padding: '11px 0', fontSize: 13 }}>Acheter</Link>
@@ -625,16 +623,15 @@ export default function Home() {
             <h2 className="heading-lg text-center" style={{ marginBottom: 32 }}>Confiance et garanties</h2>
             <div className="grid-3">
               {[
-                { icon: '⚖️', title: 'Huissier de justice', desc: 'Tirage filmé en direct sous contrôle d\u2019un huissier. Résultat incontestable.' },
-                { icon: '📋', title: 'Conforme EU 2005/29/CE', desc: 'Règlement déposé. Validé par Cabinet Hashtag Avocats (Paris).' },
-                { icon: '🔄', title: 'Remboursement garanti', desc: 'Seuil non atteint = remboursement intégral sous 30 jours.' },
-                { icon: '🔒', title: 'Paiement Stripe', desc: 'Vos données bancaires ne passent jamais par nos serveurs.' },
-                { icon: '📱', title: '1 compte = 1 numéro', desc: 'Vérification SMS. Anti-fraude. Anti multi-comptes.' },
-                { icon: '🏢', title: 'Société française', desc: 'Affinity House Factory SAS · SIRET 982 581 506 00010 · Anglet.' },
-                { icon: '🎁', title: 'Tickets OFFERTS, jamais vendus', desc: 'Les tickets sont un cadeau gratuit avec l\u2019achat de crédits. Le jeu-concours est accessible gratuitement par inscription et parrainage.' },
+                { title: 'Huissier de justice', desc: 'Tirage filmé en direct sous contrôle d\u2019un huissier. Résultat incontestable.' },
+                { title: 'Conforme EU 2005/29/CE', desc: 'Règlement déposé. Validé par Cabinet Hashtag Avocats (Paris).' },
+                { title: 'Remboursement garanti', desc: 'Seuil non atteint = remboursement intégral sous 30 jours.' },
+                { title: 'Paiement Stripe', desc: 'Vos données bancaires ne passent jamais par nos serveurs.' },
+                { title: '1 compte = 1 numéro', desc: 'Vérification SMS. Anti-fraude. Anti multi-comptes.' },
+                { title: 'Société française', desc: 'Affinity House Factory SAS · SIRET 982 581 506 00010 · Anglet.' },
+                { title: 'Tickets OFFERTS, jamais vendus', desc: 'Les tickets sont un cadeau gratuit avec l\u2019achat de crédits. Le jeu-concours est accessible gratuitement par inscription et parrainage.' },
               ].map((x, i) => (
                 <div key={i} className="card-glass text-center" style={{ padding: '20px 18px' }}>
-                  <div style={{ fontSize: 28, marginBottom: 8 }}>{x.icon}</div>
                   <div style={{ fontSize: 13, fontWeight: 700, color: '#fff', marginBottom: 4 }}>{x.title}</div>
                   <div className="text-muted text-xs" style={{ lineHeight: 1.6 }}>{x.desc}</div>
                 </div>
@@ -651,7 +648,7 @@ export default function Home() {
           <div className="container">
             <div className="card-glow" style={{ maxWidth: 720, margin: '0 auto' }}>
               <div className="card-glow-inner text-center">
-                <h3 className="heading-md text-gold" style={{ marginBottom: 20 }}>🏗️ Plus qu&apos;une plateforme — une mission</h3>
+                <h3 className="heading-md text-gold" style={{ marginBottom: 20 }}>Plus qu&apos;une plateforme — une mission</h3>
                 <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 24, marginBottom: 20 }}>
                   {[
                     { val: '4,2M', label: 'de mal-logés en France' },
@@ -715,7 +712,7 @@ export default function Home() {
       </section>
 
       {/* ════════ FOOTER ════════ */}
-      <footer style={{ borderTop: '1px solid rgba(255,255,255,.06)', padding: '32px 0 80px' }}>
+      <footer style={{ borderTop: '1px solid rgba(255,255,255,.06)', padding: '48px 0 96px' }}>
         <div className="container text-center">
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 20, marginBottom: 16 }}>
             {[
