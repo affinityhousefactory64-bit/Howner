@@ -4,9 +4,15 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useUser } from '@/lib/context'
 
-type Step = 'phone' | 'code' | 'profile'
+type Step = 'phone' | 'code' | 'type' | 'pro'
 type UserType = 'particulier' | 'pro'
-type ProType = 'artisan' | 'agent' | 'courtier' | 'promoteur'
+type ProType = 'agent' | 'courtier' | 'promoteur'
+
+const PRO_CATEGORIES: [ProType, string][] = [
+  ['agent', 'Agent immobilier'],
+  ['courtier', 'Courtier'],
+  ['promoteur', 'Promoteur'],
+]
 
 export default function LoginPage() {
   const router = useRouter()
@@ -23,6 +29,8 @@ export default function LoginPage() {
   const [name, setName] = useState('')
   const [type, setType] = useState<UserType>('particulier')
   const [proType, setProType] = useState<ProType | null>(null)
+  const [proSpecialty, setProSpecialty] = useState('')
+  const [proZone, setProZone] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [referralCode] = useState(() => {
@@ -31,6 +39,9 @@ export default function LoginPage() {
     }
     return ''
   })
+
+  const stepIndex = step === 'phone' ? 0 : step === 'code' ? 1 : step === 'type' ? 2 : 3
+  const totalSteps = type === 'pro' ? 4 : 3
 
   async function sendCode() {
     setError('')
@@ -46,7 +57,7 @@ export default function LoginPage() {
       setNormalizedPhone(data.phone)
       setStep('code')
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Erreur envoi SMS')
+      setError(e instanceof Error ? e.message : 'Erreur lors de l&apos;envoi du SMS')
     } finally {
       setLoading(false)
     }
@@ -59,13 +70,13 @@ export default function LoginPage() {
       const res = await fetch('/api/auth/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone: normalizedPhone, code, name, type, proType, referralCode }),
+        body: JSON.stringify({ phone: normalizedPhone, code, name, type, proType, proSpecialty, proZone, referralCode }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error)
 
       if (data.isNew && !name) {
-        setStep('profile')
+        setStep('type')
         return
       }
 
@@ -80,8 +91,12 @@ export default function LoginPage() {
 
   async function completeProfile() {
     setError('')
+    if (!name) {
+      setError('Entrez votre nom ou celui de votre entreprise')
+      return
+    }
     if (type === 'pro' && !proType) {
-      setError('Choisis ton type de pro')
+      setError('Veuillez choisir votre type de professionnel')
       return
     }
     setLoading(true)
@@ -89,7 +104,7 @@ export default function LoginPage() {
       const res = await fetch('/api/auth/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone: normalizedPhone, code, name, type, proType, referralCode }),
+        body: JSON.stringify({ phone: normalizedPhone, code, name, type, proType, proSpecialty, proZone, referralCode }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error)
@@ -103,102 +118,55 @@ export default function LoginPage() {
     }
   }
 
-  const btnGold = (isLoading: boolean) => ({
-    width: '100%' as const,
-    padding: '12px 0',
-    background: isLoading ? 'rgba(207,175,75,.3)' : 'linear-gradient(135deg, var(--a), #b8932e)',
-    border: 'none' as const,
-    borderRadius: 9,
-    color: '#060a13',
-    fontFamily: 'var(--b)',
-    fontWeight: 800 as const,
-    fontSize: 13,
-    cursor: isLoading ? 'wait' as const : 'pointer' as const,
-  })
-
-  const inputStyle = {
-    width: '100%' as const,
-    padding: '12px 14px',
-    background: 'rgba(255,255,255,.04)',
-    border: '1px solid rgba(255,255,255,.08)',
-    borderRadius: 9,
-    color: '#fff',
-    fontFamily: 'var(--b)',
-    fontSize: 14,
-    outline: 'none' as const,
-    marginBottom: 12,
-  }
-
-  const labelStyle = {
-    fontFamily: 'var(--b)',
-    fontSize: 10,
-    color: 'rgba(255,255,255,.3)',
-    marginBottom: 6,
-    display: 'block' as const,
-  }
-
-  function typeBtn(active: boolean) {
-    return {
-      flex: '1 1 45%',
-      padding: '10px 12px',
-      borderRadius: 9,
-      cursor: 'pointer' as const,
-      background: active ? 'rgba(207,175,75,.1)' : 'rgba(255,255,255,.02)',
-      border: active ? '1px solid rgba(207,175,75,.3)' : '1px solid rgba(255,255,255,.06)',
-      fontFamily: 'var(--b)',
-      fontSize: 12,
-      fontWeight: active ? 700 as const : 500 as const,
-      color: active ? 'var(--a)' : 'rgba(255,255,255,.35)',
-    }
-  }
-
-  function subTypeBtn(active: boolean) {
-    return {
-      padding: '6px 10px',
-      borderRadius: 7,
-      cursor: 'pointer' as const,
-      background: active ? 'rgba(207,175,75,.1)' : 'rgba(255,255,255,.02)',
-      border: active ? '1px solid rgba(207,175,75,.3)' : '1px solid rgba(255,255,255,.06)',
-      fontFamily: 'var(--b)',
-      fontSize: 10,
-      fontWeight: active ? 700 as const : 500 as const,
-      color: active ? 'var(--a)' : 'rgba(255,255,255,.35)',
-    }
+  function handleTypeChoice(t: UserType) {
+    setType(t)
+    setProType(null)
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#060a13', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 18 }}>
-      <div style={{ maxWidth: 380, width: '100%' }}>
-        <div style={{ textAlign: 'center', marginBottom: 28 }}>
-          <div style={{ fontFamily: 'var(--m)', fontSize: 18, color: 'var(--a)', fontWeight: 700, marginBottom: 6 }}>HOWNER</div>
-          <h1 style={{ fontFamily: 'var(--d)', fontSize: 26, fontWeight: 800, color: '#fff', marginBottom: 4 }}>
+    <div className="login-page">
+      <div className="login-wrapper">
+        {/* Logo */}
+        <div className="login-header">
+          <div className="login-logo">HOWNER</div>
+          <h1 className="heading-lg mb-8">
             {step === 'phone' && 'Connexion'}
             {step === 'code' && 'Code SMS'}
-            {step === 'profile' && 'Ton profil'}
+            {step === 'type' && 'Votre profil'}
+            {step === 'pro' && 'Détails professionnel'}
           </h1>
-          <p style={{ fontFamily: 'var(--b)', fontSize: 12, color: 'rgba(255,255,255,.3)' }}>
-            {step === 'phone' && '1 ticket offert + 1\u00e8re annonce gratuite'}
-            {step === 'code' && `Code envoye\u0301 au ${normalizedPhone}`}
-            {step === 'profile' && 'Derni\u00e8re \u00e9tape avant de commencer'}
+          <p className="login-subtitle">
+            {step === 'phone' && '1 ticket offert + 1re annonce gratuite'}
+            {step === 'code' && `Code envoyé au ${normalizedPhone}`}
+            {step === 'type' && 'Dernière étape avant de commencer'}
+            {step === 'pro' && 'Ces informations vous mettront en avant'}
           </p>
         </div>
 
-        <div style={{ background: 'rgba(255,255,255,.015)', border: '1px solid rgba(255,255,255,.06)', borderRadius: 14, padding: '24px 20px' }}>
+        {/* Step progress */}
+        <div className="step-dots">
+          {Array.from({ length: totalSteps }).map((_, i) => (
+            <div key={i} className={`step-dot ${i === stepIndex ? 'active' : i < stepIndex ? 'done' : ''}`} />
+          ))}
+        </div>
+
+        {/* Form card */}
+        <div className="card form-card">
           {step === 'phone' && (
             <>
-              <label style={labelStyle}>Num&eacute;ro de t&eacute;l&eacute;phone</label>
+              <label className="form-label">Numéro de téléphone</label>
               <input
                 type="tel"
                 placeholder="06 12 34 56 78"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && sendCode()}
-                style={inputStyle}
+                className="mb-12"
               />
               <button
                 onClick={sendCode}
                 disabled={loading || !phone}
-                style={btnGold(loading)}
+                className={`btn-primary full-width ${loading || !phone ? 'opacity-50' : ''}`}
               >
                 {loading ? 'Envoi...' : 'Recevoir le code SMS'}
               </button>
@@ -207,7 +175,7 @@ export default function LoginPage() {
 
           {step === 'code' && (
             <>
-              <label style={labelStyle}>Code de v&eacute;rification</label>
+              <label className="form-label">Code de vérification</label>
               <input
                 type="text"
                 placeholder="123456"
@@ -216,85 +184,138 @@ export default function LoginPage() {
                 onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
                 onKeyDown={(e) => e.key === 'Enter' && verifyCode()}
                 autoFocus
-                style={{ ...inputStyle, fontFamily: 'var(--m)', fontSize: 22, textAlign: 'center' as const, letterSpacing: 8 }}
+                className="code-input mb-12"
               />
               <button
                 onClick={verifyCode}
                 disabled={loading || code.length < 4}
-                style={{ ...btnGold(loading), marginBottom: 8 }}
+                className={`btn-primary full-width mb-8 ${loading || code.length < 4 ? 'opacity-50' : ''}`}
               >
-                {loading ? 'V\u00e9rification...' : 'V\u00e9rifier'}
+                {loading ? 'Vérification...' : 'Vérifier'}
               </button>
               <button
                 onClick={() => { setStep('phone'); setCode('') }}
-                style={{ width: '100%', padding: '8px 0', background: 'none', border: 'none', color: 'rgba(255,255,255,.25)', fontFamily: 'var(--b)', fontSize: 10, cursor: 'pointer' }}
+                className="ghost-btn"
               >
-                &larr; Changer de num&eacute;ro
+                ← Changer de numéro
               </button>
             </>
           )}
 
-          {step === 'profile' && (
+          {step === 'type' && (
             <>
-              <label style={labelStyle}>Ton nom</label>
+              <label className="form-label">Votre nom</label>
               <input
                 type="text"
-                placeholder="Pr&eacute;nom ou entreprise"
+                placeholder="Prénom ou entreprise"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 autoFocus
-                style={inputStyle}
+                className="mb-14"
               />
 
-              <label style={labelStyle}>Tu es...</label>
-              <div style={{ display: 'flex', gap: 8, marginBottom: 14 }}>
-                <button onClick={() => { setType('particulier'); setProType(null) }} style={typeBtn(type === 'particulier')}>
+              <label className="form-label">Vous êtes...</label>
+              <div className="flex gap-8 mb-14">
+                <button
+                  onClick={() => handleTypeChoice('particulier')}
+                  className={`choice-btn ${type === 'particulier' ? 'selected' : ''}`}
+                >
                   Particulier
                 </button>
-                <button onClick={() => setType('pro')} style={typeBtn(type === 'pro')}>
+                <button
+                  onClick={() => handleTypeChoice('pro')}
+                  className={`choice-btn ${type === 'pro' ? 'selected' : ''}`}
+                >
                   Professionnel
                 </button>
               </div>
 
-              {type === 'pro' && (
-                <>
-                  <label style={labelStyle}>Type de pro</label>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 14 }}>
-                    {([
-                      ['artisan', 'Artisan'],
-                      ['agent', 'Agent immo'],
-                      ['courtier', 'Courtier'],
-                      ['promoteur', 'Promoteur'],
-                    ] as const).map(([val, label]) => (
-                      <button
-                        key={val}
-                        onClick={() => setProType(val)}
-                        style={subTypeBtn(proType === val)}
-                      >
-                        {label}
-                      </button>
-                    ))}
-                  </div>
-                </>
+              {type === 'particulier' && (
+                <button
+                  onClick={completeProfile}
+                  disabled={loading || !name}
+                  className={`btn-primary full-width ${loading || !name ? 'opacity-50' : ''}`}
+                >
+                  {loading ? 'Création...' : 'Créer mon compte'}
+                </button>
               )}
 
-              <button
-                onClick={completeProfile}
-                disabled={loading || !name}
-                style={btnGold(loading)}
-              >
-                {loading ? 'Cr\u00e9ation...' : 'Cr\u00e9er mon compte'}
-              </button>
+              {type === 'pro' && (
+                <button
+                  onClick={() => setStep('pro')}
+                  disabled={!name}
+                  className={`btn-primary full-width ${!name ? 'opacity-50' : ''}`}
+                >
+                  Continuer
+                </button>
+              )}
             </>
           )}
 
-          {error && (
-            <div style={{ marginTop: 10, padding: '8px 12px', background: 'rgba(239,68,68,.08)', border: '1px solid rgba(239,68,68,.15)', borderRadius: 7, fontFamily: 'var(--b)', fontSize: 11, color: '#ef4444' }}>{error}</div>
+          {step === 'pro' && (
+            <>
+              <label className="form-label">Type de professionnel *</label>
+              <div className="flex flex-wrap gap-6 mb-14">
+                {PRO_CATEGORIES.map(([val, label]) => (
+                  <button
+                    key={val}
+                    onClick={() => setProType(val)}
+                    className={`chip-btn ${proType === val ? 'selected' : ''}`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+
+              <label className="form-label">Spécialité (optionnel)</label>
+              <input
+                type="text"
+                placeholder="Ex : vente, location, prêt immobilier"
+                value={proSpecialty}
+                onChange={(e) => setProSpecialty(e.target.value)}
+                className="mb-12"
+              />
+
+              <label className="form-label">Zone géographique (optionnel)</label>
+              <input
+                type="text"
+                placeholder="Ex : Bayonne, Pays Basque"
+                value={proZone}
+                onChange={(e) => setProZone(e.target.value)}
+                className="mb-14"
+              />
+
+              <div className="flex gap-8">
+                <button
+                  onClick={() => setStep('type')}
+                  className="btn-secondary flex-1"
+                >
+                  ← Retour
+                </button>
+                <button
+                  onClick={completeProfile}
+                  disabled={loading || !proType}
+                  className={`btn-primary flex-2 ${loading || !proType ? 'opacity-50' : ''}`}
+                >
+                  {loading ? 'Création...' : 'Créer mon compte'}
+                </button>
+              </div>
+            </>
           )}
+
+          {error && <div className="error-box">{error}</div>}
         </div>
 
-        <div style={{ textAlign: 'center', marginTop: 14, fontFamily: 'var(--b)', fontSize: 9, color: 'rgba(255,255,255,.12)' }}>
-          V&eacute;rification par SMS &middot; 1 compte = 1 num&eacute;ro &middot; Gratuit
+        {/* Bonus line */}
+        <div className="bonus-banner">
+          <div className="bonus-banner-text">
+            1 ticket offert à l&apos;inscription · 1re annonce gratuite
+          </div>
+        </div>
+
+        {/* Trust */}
+        <div className="trust-line">
+          Vérification SMS · 1 compte = 1 numéro · Données sécurisées
         </div>
       </div>
     </div>

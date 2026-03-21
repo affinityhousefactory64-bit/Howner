@@ -1,5 +1,5 @@
 export type UserType = 'particulier' | 'pro'
-export type ProType = 'artisan' | 'agent' | 'courtier' | 'promoteur'
+export type ProType = 'agent' | 'courtier' | 'promoteur'
 
 export type ListingCategory = 'immo' | 'service' | 'demande'
 export type ListingSubcategory =
@@ -18,7 +18,12 @@ export interface User {
   phone: string
   name: string
   type: UserType
-  pro_type: ProType | null
+  pro_category: ProType | null
+  pro_specialty: string | null
+  pro_zone: string | null
+  pro_photo: string | null
+  pro_rating: number | null
+  pro_transactions: number
   credits: number
   tickets: number
   free_listing_used: boolean
@@ -45,18 +50,18 @@ export interface Listing {
   created_at: string
 }
 
-export interface Match {
-  id: string
-  user_a: string
-  user_b: string
-  created_at: string
-}
-
 export interface Swipe {
   id: string
   swiper_id: string
   swiped_id: string
   direction: SwipeDirection
+  created_at: string
+}
+
+export interface Match {
+  id: string
+  user_a: string
+  user_b: string
   created_at: string
 }
 
@@ -76,5 +81,33 @@ export interface CreditUsage {
   user_id: string
   action: CreditAction
   listing_id: string | null
+  created_at: string
+}
+
+export interface Review {
+  id: string
+  reviewer_id: string
+  reviewed_id: string
+  rating: number
+  comment: string | null
+  created_at: string
+}
+
+export interface Contest {
+  id: string
+  cycle: number
+  total_tickets: number
+  total_revenue_cents: number
+  target_tickets: number
+  target_revenue_cents: number
+  status: string
+  created_at: string
+}
+
+export interface ActivityLog {
+  id: string
+  user_id: string | null
+  action: string
+  details: Record<string, unknown> | null
   created_at: string
 }

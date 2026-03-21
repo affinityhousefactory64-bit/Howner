@@ -7,9 +7,9 @@ import Link from 'next/link'
 
 const FILTERS = [
   { id: '', label: 'Tous' },
-  { id: 'immo', label: '🏠 Immobilier' },
-  { id: 'service', label: '🔧 Services' },
-  { id: 'demande', label: '📋 Demandes' },
+  { id: 'immo', label: 'Immobilier' },
+  { id: 'service', label: 'Services' },
+  { id: 'demande', label: 'Demandes' },
 ]
 
 const SUB_LABELS: Record<string, string> = {
@@ -44,82 +44,75 @@ export default function AnnoncesPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#060a13', color: '#fff' }}>
+    <div className="page">
       <Nav />
-      <div style={{ padding: '28px 18px 0', maxWidth: 800, margin: '0 auto' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 18, flexWrap: 'wrap', gap: 8 }}>
+      <div className="content-wide" style={{ paddingBottom: 0 }}>
+        <div className="flex justify-between items-center mb-20" style={{ flexWrap: 'wrap', gap: 8 }}>
           <div>
-            <h1 style={{ fontFamily: 'var(--d)', fontSize: 'clamp(22px, 3.5vw, 30px)', fontWeight: 800, marginBottom: 4 }}>Annonces</h1>
-            <p style={{ fontFamily: 'var(--b)', fontSize: 12, color: 'rgba(255,255,255,.3)' }}>Immobilier · Services · Demandes</p>
+            <h1 className="heading-lg mb-8">Annonces</h1>
+            <p className="text-xs text-muted">Immobilier · Services · Demandes</p>
           </div>
-          <Link href="/poster" style={{ padding: '8px 16px', background: 'linear-gradient(135deg, var(--a), #b8932e)', borderRadius: 8, fontFamily: 'var(--b)', fontWeight: 700, fontSize: 11, color: '#0a0e1a', textDecoration: 'none' }}>
+          <Link href="/poster" className="btn-primary" style={{ padding: '8px 16px', fontSize: 11 }}>
             + Poster
           </Link>
         </div>
 
         {/* Search */}
-        <div style={{ display: 'flex', gap: 6, marginBottom: 12 }}>
+        <div className="flex gap-6 mb-12">
           <input type="text" placeholder="Rechercher par ville..." value={search} onChange={e => setSearch(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && fetchListings()}
-            style={{ flex: 1, padding: '9px 12px', background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.08)', borderRadius: 8, color: '#fff', fontFamily: 'var(--b)', fontSize: 12, outline: 'none' }} />
-          <button onClick={fetchListings} style={{ padding: '9px 16px', background: 'linear-gradient(135deg, var(--a), #b8932e)', border: 'none', borderRadius: 8, color: '#0a0e1a', fontFamily: 'var(--b)', fontWeight: 700, fontSize: 11, cursor: 'pointer' }}>
+            style={{ flex: 1 }} />
+          <button onClick={fetchListings} className="btn-primary" style={{ padding: '9px 16px', fontSize: 11 }}>
             Rechercher
           </button>
         </div>
 
         {/* Filters */}
-        <div style={{ display: 'flex', gap: 5, marginBottom: 18, flexWrap: 'wrap' }}>
+        <div className="flex gap-6 mb-20" style={{ flexWrap: 'wrap' }}>
           {FILTERS.map(f => (
             <button key={f.id} onClick={() => setFilter(f.id)}
-              style={{
-                padding: '6px 12px', borderRadius: 7, cursor: 'pointer', border: 'none',
-                background: filter === f.id ? 'rgba(207,175,75,.08)' : 'rgba(255,255,255,.02)',
-                outline: filter === f.id ? '1px solid rgba(207,175,75,.2)' : '1px solid rgba(255,255,255,.05)',
-                fontFamily: 'var(--b)', fontSize: 11, fontWeight: filter === f.id ? 700 : 500,
-                color: filter === f.id ? 'var(--a)' : 'rgba(255,255,255,.35)',
-              }}>{f.label}</button>
+              className={`filter-chip ${filter === f.id ? 'active' : ''}`}>
+              {f.label}
+            </button>
           ))}
         </div>
       </div>
 
       {/* Listings */}
-      <div style={{ padding: '0 18px 60px', maxWidth: 800, margin: '0 auto' }}>
+      <div className="content-wide" style={{ paddingTop: 0 }}>
         {loading ? (
-          <div style={{ textAlign: 'center', padding: 40, fontFamily: 'var(--b)', fontSize: 12, color: 'rgba(255,255,255,.3)' }}>Chargement...</div>
+          <div className="text-center text-xs text-muted" style={{ padding: 40 }}>Chargement...</div>
         ) : listings.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: 40 }}>
-            <div style={{ fontFamily: 'var(--b)', fontSize: 12, color: 'rgba(255,255,255,.3)', marginBottom: 12 }}>Aucune annonce trouvée</div>
-            <Link href="/poster" style={{ fontFamily: 'var(--b)', fontSize: 12, color: 'var(--a)', textDecoration: 'none', fontWeight: 600 }}>
-              Poste la première →
+          <div className="text-center" style={{ padding: 40 }}>
+            <div className="text-xs text-muted mb-12">Aucune annonce trouvée</div>
+            <Link href="/poster" className="text-xs text-gold" style={{ textDecoration: 'none', fontWeight: 600 }}>
+              Publiez la première annonce →
             </Link>
           </div>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div className="listings-grid">
             {listings.map(l => {
               const color = SUB_COLORS[l.subcategory] || '#cfaf4b'
               return (
-                <div key={l.id} style={{
-                  padding: '14px 16px',
-                  background: l.is_boosted ? 'rgba(207,175,75,.03)' : 'rgba(255,255,255,.015)',
-                  border: `1px solid ${l.is_boosted ? 'rgba(207,175,75,.1)' : 'rgba(255,255,255,.05)'}`,
-                  borderRadius: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12,
-                }}>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 4 }}>
-                      <span style={{ padding: '2px 7px', borderRadius: 4, background: `${color}15`, border: `1px solid ${color}30`, fontSize: 9, fontWeight: 700, color, fontFamily: 'var(--b)', textTransform: 'uppercase' }}>
-                        {SUB_LABELS[l.subcategory] || l.subcategory}
-                      </span>
-                      {l.is_boosted && (
-                        <span style={{ padding: '2px 6px', borderRadius: 4, background: 'rgba(207,175,75,.08)', fontSize: 8, fontWeight: 700, color: 'var(--a)', fontFamily: 'var(--b)' }}>🚀 BOOSTÉ</span>
-                      )}
-                    </div>
-                    <div style={{ fontFamily: 'var(--b)', fontWeight: 700, fontSize: 15, color: '#fff', marginBottom: 2 }}>{l.title}</div>
-                    <div style={{ fontFamily: 'var(--b)', fontSize: 11, color: 'rgba(255,255,255,.3)' }}>{l.location}</div>
-                    {l.surface && <div style={{ fontFamily: 'var(--b)', fontSize: 10, color: 'rgba(255,255,255,.22)', marginTop: 2 }}>{l.surface}m²{l.rooms ? ` · ${l.rooms} pièce${l.rooms > 1 ? 's' : ''}` : ''}</div>}
-                    {l.description && <p style={{ fontFamily: 'var(--b)', fontSize: 10, color: 'rgba(255,255,255,.2)', marginTop: 5, lineHeight: 1.5 }}>{l.description}</p>}
+                <div key={l.id} className={`card ${l.is_boosted ? 'listing-card-boosted' : ''}`} style={{ padding: '14px 16px' }}>
+                  <div className="flex items-center gap-6 mb-8">
+                    <span className="badge" style={{
+                      padding: '2px 7px', borderRadius: 4,
+                      background: `${color}15`, border: `1px solid ${color}30`,
+                      fontSize: 9, fontWeight: 700, color, textTransform: 'uppercase',
+                    }}>
+                      {SUB_LABELS[l.subcategory] || l.subcategory}
+                    </span>
+                    {l.is_boosted && (
+                      <span className="badge" style={{ padding: '2px 6px', borderRadius: 4, background: 'rgba(207,175,75,.08)', fontSize: 8, fontWeight: 700, color: 'var(--a)' }}>BOOSTÉ</span>
+                    )}
                   </div>
+                  <div style={{ fontWeight: 700, fontSize: 15, color: '#fff', marginBottom: 2 }}>{l.title}</div>
+                  <div className="text-xs text-muted">{l.location}</div>
+                  {l.surface && <div className="text-xs" style={{ color: 'rgba(255,255,255,.22)', marginTop: 2 }}>{l.surface} m²{l.rooms ? ` · ${l.rooms} pièce${l.rooms > 1 ? 's' : ''}` : ''}</div>}
+                  {l.description && <p className="text-xs" style={{ color: 'rgba(255,255,255,.2)', marginTop: 5, lineHeight: 1.5 }}>{l.description}</p>}
                   {l.price && (
-                    <div style={{ fontFamily: 'var(--m)', fontSize: 15, color: 'var(--a)', fontWeight: 700, flexShrink: 0 }}>
+                    <div className="mono text-gold" style={{ fontSize: 15, fontWeight: 700, marginTop: 8 }}>
                       {l.subcategory === 'location' ? `${l.price.toLocaleString('fr-FR')}€/mois` : `${l.price.toLocaleString('fr-FR')}€`}
                     </div>
                   )}
@@ -129,7 +122,7 @@ export default function AnnoncesPage() {
           </div>
         )}
 
-        <div style={{ textAlign: 'center', marginTop: 16, fontFamily: 'var(--b)', fontSize: 10, color: 'rgba(255,255,255,.15)' }}>
+        <div className="text-center text-xs" style={{ marginTop: 16, color: 'rgba(255,255,255,.15)' }}>
           {listings.length} annonce{listings.length > 1 ? 's' : ''}
         </div>
       </div>
