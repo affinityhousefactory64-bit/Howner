@@ -40,7 +40,7 @@ export default function Nav() {
             <button onClick={logout} style={{ padding: '4px 8px', background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.06)', borderRadius: 6, fontFamily: 'var(--b)', fontSize: 9, color: 'rgba(255,255,255,.3)', cursor: 'pointer' }}>✕</button>
           </>
         ) : !loading ? (
-          <Link href="/login" className="btn-primary" style={{ padding: '6px 14px', fontSize: 10 }}>S&apos;inscrire</Link>
+          <Link href="/login" className="btn-primary" style={{ padding: '6px 14px', fontSize: 10 }}>Commencer</Link>
         ) : null}
       </div>
 
@@ -56,7 +56,7 @@ export default function Nav() {
             </Link>
           </>
         ) : !loading ? (
-          <Link href="/login" className="btn-primary" style={{ padding: '6px 14px', fontSize: 10 }}>S&apos;inscrire</Link>
+          <Link href="/login" className="btn-primary" style={{ padding: '6px 14px', fontSize: 10 }}>Commencer</Link>
         ) : null}
       </div>
     </nav>

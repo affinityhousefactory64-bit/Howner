@@ -62,14 +62,18 @@ button:active:not(:disabled) { transform: scale(0.98); }
 .section { padding: 48px 0; }
 @media (min-width: 1024px) { .section { padding: 80px 0; } }
 
-/* --- Alternating section backgrounds --- */
+/* --- Alternating section backgrounds (visible contrast) --- */
 .section-dark { background: #060a13; }
-.section-mid { background: #0a0f1a; }
-.section-light { background: #0e1525; }
-.section-accent { background: linear-gradient(180deg, #0a0f1a 0%, #0c1220 50%, #0a0f1a 100%); }
-
-.section-mid, .section-light {
-  border-top: 1px solid rgba(255,255,255,.02);
+.section-mid { background: #111827; }
+.section-light { background: #1a2236; }
+.section-accent {
+  background: linear-gradient(180deg, #0f172a 0%, #162035 50%, #0f172a 100%);
+  border-top: 1px solid rgba(207,175,75,.06);
+  border-bottom: 1px solid rgba(207,175,75,.06);
+}
+.section-mid {
+  border-top: 1px solid rgba(255,255,255,.04);
+  border-bottom: 1px solid rgba(255,255,255,.04);
 }
 
 /* --- Grid Systems --- */

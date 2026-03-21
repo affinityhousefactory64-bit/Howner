@@ -5,7 +5,7 @@ import { createSession } from '@/lib/auth'
 
 export async function POST(req: NextRequest) {
   try {
-    const { phone, code, name, type, proType, referralCode } = await req.json()
+    const { phone, code, name, type, proType, proSpecialty, proZone, referralCode } = await req.json()
 
     if (!phone || !code) {
       return NextResponse.json({ error: 'Téléphone et code requis' }, { status: 400 })
@@ -62,7 +62,9 @@ export async function POST(req: NextRequest) {
         phone,
         name: name || '',
         type: userType,
-        pro_type: userType === 'pro' ? (proType || 'agent') : null,
+        pro_category: userType === 'pro' ? (proType || 'agent') : null,
+        pro_specialty: userType === 'pro' ? (proSpecialty || null) : null,
+        pro_zone: userType === 'pro' ? (proZone || null) : null,
         credits: 0,
         tickets: 1,
         free_listing_used: false,

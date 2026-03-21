@@ -9,27 +9,26 @@ const TOTAL = 200000
 const INIT = 4283
 
 const TICKER_MESSAGES = [
-  '🏗️ NOUVEAU CONCEPT — ACCÈS À LA PROPRIÉTÉ',
-  '🏠 VILLA 695 000€ À GAGNER — CYCLE 1',
+  '🏠 PLATEFORME D\'ANNONCES IMMOBILIÈRES AVEC MATCHING',
+  '🏗️ DEVENEZ PROPRIÉTAIRE — VILLA 695 000€ À GAGNER',
   '📢 INSCRIPTION GRATUITE · 1ÈRE ANNONCE OFFERTE',
-  '💞 MATCHING GRATUIT ET ILLIMITÉ',
-  '⚖️ HUISSIER DE JUSTICE · DIRECTIVE EU 2005/29/CE',
-  '🔄 REMBOURSEMENT GARANTI SI SEUIL NON ATTEINT',
+  '💞 MATCHING IMMOBILIER GRATUIT ET ILLIMITÉ',
   '🎁 TICKETS OFFERTS GRATUITEMENT · JAMAIS VENDUS',
+  '⚖️ HUISSIER DE JUSTICE · CONFORME EU 2005/29/CE',
 ]
 
 const LIVE_MESSAGES = [
-  { icon: '📢', text: 'Nouvelle annonce — T3 Bayonne centre', sub: 'Immobilier · Vente', color: '#3b82f6' },
-  { icon: '🔨', text: 'Nouveau pro — Plombier RGE', sub: 'Boucau · Artisan', color: '#f59e0b' },
-  { icon: '💞', text: 'Match : acheteur ↔ agent à Anglet', sub: 'Contact débloqué', color: '#f472b6' },
-  { icon: '🏠', text: 'Demande publiée — Courtier Bayonne', sub: 'Particulier', color: '#a855f7' },
-  { icon: '🚀', text: 'Annonce boostée — Maison Biarritz', sub: 'En tête 24h', color: '#cfaf4b' },
-  { icon: '💳', text: 'Pack Pro acheté — Agent immo', sub: '+30 tickets', color: '#34d399' },
+  { icon: '🏠', text: 'Nouvelle annonce — T4 vue mer Biarritz', sub: 'Vente · 420 000€', color: '#3b82f6' },
+  { icon: '✅', text: 'Profil vérifié — Agent immo Bayonne', sub: 'Sophie D. · ⭐ 4.8', color: '#34d399' },
+  { icon: '💞', text: 'Match : acheteur ↔ vendeur à Anglet', sub: 'Contact débloqué', color: '#f472b6' },
+  { icon: '🔑', text: 'Annonce publiée — Studio Bayonne', sub: 'Location · 650€/mois', color: '#a855f7' },
+  { icon: '🚀', text: 'Annonce boostée — Maison Boucau', sub: 'En tête 24h', color: '#cfaf4b' },
+  { icon: '💳', text: 'Pack Pro acheté — Courtier Biarritz', sub: '+30 tickets OFFERTS', color: '#f59e0b' },
 ]
 
 const FAQ_DATA = [
   { q: 'C\u2019est quoi Howner ?', a: 'Howner connecte les particuliers (acheteurs, vendeurs, locataires) avec les professionnels de l\u2019immobilier (agents, courtiers) par matching. Vous publiez ce que vous cherchez, le matching fait le reste. Inscription gratuite, 1ère annonce offerte, matching illimité.' },
-  { q: 'Comment ça fonctionne pour un particulier ?', a: 'Vous vous inscrivez gratuitement. Vous postez votre recherche ("Je cherche un T3 à Bayonne", "Je cherche un plombier"). Les pros inscrits voient votre demande et vous apparaissez dans leur matching. Match mutuel = contact débloqué. Pas de spam, pas de harcèlement.' },
+  { q: 'Comment ça fonctionne pour un particulier ?', a: 'Vous vous inscrivez gratuitement. Vous postez votre recherche ("Je cherche un T3 à Bayonne", "Je cherche un courtier"). Les pros inscrits voient votre demande et vous apparaissez dans leur matching. Match mutuel = contact débloqué. Pas de spam, pas de harcèlement.' },
   { q: 'Comment ça fonctionne pour un professionnel ?', a: 'Agent immo ou courtier : vous créez votre profil personnel (pas celui de votre agence). Les particuliers qui cherchent vos services vous trouvent par matching. Vous boostez vos annonces avec des crédits pour être en tête. Vos clients viennent à vous.' },
   { q: 'C\u2019est quoi l\u2019histoire de la villa ?', a: 'Le ticket est OFFERT gratuitement avec chaque achat de crédit. C\u2019est un bonus, pas un produit. Chaque crédit acheté sur Howner offre un ticket bonus pour gagner une villa à 695\u202F000€ construite au Pays Basque. Quand 200\u202F000 tickets sont distribués, tirage en direct par huissier de justice. Le gagnant repart avec la villa. Puis un nouveau cycle commence.' },
   { q: 'C\u2019est légal ?', a: 'Oui. On vend des crédits (un service réel : poster, booster, alerter). Le ticket est un bonus offert avec l\u2019achat. Conforme à la Directive Européenne 2005/29/CE. Règlement déposé chez huissier de justice. Participation gratuite possible via inscription + parrainage.' },
@@ -56,17 +55,17 @@ const EXAMPLES = [
     ]
   },
   {
-    cat: 'SERVICES', color: '#f59e0b',
+    cat: 'PROS', color: '#f59e0b',
     items: [
-      { title: 'Courtier prêt immobilier', loc: 'Bayonne · Biarritz', price: 'Gratuit', by: 'Courtier', stars: '⭐ 4.7' },
-      { title: 'Agent immo spé. investissement', loc: 'Côte Basque', price: 'Commission standard', by: 'Agent immo', stars: '⭐ 4.9' },
+      { title: 'Estimation gratuite de votre bien', loc: 'Côte Basque', price: 'Gratuit', by: 'Agent immo', stars: '⭐ 4.9' },
+      { title: 'Courtier — Meilleur taux garanti', loc: 'Bayonne · Biarritz', price: 'Gratuit', by: 'Courtier', stars: '⭐ 4.7' },
     ]
   },
   {
     cat: 'DEMANDES', color: '#a855f7',
     items: [
-      { title: 'Cherche plombier salle de bain', loc: 'Boucau', price: 'Budget 3 000€', by: 'Particulier', stars: '' },
       { title: 'Recherche T2/T3 à louer', loc: 'Bayonne', price: 'Max 800€/mois', by: 'Particulier', stars: '' },
+      { title: 'Cherche maison avec jardin', loc: 'Anglet · Boucau', price: 'Budget 350 000€', by: 'Particulier', stars: '' },
     ]
   },
 ]
@@ -178,14 +177,14 @@ export default function Home() {
           <span className="mono text-gold" style={{ fontSize: 9 }}>{gaugeCount.toLocaleString()}/{TOTAL / 1000}K</span>
         </div>
         <Link href="/login" className="btn-primary btn-shine" style={{ padding: '8px 20px', fontSize: 13 }}>
-          S&apos;inscrire
+          Commencer
         </Link>
       </nav>
 
       {/* ════════════════════════════════════════════════════════════
           HERO — Chaque personne doit comprendre en 5 secondes
           ════════════════════════════════════════════════════════════ */}
-      <section style={{ padding: '48px 0 0', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ padding: '64px 0 0', position: 'relative', overflow: 'hidden' }}>
         <div className="hero-glow" style={{ top: -100, right: -200, background: 'var(--a)' }} />
         <div className="hero-glow" style={{ bottom: -100, left: -200, background: '#3b82f6' }} />
 
@@ -196,16 +195,15 @@ export default function Home() {
             </span>
           </div>
 
-          <h1 className="heading-xl" style={{ marginBottom: 16, lineHeight: 1.15 }}>
-            Votre prochain bien<br />
-            <span className="text-gradient" style={{ fontSize: 'inherit' }}>vous cherche aussi.</span>
+          <h1 className="heading-xl" style={{ marginBottom: 20, lineHeight: 1.15, letterSpacing: -1 }}>
+            <span className="text-gradient" style={{ fontSize: 'inherit' }}>Devenez propriétaire.</span>
           </h1>
 
-          <p style={{ fontSize: 17, lineHeight: 1.8, maxWidth: 540, margin: '0 auto 12px', color: 'rgba(255,255,255,.7)' }}>
-            Le 1er matching immobilier en France. Acheteurs, vendeurs, agents : le bon contact vient à vous. Sans spam.
+          <p style={{ fontSize: 18, lineHeight: 1.8, maxWidth: 540, margin: '0 auto 12px', color: 'rgba(255,255,255,.7)' }}>
+            La 1ère plateforme d&apos;annonces immobilières avec matching. Trouvez le bon bien, le bon agent, le bon acheteur — en un swipe.
           </p>
           <p style={{ fontSize: 15, color: 'var(--a)', fontWeight: 700, marginBottom: 28 }}>
-            + chaque crédit acheté = 1 ticket OFFERT pour gagner une villa à 695 000€
+            + 1 ticket OFFERT pour gagner une villa à 695 000€
           </p>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 12, marginBottom: 20 }}>
@@ -297,7 +295,7 @@ export default function Home() {
                 },
                 {
                   icon: '💼', title: 'Vous êtes pro',
-                  desc: 'Agents, courtiers : vos clients viennent à vous par matching. Votre nom. Vos avis. Votre réputation.',
+                  desc: 'Agent immo, courtier, promoteur : vos clients vous trouvent par matching. Profil personnel, avis vérifiés.',
                   action: 'Créer mon profil pro', color: '#cfaf4b',
                 },
               ].map((card, i) => (
@@ -464,7 +462,7 @@ export default function Home() {
           <div className="container">
             <h2 className="heading-lg text-center" style={{ marginBottom: 8 }}>Ce que vous trouverez</h2>
             <p className="text-muted text-sm text-center" style={{ maxWidth: 480, margin: '0 auto 32px' }}>
-              Biens immobiliers, artisans certifiés, demandes de particuliers — tout au même endroit.
+              Biens immobiliers, pros vérifiés, demandes de particuliers — tout au même endroit.
             </p>
             <div className="grid-3">
               {EXAMPLES.map(cat => (

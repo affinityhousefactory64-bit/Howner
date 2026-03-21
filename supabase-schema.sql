@@ -1,16 +1,14 @@
 -- ═══════════════════════════════════════════════
--- HOWNER MVP v2 — Supabase Schema
+-- HOWNER — Supabase Schema
 -- Run in: Supabase Dashboard > SQL Editor
--- ⚠️  DROP + RECREATE — only for fresh installs
+-- DROP + RECREATE — only for fresh installs
 -- ═══════════════════════════════════════════════
 
 -- Drop old tables if they exist (dev only)
 drop table if exists activity_log cascade;
+drop table if exists reviews cascade;
 drop table if exists credit_usage cascade;
 drop table if exists credit_purchases cascade;
-drop table if exists credit_transactions cascade;
-drop table if exists ai_tasks cascade;
-drop table if exists pro_subscriptions cascade;
 drop table if exists swipes cascade;
 drop table if exists matches cascade;
 drop table if exists listings cascade;
@@ -22,12 +20,17 @@ create table users (
   id uuid primary key default gen_random_uuid(),
   phone text unique not null,
   name text default '',
-  type text not null default 'particulier' check (type in ('particulier','pro')),
-  pro_type text check (pro_type in ('artisan','agent','courtier','promoteur')),
+  type text default 'particulier' check (type in ('particulier','pro')),
+  pro_category text check (pro_category in ('agent','artisan','courtier','promoteur','diagnostiqueur','demenageur','architecte')),
+  pro_specialty text,
+  pro_zone text,
+  pro_photo text,
+  pro_rating decimal,
+  pro_transactions int default 0,
   credits integer default 0,
   tickets integer default 1,
   free_listing_used boolean default false,
-  referral_code text unique default substr(replace(gen_random_uuid()::text, '-', ''), 1, 8),
+  referral_code text unique not null,
   referred_by uuid references users(id),
   created_at timestamptz default now()
 );
@@ -40,7 +43,7 @@ create table listings (
   subcategory text not null check (subcategory in ('vente','location','recherche_achat','recherche_location','offre_service','recherche_service')),
   title text not null,
   description text default '',
-  location text not null,
+  location text default '',
   price integer,
   surface integer,
   rooms integer,
@@ -73,7 +76,7 @@ create table matches (
 create table credit_purchases (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references users(id),
-  pack_type text not null check (pack_type in ('standard_1','standard_5','standard_10','standard_20','pro_10','pro_30','pro_50','pro_100')),
+  pack_type text not null,
   credits integer not null,
   tickets integer not null,
   amount_cents integer not null,
@@ -90,25 +93,34 @@ create table credit_usage (
   created_at timestamptz default now()
 );
 
--- ═══ 7. CONTEST ═══
-create table contest (
+-- ═══ 7. REVIEWS ═══
+create table reviews (
   id uuid primary key default gen_random_uuid(),
-  name text not null,
-  villa_title text not null,
-  villa_price integer not null,
-  villa_location text not null,
-  villa_details text default '',
-  total_tickets_target integer default 200000,
-  is_active boolean default true,
+  reviewer_id uuid not null references users(id),
+  reviewed_id uuid not null references users(id),
+  rating int not null check (rating >= 1 and rating <= 5),
+  comment text,
   created_at timestamptz default now()
 );
 
--- ═══ 8. ACTIVITY LOG ═══
+-- ═══ 8. CONTEST ═══
+create table contest (
+  id uuid primary key default gen_random_uuid(),
+  cycle int default 1,
+  total_tickets int default 0,
+  total_revenue_cents int default 0,
+  target_tickets int default 200000,
+  target_revenue_cents int default 160000000,
+  status text default 'active',
+  created_at timestamptz default now()
+);
+
+-- ═══ 9. ACTIVITY LOG ═══
 create table activity_log (
   id uuid primary key default gen_random_uuid(),
   user_id uuid references users(id),
-  action text not null check (action in ('signup','referral','credit_purchase','credit_usage','match','listing_created','boost','alert')),
-  details jsonb default '{}',
+  action text not null,
+  details jsonb,
   created_at timestamptz default now()
 );
 
@@ -123,6 +135,9 @@ create index idx_swipes_swiped on swipes(swiped_id);
 create index idx_matches_users on matches(user_a, user_b);
 create index idx_credit_purchases_user on credit_purchases(user_id);
 create index idx_credit_usage_user on credit_usage(user_id);
+create index idx_reviews_reviewed on reviews(reviewed_id);
+create index idx_reviews_reviewer on reviews(reviewer_id);
+create index idx_activity_log_user on activity_log(user_id);
 create index idx_activity_log_recent on activity_log(created_at desc);
 
 -- ═══ ROW LEVEL SECURITY ═══
@@ -132,18 +147,17 @@ alter table swipes enable row level security;
 alter table matches enable row level security;
 alter table credit_purchases enable row level security;
 alter table credit_usage enable row level security;
+alter table reviews enable row level security;
 alter table contest enable row level security;
 alter table activity_log enable row level security;
 
+-- service_role bypass policies
 create policy "service_all" on users for all using (true) with check (true);
 create policy "service_all" on listings for all using (true) with check (true);
 create policy "service_all" on swipes for all using (true) with check (true);
 create policy "service_all" on matches for all using (true) with check (true);
 create policy "service_all" on credit_purchases for all using (true) with check (true);
 create policy "service_all" on credit_usage for all using (true) with check (true);
+create policy "service_all" on reviews for all using (true) with check (true);
 create policy "service_all" on contest for all using (true) with check (true);
 create policy "service_all" on activity_log for all using (true) with check (true);
-
--- ═══ SEED: Contest ═══
-insert into contest (name, villa_title, villa_price, villa_location, villa_details, is_active) values
-  ('Concours Villa Boucau', 'Villa Boucau', 695000, 'Boucau · Pays Basque', '149m² · 4 chambres · R+1 · Architecte intégré · Finitions Porcelanosa · Construction LSF · Clé en main · Livrée par Affinity Home', true);
