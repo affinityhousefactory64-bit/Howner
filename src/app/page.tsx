@@ -2,52 +2,23 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { STANDARD_PACKS, PRO_PACKS } from '@/lib/stripe'
 import VideoPlaceholder from '@/components/VideoPlaceholder'
 
 /* ═══ CONSTANTS ═══ */
 const TOTAL = 200000
 const INIT = 47382
 
-const TICKER_MESSAGES = [
-  'PLATEFORME D\'ANNONCES IMMOBILIÈRES AVEC MATCHING',
-  'DEVENEZ PROPRIÉTAIRE — VILLA 695 000€ À GAGNER',
-  'INSCRIPTION GRATUITE · 1ÈRE ANNONCE OFFERTE',
-  'MATCHING IMMOBILIER GRATUIT ET ILLIMITÉ',
-  'TICKETS OFFERTS GRATUITEMENT · JAMAIS VENDUS',
-  'HUISSIER DE JUSTICE · CONFORME EU 2005/29/CE',
-]
-
-const LIVE_MESSAGES = [
-  { text: 'Nouvelle annonce — T4 vue mer Biarritz', sub: 'Vente · 420 000€', color: '#3b82f6' },
-  { text: 'Profil vérifié — Agent immo Bayonne', sub: 'Sophie D. · 4.8★', color: '#34d399' },
-  { text: 'Match : acheteur ↔ vendeur à Anglet', sub: 'Contact débloqué', color: '#f472b6' },
-  { text: 'Annonce publiée — Studio Bayonne', sub: 'Location · 650€/mois', color: '#a855f7' },
-  { text: 'Annonce boostée — Maison Boucau', sub: 'En tête 24h', color: '#cfaf4b' },
-  { text: 'Pack Pro acheté — Courtier Biarritz', sub: '+30 tickets offerts', color: '#f59e0b' },
-]
-
 const FAQ_DATA = [
-  { q: 'C\u2019est quoi Howner ?', a: 'Howner connecte les particuliers (acheteurs, vendeurs, locataires) avec les professionnels de l\u2019immobilier (agents, courtiers) par matching. Vous publiez ce que vous cherchez, le matching fait le reste. Inscription gratuite, 1ère annonce offerte, matching illimité.' },
-  { q: 'C\u2019est quoi l\u2019histoire de la villa ?', a: 'Le ticket est OFFERT gratuitement avec chaque achat de crédit. C\u2019est un bonus, pas un produit. Chaque crédit acheté sur Howner offre un ticket bonus pour gagner une villa à 695\u202F000€ construite au Pays Basque. Quand 200\u202F000 tickets sont distribués, tirage en direct par huissier de justice. Le gagnant repart avec la villa. Puis un nouveau cycle commence.' },
-  { q: 'C\u2019est légal ?', a: 'Oui. On vend des crédits (un service réel : poster, booster, alerter). Le ticket est un bonus offert avec l\u2019achat. Conforme à la Directive Européenne 2005/29/CE. Règlement déposé chez huissier de justice. Participation gratuite possible via inscription + parrainage.' },
-  { q: 'Qu\u2019est-ce qui est gratuit ?', a: 'Presque tout. L\u2019inscription, la 1ère annonce, le scroll illimité, le matching, le contact après match mutuel, le parrainage illimité. Le seul produit payant = les crédits (pour poster des annonces supplémentaires, booster, ou activer des alertes).' },
-  { q: 'Et si le seuil de 200 000 tickets n\u2019est pas atteint ?', a: 'Remboursement intégral garanti sous 30 jours. Les fonds sont sécurisés. Aucun risque.' },
+  { q: 'C\u2019est quoi Howner ?', a: 'Howner est une plateforme immobilière intelligente. Elle compare toutes les offres de location et vente, analyse vos devis travaux grâce à l\u2019IA, et trouve le bon professionnel pour vous. Chaque crédit acheté vous offre un ticket pour participer au tirage d\u2019une villa à 695 000\u202F€.' },
+  { q: 'Comment fonctionnent les crédits ?', a: '1 crédit = 1 action. Comparer les offres immo, analyser un devis, ou lancer une recherche de professionnel. Chaque crédit acheté vous offre aussi 1 ticket pour le tirage de la villa. Votre premier crédit est offert à l\u2019inscription.' },
+  { q: 'C\u2019est quoi le tirage de la villa ?', a: 'Quand 200 000 tickets sont distribués, un tirage au sort a lieu en direct, filmé, sous le contrôle d\u2019un huissier de justice. Le gagnant repart avec la villa. Puis un nouveau cycle démarre avec une nouvelle villa.' },
+  { q: 'C\u2019est légal ?', a: 'Oui. Jeu concours promotionnel conforme à la Directive Européenne 2005/29/CE. On vend des crédits pour des services réels (comparaison, analyse, recherche). Les tickets sont offerts en bonus. Participation gratuite possible via inscription et parrainage.' },
+  { q: 'La villa est réelle ?', a: 'Oui. Villa Boucau — 149m², 4 chambres, piscine, R+1, Boucau Haut, Pays Basque. Construite par Affinity House Factory SAS (SIRET 982 581 506 00010). Finitions Porcelanosa, construction LSF, clé en main. Valeur : 695 000\u202F€.' },
+  { q: 'Je peux participer gratuitement ?', a: 'Oui. L\u2019inscription est gratuite et vous offre 1 crédit + 1 ticket. Le parrainage vous donne 1 crédit + 1 ticket pour chaque ami inscrit, sans limite.' },
 ]
-
-const COMPARISON = [
-  { feature: 'Publier une annonce', howner: true, leboncoin: 'Payant pros', seloger: 'Payant', travaux: '—' },
-  { feature: 'Matching intelligent', howner: true, leboncoin: '—', seloger: '—', travaux: '—' },
-  { feature: 'Contact sans spam', howner: true, leboncoin: '—', seloger: '—', travaux: '—' },
-  { feature: 'Profil pro personnel', howner: true, leboncoin: '—', seloger: 'Par agence', travaux: '—' },
-  { feature: 'Avis vérifiés', howner: true, leboncoin: '—', seloger: '—', travaux: 'Basic' },
-  { feature: 'Boost à partir de 9€', howner: true, leboncoin: '30€+', seloger: '200€+', travaux: '—' },
-  { feature: 'Ticket villa offert', howner: true, leboncoin: '—', seloger: '—', travaux: '—' },
-]
-
 
 /* ═══ SCROLL REVEAL ═══ */
-function useReveal() {
+function Reveal({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const el = ref.current
@@ -59,34 +30,35 @@ function useReveal() {
     obs.observe(el)
     return () => obs.disconnect()
   }, [])
-  return ref
-}
-function Reveal({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  const ref = useReveal()
-  return <div ref={ref} className={`reveal ${className}`}>{children}</div>
+  return <div ref={ref} className="reveal">{children}</div>
 }
 
-/* ═══ LIVE TICKER ═══ */
-function LiveTicker() {
-  const [current, setCurrent] = useState(0)
+/* ═══ LIVE NOTIFICATIONS ═══ */
+function LiveNotif() {
+  const msgs = [
+    { text: 'Thomas a comparé 23 offres à Bayonne', sub: '1 crédit utilisé · +1 ticket', color: '#cfaf4b' },
+    { text: 'Marie s\u2019est inscrite', sub: '1 crédit offert · +1 ticket offert', color: '#34d399' },
+    { text: 'Pierre a analysé un devis plomberie', sub: 'Résultat : devis 18% au-dessus du marché', color: '#f472b6' },
+    { text: 'Sophie a acheté un Pack 10', sub: '+10 crédits · +10 tickets offerts', color: '#f59e0b' },
+    { text: 'Lucas a trouvé un courtier à Biarritz', sub: '4.8 étoiles · 92 dossiers traités', color: '#3b82f6' },
+    { text: 'La jauge vient de dépasser 47 000', sub: 'Plus que 153 000 tickets avant le tirage', color: '#a855f7' },
+  ]
+  const [i, setI] = useState(0)
   const [show, setShow] = useState(true)
   useEffect(() => {
-    const interval = setInterval(() => {
+    const t = setInterval(() => {
       setShow(false)
-      setTimeout(() => { setCurrent(i => (i + 1) % LIVE_MESSAGES.length); setShow(true) }, 400)
+      setTimeout(() => { setI(p => (p + 1) % msgs.length); setShow(true) }, 400)
     }, 4000)
-    return () => clearInterval(interval)
+    return () => clearInterval(t)
   }, [])
-  const msg = LIVE_MESSAGES[current]
+  const m = msgs[i]
   return (
-    <div className="live-notif" style={{
-      opacity: show ? 1 : 0, transform: show ? 'translateY(0)' : 'translateY(10px)',
-      transition: 'all .4s cubic-bezier(.16,1,.3,1)', borderLeft: `3px solid ${msg.color}`,
-    }}>
-      <div style={{ width: 8, height: 8, borderRadius: '50%', background: msg.color, flexShrink: 0 }} />
-      <div style={{ flex: 1 }}>
-        <div style={{ fontSize: 12, fontWeight: 600, lineHeight: 1.3 }}>{msg.text}</div>
-        {msg.sub && <div style={{ fontSize: 10, color: '#34d399', fontWeight: 700, marginTop: 2 }}>{msg.sub}</div>}
+    <div className="live-notif" style={{ opacity: show ? 1 : 0, transform: show ? 'translateY(0)' : 'translateY(10px)', transition: 'all .4s', borderLeft: `3px solid ${m.color}` }}>
+      <div style={{ width: 8, height: 8, borderRadius: '50%', background: m.color, flexShrink: 0 }} />
+      <div>
+        <div style={{ fontSize: 12, fontWeight: 600 }}>{m.text}</div>
+        <div style={{ fontSize: 10, color: '#34d399', fontWeight: 700, marginTop: 2 }}>{m.sub}</div>
       </div>
     </div>
   )
@@ -94,422 +66,170 @@ function LiveTicker() {
 
 /* ═══ STICKY CTA ═══ */
 function StickyCTA() {
-  const [visible, setVisible] = useState(false)
+  const [v, setV] = useState(false)
   useEffect(() => {
-    const handler = () => setVisible(window.scrollY > 600)
-    window.addEventListener('scroll', handler, { passive: true })
-    return () => window.removeEventListener('scroll', handler)
+    const h = () => setV(window.scrollY > 500)
+    window.addEventListener('scroll', h, { passive: true })
+    return () => window.removeEventListener('scroll', h)
   }, [])
   return (
-    <div className={`sticky-cta${visible ? ' visible' : ''}`}>
-      <span className="text-muted text-xs" style={{ fontWeight: 600 }}>Cycle 1 en cours</span>
-      <Link href="/login" className="btn-primary btn-shine" style={{ padding: '10px 24px', fontSize: 13 }}>
-        Commencer — gratuit
-      </Link>
+    <div className={`sticky-cta${v ? ' visible' : ''}`}>
+      <span className="text-muted text-xs" style={{ fontWeight: 600 }}>Villa 695 000€ à gagner</span>
+      <a href="#packs" className="btn-primary btn-shine" style={{ padding: '10px 24px', fontSize: 13 }}>Acheter des crédits</a>
     </div>
   )
 }
 
-/* ═══ MAIN PAGE ═══ */
+/* ═══ MAIN ═══ */
 export default function Home() {
-  const [gaugeCount, setGaugeCount] = useState(INIT)
-  const [pricingTab, setPricingTab] = useState<'standard' | 'pro'>('standard')
+  const [gauge, setGauge] = useState(INIT)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
   useEffect(() => {
-    const tick = () => setGaugeCount(p => Math.min(TOTAL, p + Math.floor(Math.random() * 3) + 1))
-    const schedule = () => {
-      const delay = 5000 + Math.random() * 3000
-      return setTimeout(() => { tick(); timerId = schedule() }, delay)
-    }
-    let timerId = schedule()
-    return () => clearTimeout(timerId)
+    const tick = () => setGauge(p => Math.min(TOTAL, p + Math.floor(Math.random() * 3) + 1))
+    const go = () => { const d = 5000 + Math.random() * 3000; return setTimeout(() => { tick(); id = go() }, d) }
+    let id = go()
+    return () => clearTimeout(id)
   }, [])
 
-  const gaugePct = (gaugeCount / TOTAL) * 100
-  const remaining = TOTAL - gaugeCount
-  const packs = pricingTab === 'standard' ? STANDARD_PACKS : PRO_PACKS
+  const pct = (gauge / TOTAL) * 100
 
   return (
     <>
-      {/* ════════ TICKER ════════ */}
-      <div className="ticker-bar">
-        <div className="ticker-content">
-          {[...TICKER_MESSAGES, ...TICKER_MESSAGES].map((msg, i) => (
-            <span className="ticker-item" key={i}>{msg}</span>
-          ))}
-        </div>
-      </div>
-
-      {/* ════════ NAV ════════ */}
+      {/* ══ NAV ══ */}
       <nav className="nav">
-        <Link href="/" style={{ textDecoration: 'none' }}>
-          <span className="heading-md text-gradient" style={{ fontSize: 22, letterSpacing: -0.5 }}>HOWNER</span>
-        </Link>
+        <Link href="/" style={{ textDecoration: 'none' }}><span className="heading-md text-gold" style={{ fontSize: 20 }}>HOWNER</span></Link>
         <div className="nav-gauge" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <div style={{ width: 80, height: 4, borderRadius: 10, background: 'rgba(255,255,255,.06)', overflow: 'hidden' }}>
-            <div style={{ height: '100%', borderRadius: 10, background: 'var(--a)', width: `${gaugePct}%`, transition: 'width 1s' }} />
+            <div style={{ height: '100%', borderRadius: 10, background: 'var(--a)', width: `${pct}%`, transition: 'width 1s' }} />
           </div>
-          <span className="mono text-gold" style={{ fontSize: 9 }}>{gaugeCount.toLocaleString()}/{TOTAL / 1000}K</span>
+          <span className="mono text-gold" style={{ fontSize: 9 }}>{gauge.toLocaleString()}/{TOTAL / 1000}K</span>
         </div>
-        <Link href="/login" className="btn-primary btn-shine" style={{ padding: '8px 20px', fontSize: 13 }}>
-          Commencer
-        </Link>
+        <Link href="/login" className="btn-primary" style={{ padding: '8px 20px', fontSize: 13 }}>Essayer gratuit</Link>
       </nav>
 
-      {/* ════════════════════════════════════════════════════════════
-          HERO — Chaque personne doit comprendre en 5 secondes
-          ════════════════════════════════════════════════════════════ */}
-      <section style={{ padding: '64px 0 0', position: 'relative', overflow: 'hidden' }}>
-        <div className="hero-glow" style={{ top: -100, right: -200, background: 'var(--a)' }} />
-        <div className="hero-glow" style={{ bottom: -100, left: -200, background: '#3b82f6' }} />
-
-        <div className="container text-center" style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ marginBottom: 20 }}>
-            <span className="badge" style={{ background: 'transparent', border: 'none', color: 'rgba(207,175,75,.5)', fontSize: 11, padding: '4px 0', letterSpacing: 2, textTransform: 'uppercase' }}>
-              Nouveau concept · Lancement Cycle 1
-            </span>
-          </div>
-
-          <h1 className="heading-xl" style={{ marginBottom: 20, lineHeight: 1.15, letterSpacing: -1 }}>
-            <span className="text-gradient" style={{ fontSize: 'inherit' }}>Devenez propriétaire.</span>
+      {/* ══ HERO ══ */}
+      <section style={{ position: 'relative', minHeight: '85vh', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/villa/exterior-1.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', filter: 'brightness(0.3)' }} />
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '60%', background: 'linear-gradient(to top, var(--bg), transparent)' }} />
+        <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', padding: '0 20px', maxWidth: 740 }}>
+          <h1 className="heading-xl" style={{ marginBottom: 16, fontSize: 'clamp(32px, 7vw, 60px)' }}>
+            Devenez <span className="text-gold">propriétaire.</span>
           </h1>
-
-          <p style={{ fontSize: 18, lineHeight: 1.8, maxWidth: 540, margin: '0 auto 12px', color: 'rgba(255,255,255,.7)' }}>
-            La 1ère plateforme d&apos;annonces immobilières avec matching. Trouvez le bon bien, le bon agent, le bon acheteur — en un swipe.
+          <p style={{ fontSize: 'clamp(14px, 2.5vw, 18px)', color: 'rgba(255,255,255,.7)', marginBottom: 12, lineHeight: 1.7 }}>
+            Comparez toutes les offres immo. Vérifiez vos devis en 1 clic.<br />
+            Trouvez le bon pro instantanément.
           </p>
-          <p style={{ fontSize: 15, color: 'var(--a)', fontWeight: 700, marginBottom: 28 }}>
-            + 1 ticket OFFERT pour gagner une villa à 695 000€
+          <p className="text-gold" style={{ fontSize: 'clamp(13px, 2vw, 16px)', fontWeight: 700, marginBottom: 28 }}>
+            + chaque crédit acheté vous offre 1 ticket pour gagner une villa à 695 000€
           </p>
-
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 12, marginBottom: 20 }}>
-            <Link href="/login" className="btn-primary btn-shine" style={{ padding: '16px 40px', fontSize: 16 }}>
-              Commencer gratuitement
-            </Link>
-            <Link href="/villa" className="btn-secondary">Voir la villa à gagner →</Link>
-          </div>
-
-          <p className="text-muted text-xs" style={{ marginBottom: 32 }}>
-            Gratuit · 1ère annonce offerte · Matching illimité · 0 spam
+          <Link href="/login" className="btn-primary btn-shine" style={{ padding: '16px 48px', fontSize: 16 }}>
+            Essayer gratuitement — 1 crédit offert
+          </Link>
+          <p style={{ fontSize: 12, color: 'rgba(255,255,255,.3)', marginTop: 12 }}>
+            Inscription gratuite · 1 crédit + 1 ticket offerts · Aucun engagement
           </p>
-        </div>
-
-        {/* Villa image */}
-        <div className="container">
-          <div className="villa-hero-wrapper">
-            <img
-              src="/villa/exterior-1.jpg"
-              alt="Villa Boucau — construite par Affinity Home — Pays Basque"
-              style={{ width: '100%', height: 'auto', display: 'block' }}
-            />
-            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'linear-gradient(transparent, rgba(0,0,0,.9))', padding: '48px 24px 20px' }}>
-              <p className="text-gold mono" style={{ fontSize: 10, fontWeight: 700, letterSpacing: 2, marginBottom: 6, textTransform: 'uppercase' }}>
-                Le lot du Cycle 1
-              </p>
-              <p style={{ fontSize: 20, fontWeight: 700, color: '#fff', marginBottom: 8, fontFamily: 'var(--d)' }}>
-                Villa Boucau — <span className="text-gradient">695 000€</span>
-              </p>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, justifyContent: 'center' }}>
-                {['149m²', '4 chambres', 'Piscine', 'Pays Basque'].map(spec => (
-                  <span key={spec} style={{ padding: '4px 12px', borderRadius: 20, background: 'rgba(255,255,255,.1)', backdropFilter: 'blur(8px)', color: 'rgba(255,255,255,.8)', fontSize: 11, fontWeight: 600 }}>
-                    {spec}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Video teaser — hidden until real video exists */}
-          {false && <div style={{ maxWidth: 480, margin: '24px auto 0' }}>
-            <VideoPlaceholder title="Découvrez le projet" subtitle="Vidéo bientôt disponible" aspectRatio="16/9" />
-          </div>}
         </div>
       </section>
 
-      {/* ════════ GAUGE ════════ */}
+      {/* ══ 3 OUTILS ══ */}
       <Reveal>
-        <section className="section-dark" style={{ padding: '28px 0 48px' }}>
-          <div className="container">
-            <div style={{ maxWidth: 560, margin: '0 auto' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 10 }}>
-                <div className="glow-dot" />
-                <span className="text-muted text-xs" style={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1 }}>Tirage en cours</span>
-              </div>
-              <div className="text-center" style={{ marginBottom: 10 }}>
-                <span className="counter-num text-gold" style={{ fontSize: 28 }}>{gaugeCount.toLocaleString()}</span>
-                <span className="mono text-muted" style={{ fontSize: 16 }}> / {TOTAL.toLocaleString()} tickets</span>
-              </div>
-              <div className="gauge-bar" style={{ height: 12, marginBottom: 10 }}>
-                <div className="gauge-fill" style={{ width: `${gaugePct}%` }} />
-              </div>
-              <p className="mono text-center" style={{ fontSize: 13, color: '#f472b6', fontWeight: 700 }}>
-                Plus que {remaining.toLocaleString()} tickets avant le tirage
-              </p>
-            </div>
-          </div>
-        </section>
-      </Reveal>
-
-
-      {/* ════════ COMMENT GAGNER LA VILLA ════════ */}
-      <Reveal>
-        <section style={{ padding: '32px 0 40px' }}>
-          <div className="container">
-            <h2 className="heading-lg text-center" style={{ marginBottom: 24 }}>Comment gagner la villa</h2>
-            <div className="grid-3">
-              {[
-                { num: '01', title: 'Inscrivez-vous gratuitement', desc: '1 ticket offert dès votre inscription.' },
-                { num: '02', title: 'Achetez des crédits', desc: 'Pour vos annonces — 1 ticket offert par crédit.' },
-                { num: '03', title: '200 000 tickets distribués', desc: 'Tirage en direct par huissier de justice.' },
-              ].map(s => (
-                <div key={s.num} className="card-glass text-center" style={{ padding: '20px 16px' }}>
-                  <div className="mono text-gold" style={{ fontSize: 48, fontWeight: 800, opacity: 0.18, lineHeight: 1, marginBottom: 6 }}>{s.num}</div>
-                  <h3 style={{ fontSize: 14, fontWeight: 700, color: '#fff', marginBottom: 6, fontFamily: 'var(--d)' }}>{s.title}</h3>
-                  <p className="text-muted text-xs" style={{ lineHeight: 1.5 }}>{s.desc}</p>
-                </div>
-              ))}
-            </div>
-            <p className="text-center" style={{ marginTop: 18, fontStyle: 'italic', fontSize: 14, color: 'var(--a)', fontWeight: 600 }}>
-              Le gagnant repart avec la Villa Boucau — 695 000€
-            </p>
-          </div>
-        </section>
-      </Reveal>
-
-      {/* ════════════════════════════════════════════════════════════
-          VOUS CHERCHEZ — Chaque persona trouve sa réponse
-          ════════════════════════════════════════════════════════════ */}
-      <Reveal>
-        <section className="section section-mid">
-          <div className="container">
-            <h2 className="heading-lg text-center" style={{ marginBottom: 8 }}>Qui êtes-vous ?</h2>
-            <p className="text-muted text-sm text-center" style={{ maxWidth: 440, margin: '0 auto 32px' }}>
-              Trois profils. Un seul objectif : se trouver.
-            </p>
-
-            <div className="grid-3">
-              {[
-                {
-                  title: 'Vous cherchez un bien',
-                  desc: 'Publiez votre recherche. Les agents qui ont votre bien vous trouvent. Match mutuel = contact sans spam.',
-                  action: 'Trouver mon bien', color: '#3b82f6',
-                },
-                {
-                  title: 'Vous vendez ou louez',
-                  desc: '1ère annonce gratuite. Les acheteurs et locataires qui matchent vous contactent directement.',
-                  action: 'Publier mon annonce', color: '#a855f7',
-                },
-                {
-                  title: 'Vous êtes pro',
-                  desc: 'Agent immo, courtier, promoteur : vos clients vous trouvent par matching. Profil personnel, avis vérifiés.',
-                  action: 'Créer mon profil pro', color: '#cfaf4b',
-                },
-              ].map((card, i) => (
-                <div key={i} className="card-glass text-center" style={{ borderColor: `${card.color}15` }}>
-                  <h3 style={{ fontSize: 16, fontWeight: 700, color: '#fff', marginBottom: 8, fontFamily: 'var(--d)' }}>{card.title}</h3>
-                  <p className="text-muted text-xs" style={{ lineHeight: 1.6, marginBottom: 14 }}>{card.desc}</p>
-                  <Link href="/login" style={{ fontSize: 12, fontWeight: 700, color: card.color, textDecoration: 'none' }}>
-                    {card.action} →
-                  </Link>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      </Reveal>
-
-
-      {/* ════════════════════════════════════════════════════════════
-          POURQUOI HOWNER — Avant / Après comparaison
-          ════════════════════════════════════════════════════════════ */}
-      <Reveal>
-        <section className="section section-dark">
-          <div className="container">
-            <h2 className="heading-lg text-center" style={{ marginBottom: 8 }}>Pourquoi <span className="text-gradient">Howner</span></h2>
-            <p className="text-muted text-sm text-center" style={{ maxWidth: 500, margin: '0 auto 32px' }}>
-              L&apos;immobilier en ligne n&apos;a pas changé depuis 15 ans.
-            </p>
-
-            <div className="grid-2" style={{ gap: 20 }}>
-              {/* Avant */}
-              <div className="card-glass" style={{ borderColor: 'rgba(248,113,113,.12)' }}>
-                <h3 className="heading-md" style={{ marginBottom: 16, color: '#f87171' }}>Avant</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-                  {[
-                    'SeLoger, LeBonCoin : vous cherchez seul',
-                    '10 agents vous appellent, spam',
-                    'Boost 200\u20AC/mois',
-                    'Profil agence, pas personnel',
-                    'Aucune récompense',
-                  ].map((item, i) => (
-                    <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-                      <span style={{ color: '#f87171', fontSize: 14, lineHeight: 1.3, fontWeight: 700 }}>✗</span>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,.7)', lineHeight: 1.5 }}>{item}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Avec Howner */}
-              <div className="card-glass" style={{ borderColor: 'rgba(52,211,153,.12)' }}>
-                <h3 className="heading-md" style={{ marginBottom: 16, color: '#34d399' }}>Avec Howner</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-                  {[
-                    'Matching intelligent : le bon contact vient à vous',
-                    'Match mutuel : vous choisissez qui vous contacte',
-                    'Boost 9\u20AC pour 24h. Pas d\u2019abonnement',
-                    'Votre nom, vos avis, votre réputation',
-                    '1 ticket OFFERT pour une villa à 695\u202F000\u20AC',
-                  ].map((item, i) => (
-                    <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-                      <span style={{ color: '#34d399', fontSize: 14, lineHeight: 1.3, fontWeight: 700 }}>✓</span>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: '#fff', lineHeight: 1.5 }}>{item}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </Reveal>
-
-
-      {/* ════════ COMMENT ÇA MARCHE ════════ */}
-      <Reveal>
-        <section className="section section-dark">
-          <div className="container">
-            <h2 className="heading-lg text-center" style={{ marginBottom: 32 }}>Comment ça marche</h2>
-            <div className="grid-3">
-              {[
-                { step: '01', title: 'Inscrivez-vous', desc: 'Gratuit. 1 ticket offert. Postez votre 1ère annonce ou demande — offerte.', color: '#3b82f6' },
-                { step: '02', title: 'Matchez', desc: 'Parcourez les annonces et profils. Match mutuel = contact débloqué gratuitement.', color: '#a855f7' },
-                { step: '03', title: 'Boostez avec des crédits', desc: 'Postez plus, boostez 24h, activez des alertes. Chaque crédit = 1 ticket pour la villa.', color: '#cfaf4b' },
-              ].map(s => (
-                <div key={s.step} className="card-glass text-center">
-                  <div className="mono" style={{ fontSize: 48, fontWeight: 800, color: s.color, opacity: 0.15, lineHeight: 1, marginBottom: 8 }}>{s.step}</div>
-                  <h3 className="heading-md" style={{ marginBottom: 8 }}>{s.title}</h3>
-                  <p className="text-muted text-sm" style={{ lineHeight: 1.6 }}>{s.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      </Reveal>
-
-
-
-      {/* ════════ COMPARAISON ════════ */}
-      <Reveal>
-        <section className="section section-dark">
-          <div className="container" style={{ maxWidth: 800 }}>
-            <h2 className="heading-lg text-center" style={{ marginBottom: 8 }}>Howner vs les plateformes actuelles</h2>
-            <p className="text-muted text-sm text-center" style={{ marginBottom: 32 }}>Comparez par vous-même.</p>
-            <div className="card-glass" style={{ padding: 0, overflow: 'hidden' }}>
-              <table className="compare-table">
-                <thead>
-                  <tr style={{ background: 'rgba(207,175,75,.03)' }}>
-                    <th></th>
-                    <th className="text-gold">Howner</th>
-                    <th>LeBonCoin</th>
-                    <th className="hide-mobile">SeLoger</th>
-                    <th>Travaux.com</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {COMPARISON.map((row, i) => (
-                    <tr key={i}>
-                      <td className="feature-col">{row.feature}</td>
-                      <td><span className="check">✓</span></td>
-                      <td>{row.leboncoin === '—' ? <span className="cross">✗</span> : <span className="text-muted text-xs">{row.leboncoin}</span>}</td>
-                      <td className="hide-mobile">{row.seloger === '—' ? <span className="cross">✗</span> : <span className="text-muted text-xs">{row.seloger}</span>}</td>
-                      <td>{row.travaux === '—' ? <span className="cross">✗</span> : <span className="text-muted text-xs">{row.travaux}</span>}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-      </Reveal>
-
-
-      {/* ════════ PRICING ════════ */}
-      <Reveal>
-        <section className="section section-accent">
+        <section className="section" style={{ paddingTop: 48, paddingBottom: 48 }}>
           <div className="container text-center">
-            <h2 className="heading-lg" style={{ marginBottom: 4 }}>Les crédits</h2>
-            <p className="text-muted text-sm" style={{ marginBottom: 4 }}>
-              1 crédit = poster une annonce, booster 24h, ou activer une alerte 30 jours
-            </p>
-            <p className="text-gold text-xs" style={{ marginBottom: 28, fontWeight: 700 }}>
-              1 ticket OFFERT pour la villa à chaque crédit acheté — le ticket est gratuit
-            </p>
+            <h2 className="heading-lg" style={{ marginBottom: 8 }}>3 outils. 1 crédit chacun.</h2>
+            <p className="text-muted text-sm" style={{ marginBottom: 32 }}>Chaque utilisation vous offre aussi 1 ticket pour le tirage de la villa.</p>
 
-            <div style={{ display: 'inline-flex', borderRadius: 12, border: '1px solid rgba(255,255,255,.08)', overflow: 'hidden', marginBottom: 28, background: 'rgba(255,255,255,.02)' }}>
-              {(['standard', 'pro'] as const).map(tab => (
-                <button key={tab} onClick={() => setPricingTab(tab)} style={{
-                  padding: '12px 28px', fontSize: 13, fontWeight: 700, border: 'none', cursor: 'pointer',
-                  background: pricingTab === tab ? 'var(--a)' : 'transparent',
-                  color: pricingTab === tab ? '#0a0e1a' : 'rgba(255,255,255,.5)',
-                  fontFamily: 'var(--b)', transition: 'all .2s',
-                }}>
-                  {tab === 'standard' ? 'Tout le monde' : 'Professionnels'}
-                </button>
-              ))}
-            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 20, maxWidth: 900, margin: '0 auto' }}>
+              {/* Comparateur */}
+              <div className="card" style={{ padding: '28px 24px', textAlign: 'left' }}>
+                <div style={{ fontSize: 28, marginBottom: 12, lineHeight: 1 }}>&#x1F50D;</div>
+                <div style={{ fontSize: 17, fontWeight: 700, marginBottom: 8 }}>Comparateur immo</div>
+                <p className="text-muted text-sm" style={{ marginBottom: 16, lineHeight: 1.6 }}>
+                  Location annuelle, saisonnière, achat — comparez toutes les offres de tous les marchés en une recherche.
+                </p>
+                <div style={{ padding: '10px 14px', borderRadius: 8, background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)' }}>
+                  <p style={{ fontSize: 12, color: 'rgba(255,255,255,.4)', fontStyle: 'italic' }}>
+                    &quot;T3 Bayonne max 800€/mois&quot; → 23 offres triées par rapport qualité/prix
+                  </p>
+                </div>
+                <div className="text-gold text-xs" style={{ marginTop: 12, fontWeight: 700 }}>1 crédit = 1 recherche</div>
+              </div>
 
-            <div className="packs-grid">
-              {packs.map((pack, i) => {
-                const isPopular = i === packs.length - 2
-                const basePrice = pricingTab === 'standard' ? 9 : (packs[0].price / packs[0].credits / 100)
-                const currentPerCredit = pack.price / pack.credits / 100
-                const savings = pack.credits > (pricingTab === 'standard' ? 1 : 10) ? Math.round((1 - currentPerCredit / basePrice) * 100) : 0
-                return (
-                  <div key={pack.id} className={`pack-card${isPopular ? ' popular' : ''}`}>
-                    {isPopular && <div className="pack-badge">Populaire</div>}
-                    <div className="mono" style={{ fontSize: 38, fontWeight: 700, color: '#fff', marginBottom: 4 }}>{pack.credits}</div>
-                    <div className="text-muted text-sm" style={{ marginBottom: 14 }}>crédits</div>
-                    <div className="text-gradient" style={{ fontSize: 30, fontWeight: 700, fontFamily: 'var(--d)', marginBottom: 4 }}>{pack.priceLabel}</div>
-                    <div className="text-muted text-xs" style={{ marginBottom: 10 }}>{pack.pricePerCredit}/crédit</div>
-                    {savings > 0 && (
-                      <div style={{ display: 'inline-block', padding: '3px 10px', borderRadius: 6, background: 'rgba(52,211,153,.08)', border: '1px solid rgba(52,211,153,.15)', fontSize: 11, fontWeight: 700, color: '#34d399', marginBottom: 10 }}>
-                        -{savings}%
-                      </div>
-                    )}
-                    <div style={{ marginBottom: 14 }}>
-                      <span className="badge text-gold" style={{ background: 'rgba(207,175,75,.1)', fontSize: 11 }}>
-                        +{pack.tickets} ticket{pack.tickets > 1 ? 's' : ''} offert{pack.tickets > 1 ? 's' : ''}
-                      </span>
-                    </div>
-                    <Link href="/login" className="btn-primary btn-shine" style={{ width: '100%', padding: '11px 0', fontSize: 13 }}>Acheter</Link>
-                  </div>
-                )
-              })}
+              {/* IA Devis */}
+              <div className="card-gold" style={{ padding: '28px 24px', textAlign: 'left' }}>
+                <div style={{ fontSize: 28, marginBottom: 12, lineHeight: 1 }}>&#x1F4CA;</div>
+                <div style={{ fontSize: 17, fontWeight: 700, marginBottom: 8 }}>Analyse de devis IA</div>
+                <p className="text-muted text-sm" style={{ marginBottom: 16, lineHeight: 1.6 }}>
+                  Uploadez ou décrivez votre devis. L&apos;IA vous dit si c&apos;est le bon prix et vous recommande les meilleures entreprises.
+                </p>
+                <div style={{ padding: '10px 14px', borderRadius: 8, background: 'rgba(207,175,75,.04)', border: '1px solid rgba(207,175,75,.1)' }}>
+                  <p style={{ fontSize: 12, color: 'rgba(255,255,255,.4)', fontStyle: 'italic' }}>
+                    &quot;Salle de bain 8 500€ Bayonne&quot; → &quot;22% au-dessus du marché. Prix juste : 6 500-7 200€&quot;
+                  </p>
+                </div>
+                <div className="text-gold text-xs" style={{ marginTop: 12, fontWeight: 700 }}>1 crédit = 1 analyse</div>
+              </div>
+
+              {/* Chat IA */}
+              <div className="card" style={{ padding: '28px 24px', textAlign: 'left' }}>
+                <div style={{ fontSize: 28, marginBottom: 12, lineHeight: 1 }}>&#x1F4AC;</div>
+                <div style={{ fontSize: 17, fontWeight: 700, marginBottom: 8 }}>Trouve pour moi</div>
+                <p className="text-muted text-sm" style={{ marginBottom: 16, lineHeight: 1.6 }}>
+                  Dites ce que vous cherchez. L&apos;IA trouve le bon pro, le bon bien, la bonne offre — en quelques secondes.
+                </p>
+                <div style={{ padding: '10px 14px', borderRadius: 8, background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)' }}>
+                  <p style={{ fontSize: 12, color: 'rgba(255,255,255,.4)', fontStyle: 'italic' }}>
+                    &quot;Plombier Anglet chauffe-eau max 2 000€ cette semaine&quot; → 3 pros triés par note et prix
+                  </p>
+                </div>
+                <div className="text-gold text-xs" style={{ marginTop: 12, fontWeight: 700 }}>1 crédit = 1 demande</div>
+              </div>
             </div>
-            <p className="text-muted text-sm" style={{ marginTop: 24 }}>
-              Pas d&apos;abonnement. Le crédit n&apos;expire jamais. Le ticket est un bonus offert.
+          </div>
+        </section>
+      </Reveal>
+
+      {/* ══ JAUGE FOMO ══ */}
+      <Reveal>
+        <section className="section section-mid" style={{ paddingTop: 48, paddingBottom: 48 }}>
+          <div className="container text-center" style={{ maxWidth: 600 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 12 }}>
+              <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#34d399', boxShadow: '0 0 12px #34d399', animation: 'pulse 2s infinite' }} />
+              <span style={{ fontSize: 13, fontWeight: 700, color: '#34d399' }}>Tirage en cours — Cycle 1</span>
+            </div>
+            <div className="mono" style={{ fontSize: 'clamp(28px, 5vw, 48px)', fontWeight: 700, color: '#fff', marginBottom: 4 }}>
+              {gauge.toLocaleString()}
+            </div>
+            <div className="text-muted" style={{ fontSize: 14, marginBottom: 16 }}>tickets sur 200 000</div>
+            <div className="gauge-bar" style={{ height: 14, marginBottom: 16 }}>
+              <div className="gauge-fill" style={{ width: `${pct}%` }} />
+            </div>
+            <p className="mono" style={{ fontSize: 15, color: '#f472b6', fontWeight: 700, marginBottom: 8 }}>
+              Plus que {(TOTAL - gauge).toLocaleString()} avant le tirage
+            </p>
+            <p style={{ fontSize: 11, color: 'rgba(255,255,255,.3)', letterSpacing: 2, textTransform: 'uppercase' }}>
+              Tirage filmé en direct · Huissier de justice · Le gagnant repart avec les clés
             </p>
           </div>
         </section>
       </Reveal>
 
-
-
-      {/* ════════ CONFIANCE ════════ */}
+      {/* ══ COMMENT ÇA MARCHE ══ */}
       <Reveal>
-        <section className="section section-mid">
-          <div className="container">
-            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 32, textAlign: 'center' }}>
+        <section className="section" style={{ paddingTop: 48, paddingBottom: 48 }}>
+          <div className="container text-center">
+            <h2 className="heading-lg" style={{ marginBottom: 32 }}>Comment ça marche</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 24, maxWidth: 900, margin: '0 auto' }}>
               {[
-                { title: 'Huissier de justice', desc: 'Tirage filmé sous contrôle' },
-                { title: 'Conforme EU 2005/29/CE', desc: 'Règlement déposé' },
-                { title: 'Remboursement garanti', desc: 'Seuil non atteint = 100% remboursé' },
-                { title: 'Paiement Stripe', desc: 'Données bancaires sécurisées' },
-                { title: 'Tickets OFFERTS', desc: 'Jamais vendus, toujours gratuits' },
-              ].map((x, i) => (
-                <div key={i} style={{ minWidth: 140, maxWidth: 180 }}>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: '#fff', marginBottom: 4 }}>{x.title}</div>
-                  <div className="text-muted text-xs" style={{ lineHeight: 1.5 }}>{x.desc}</div>
+                { step: '1', title: 'Inscrivez-vous', desc: 'Gratuit. 1 crédit offert + 1 ticket offert. Testez immédiatement.' },
+                { step: '2', title: 'Utilisez vos crédits', desc: 'Comparez des offres, analysez un devis, ou trouvez un pro. 1 crédit = 1 action.' },
+                { step: '3', title: 'Achetez des packs', desc: 'Plus de crédits = plus d\u2019actions + plus de tickets offerts pour le tirage.' },
+                { step: '4', title: 'Le tirage a lieu', desc: 'À 200 000 tickets. En direct. Sous huissier. Le gagnant repart avec la villa.' },
+              ].map(s => (
+                <div key={s.step} className="card" style={{ padding: '24px 20px', textAlign: 'center' }}>
+                  <div className="mono text-gold" style={{ fontSize: 32, fontWeight: 700, marginBottom: 8 }}>{s.step}</div>
+                  <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 6 }}>{s.title}</div>
+                  <div className="text-muted text-sm" style={{ lineHeight: 1.6 }}>{s.desc}</div>
                 </div>
               ))}
             </div>
@@ -517,78 +237,172 @@ export default function Home() {
         </section>
       </Reveal>
 
-
-
-      {/* ════════ FAQ ════════ */}
+      {/* ══ PACKS CRÉDITS ══ */}
       <Reveal>
-        <section className="section section-mid">
+        <section className="section section-mid" id="packs" style={{ paddingTop: 48, paddingBottom: 48 }}>
+          <div className="container text-center">
+            <h2 className="heading-lg" style={{ marginBottom: 8 }}>Packs de crédits</h2>
+            <p className="text-muted text-sm" style={{ marginBottom: 8 }}>
+              1 crédit = 1 comparaison, 1 analyse de devis, ou 1 recherche de pro
+            </p>
+            <p className="text-gold text-xs" style={{ fontWeight: 700, marginBottom: 32 }}>
+              + 1 ticket OFFERT par crédit acheté pour le tirage de la villa
+            </p>
+
+            <div className="packs-grid" style={{ maxWidth: 900, margin: '0 auto' }}>
+              {[
+                { n: 1, price: '9€', per: '9€', t: 1 },
+                { n: 5, price: '39€', per: '7,80€', t: 5, save: 13 },
+                { n: 10, price: '69€', per: '6,90€', t: 10, save: 23, pop: true },
+                { n: 20, price: '119€', per: '5,95€', t: 20, save: 34 },
+              ].map((pk, i) => (
+                <div key={i} className={`pack-card${pk.pop ? ' popular' : ''}`}>
+                  {pk.pop && <div className="pack-badge">Populaire</div>}
+                  <div className="mono" style={{ fontSize: 40, fontWeight: 700 }}>{pk.n}</div>
+                  <div className="text-muted text-sm" style={{ marginBottom: 8 }}>crédit{pk.n > 1 ? 's' : ''}</div>
+                  <div className="text-gold" style={{ fontSize: 28, fontWeight: 700, fontFamily: 'var(--d)', marginBottom: 4 }}>{pk.price}</div>
+                  <div className="text-muted text-xs" style={{ marginBottom: 8 }}>{pk.per}/crédit</div>
+                  {pk.save && <div style={{ display: 'inline-block', padding: '3px 10px', borderRadius: 6, background: 'rgba(52,211,153,.08)', border: '1px solid rgba(52,211,153,.15)', fontSize: 11, fontWeight: 700, color: '#34d399', marginBottom: 8 }}>-{pk.save}%</div>}
+                  <div style={{ marginBottom: 12 }}>
+                    <span className="badge text-gold" style={{ background: 'rgba(207,175,75,.1)', fontSize: 12 }}>+{pk.t} ticket{pk.t > 1 ? 's' : ''} offert{pk.t > 1 ? 's' : ''}</span>
+                  </div>
+                  <Link href="/login" className="btn-primary" style={{ width: '100%', padding: '10px 0', fontSize: 13 }}>Acheter</Link>
+                </div>
+              ))}
+            </div>
+            <p className="text-muted text-xs" style={{ marginTop: 20 }}>Les crédits n&apos;expirent jamais. Utilisez-les quand vous voulez.</p>
+          </div>
+        </section>
+      </Reveal>
+
+      {/* ══ LA VILLA ══ */}
+      <Reveal>
+        <section className="section" style={{ paddingTop: 48, paddingBottom: 24 }}>
+          <div className="container text-center">
+            <h2 className="heading-lg" style={{ marginBottom: 8 }}>La villa à gagner</h2>
+            <p className="text-muted text-sm" style={{ marginBottom: 24 }}>
+              Villa Boucau — 149m² · 4 chambres · Piscine · R+1 · Pays Basque
+            </p>
+            <div style={{ maxWidth: 700, margin: '0 auto', borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(207,175,75,.12)', position: 'relative' }}>
+              <img src="/villa/exterior-1.jpg" alt="Villa Boucau — 695 000€" style={{ width: '100%', height: 'auto', display: 'block' }} />
+              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'linear-gradient(transparent, rgba(0,0,0,.8))', padding: '40px 20px 16px', textAlign: 'center' }}>
+                <span className="mono text-gold" style={{ fontSize: 24, fontWeight: 700 }}>695 000€</span>
+                <span className="text-muted text-xs" style={{ marginLeft: 12 }}>Construite par Affinity House Factory · Finitions Porcelanosa</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </Reveal>
+
+      {/* ══ VIDEO ══ */}
+      <Reveal>
+        <section className="section" style={{ paddingTop: 16, paddingBottom: 48 }}>
+          <div className="container" style={{ maxWidth: 640 }}>
+            <VideoPlaceholder title="Découvrez la Villa Boucau" subtitle="Vidéo promo — bientôt disponible" />
+          </div>
+        </section>
+      </Reveal>
+
+      {/* ══ POUR LES PROS ══ */}
+      <Reveal>
+        <section className="section section-mid" style={{ paddingTop: 48, paddingBottom: 48 }}>
+          <div className="container" style={{ maxWidth: 700 }}>
+            <h2 className="heading-lg text-center" style={{ marginBottom: 8 }}>Vous êtes professionnel ?</h2>
+            <p className="text-muted text-sm text-center" style={{ marginBottom: 28 }}>
+              Agent immo, courtier, artisan, architecte, diagnostiqueur, déménageur — rejoignez le réseau Howner.
+            </p>
+            <div className="card" style={{ padding: '28px 24px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 20 }}>
+                <div>
+                  <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 6 }}>Soyez trouvé, pas noyé</div>
+                  <p className="text-muted text-sm" style={{ lineHeight: 1.6 }}>Les membres Howner vous trouvent grâce à l&apos;IA. Pas 10 concurrents par demande comme sur Travaux.com.</p>
+                </div>
+                <div>
+                  <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 6 }}>Votre profil, pas votre agence</div>
+                  <p className="text-muted text-sm" style={{ lineHeight: 1.6 }}>Les clients choisissent VOUS. Votre nom, vos avis, vos réalisations.</p>
+                </div>
+                <div>
+                  <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 6 }}>Tickets offerts aussi</div>
+                  <p className="text-muted text-sm" style={{ lineHeight: 1.6 }}>Chaque abonnement pro vous donne des tickets pour le tirage. Vous aussi, vous pouvez gagner la villa.</p>
+                </div>
+              </div>
+              <div className="text-center" style={{ marginTop: 24 }}>
+                <Link href="/login" className="btn-primary" style={{ padding: '12px 32px', fontSize: 14 }}>Devenir Pro Howner — dès 39€/mois</Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      </Reveal>
+
+      {/* ══ CONFIANCE ══ */}
+      <Reveal>
+        <section className="section" style={{ paddingTop: 32, paddingBottom: 32 }}>
+          <div className="container">
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 40, textAlign: 'center' }}>
+              {[
+                { t: 'Huissier de justice', d: 'Tirage filmé sous contrôle' },
+                { t: 'Directive EU 2005/29/CE', d: 'Jeu concours conforme' },
+                { t: 'Paiement Stripe', d: 'Sécurisé et chiffré' },
+                { t: 'Tickets OFFERTS', d: 'Jamais vendus · Toujours en bonus' },
+                { t: 'Inscription gratuite', d: '1 crédit + 1 ticket offerts' },
+              ].map((x, i) => (
+                <div key={i} style={{ minWidth: 130, maxWidth: 160 }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: '#fff', marginBottom: 4 }}>{x.t}</div>
+                  <div className="text-muted text-xs">{x.d}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </Reveal>
+
+      {/* ══ FAQ ══ */}
+      <Reveal>
+        <section className="section section-mid" style={{ paddingTop: 48, paddingBottom: 48 }}>
           <div className="container" style={{ maxWidth: 700 }}>
             <h2 className="heading-lg text-center" style={{ marginBottom: 32 }}>Questions fréquentes</h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {FAQ_DATA.map((faq, i) => (
-                <div key={i} className={`accordion-item${openFaq === i ? ' open' : ''}`} onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-                  <button className="accordion-trigger">
-                    <span className="accordion-title">{faq.q}</span>
-                    <span className="accordion-icon">+</span>
-                  </button>
-                  {openFaq === i && <div className="accordion-body">{faq.a}</div>}
+            {FAQ_DATA.map((faq, i) => (
+              <div key={i} className="card" style={{ padding: 0, cursor: 'pointer', marginBottom: 8 }} onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: 14, fontWeight: 600 }}>{faq.q}</span>
+                  <span className="text-gold" style={{ fontSize: 18, transition: 'transform .2s', transform: openFaq === i ? 'rotate(45deg)' : 'none' }}>+</span>
                 </div>
-              ))}
-            </div>
+                {openFaq === i && <div style={{ padding: '0 20px 16px' }}><p className="text-muted text-sm" style={{ lineHeight: 1.7 }}>{faq.a}</p></div>}
+              </div>
+            ))}
           </div>
         </section>
       </Reveal>
 
-      {/* ════════ FINAL CTA ════════ */}
-      <section className="section section-dark text-center" style={{ position: 'relative', overflow: 'hidden' }}>
-        <div className="hero-glow" style={{ bottom: -100, left: '50%', transform: 'translateX(-50%)', background: 'var(--a)' }} />
-        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <h2 className="heading-lg" style={{ marginBottom: 12 }}>Le Cycle 1 est ouvert.</h2>
-          <p style={{ fontSize: 15, lineHeight: 1.8, color: 'rgba(255,255,255,.6)', maxWidth: 460, margin: '0 auto 28px' }}>
-            Inscription gratuite. 1ère annonce offerte. Matching illimité.<br />
-            <strong style={{ color: 'rgba(255,255,255,.8)' }}>+ 1 ticket villa OFFERT dès votre inscription.</strong>
+      {/* ══ CTA FINAL ══ */}
+      <section style={{ position: 'relative', padding: '80px 20px', textAlign: 'center', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/villa/exterior-1.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', filter: 'brightness(0.2)' }} />
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <p className="mono text-gold" style={{ fontSize: 'clamp(24px, 5vw, 40px)', fontWeight: 700, marginBottom: 8 }}>695 000€</p>
+          <h2 className="heading-lg" style={{ marginBottom: 16 }}>Cette villa peut être à vous.</h2>
+          <p style={{ fontSize: 14, color: 'rgba(255,255,255,.5)', marginBottom: 24 }}>
+            1 crédit offert à l&apos;inscription · Chaque crédit = 1 ticket offert · À partir de 9€
           </p>
-          <Link href="/login" className="btn-primary btn-shine" style={{ padding: '18px 48px', fontSize: 17 }}>
-            Commencer maintenant
-          </Link>
-          <p className="text-muted text-xs" style={{ marginTop: 14 }}>
-            Déjà inscrit ? <Link href="/login" style={{ color: 'var(--a)', textDecoration: 'none' }}>Se connecter</Link>
-          </p>
+          <Link href="/login" className="btn-primary btn-shine" style={{ padding: '16px 48px', fontSize: 16 }}>Essayer gratuitement</Link>
         </div>
       </section>
 
-      {/* ════════ FOOTER ════════ */}
-      <footer style={{ borderTop: '1px solid rgba(255,255,255,.06)', padding: '48px 0 96px' }}>
-        <div className="container text-center">
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 20, marginBottom: 16 }}>
-            {[
-              { label: 'Annonces', href: '/annonces' },
-              { label: 'Match', href: '/match' },
-              { label: 'Crédits', href: '/credits' },
-              { label: 'Villa', href: '/villa' },
-            ].map(link => (
-              <Link key={link.href} href={link.href} className="text-muted text-sm" style={{ textDecoration: 'none' }}>
-                {link.label}
-              </Link>
-            ))}
-          </div>
-          <p className="text-muted text-xs" style={{ lineHeight: 1.8, marginBottom: 8 }}>
-            Chaque cycle finance la construction d&apos;un logement neuf en France.<br />
-            Affinity House Factory SAS · SIRET 982 581 506 00010 · Anglet, Pays Basque
+      {/* ══ FOOTER ══ */}
+      <footer style={{ borderTop: '1px solid rgba(255,255,255,.06)', padding: '32px 0', textAlign: 'center' }}>
+        <div className="container">
+          <p className="text-muted text-xs" style={{ lineHeight: 2 }}>
+            Affinity House Factory SAS · SIRET 982 581 506 00010 · Anglet, Pays Basque<br />
+            Jeu concours promotionnel · Directive EU 2005/29/CE · Huissier de justice<br />
+            Participation gratuite possible · Tickets offerts en bonus · Jamais vendus
           </p>
-          <p className="text-muted text-xs">© 2025 Howner. Tous droits réservés.</p>
+          <p className="text-muted text-xs" style={{ marginTop: 8 }}>© 2025 Howner</p>
         </div>
       </footer>
 
-      <LiveTicker />
+      <LiveNotif />
       <StickyCTA />
 
-      <style>{`
-        @media (max-width: 639px) {
-          .nav-gauge { display: none !important; }
-          .hide-mobile { display: none !important; }
-        }
-      `}</style>
+      <style>{`@media(max-width:639px){.nav-gauge{display:none!important}}`}</style>
     </>
   )
 }
