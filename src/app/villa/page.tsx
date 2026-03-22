@@ -2,7 +2,8 @@
 
 import Nav from '@/components/Nav'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import VideoPlaceholder from '@/components/VideoPlaceholder'
 
 const specs = ['149 m²', '4 chambres', 'R+1', 'Terrain inclus', 'Boucau Haut', 'Pays Basque']
 
@@ -51,8 +52,25 @@ const rules = [
   },
 ]
 
+const TOTAL = 200000
+const INIT = 4283
+
 export default function VillaPage() {
   const [open, setOpen] = useState<number | null>(null)
+  const [gaugeCount, setGaugeCount] = useState(INIT)
+
+  useEffect(() => {
+    const tick = () => setGaugeCount(p => Math.min(TOTAL, p + Math.floor(Math.random() * 3) + 1))
+    const schedule = (): ReturnType<typeof setTimeout> => {
+      const delay = 5000 + Math.random() * 3000
+      return setTimeout(() => { tick(); timerId = schedule() }, delay)
+    }
+    let timerId = schedule()
+    return () => clearTimeout(timerId)
+  }, [])
+
+  const gaugePct = (gaugeCount / TOTAL) * 100
+  const remaining = TOTAL - gaugeCount
 
   return (
     <div className="page">
@@ -113,6 +131,11 @@ export default function VillaPage() {
         <div className="text-center" style={{ marginTop: 8 }}>
           <span className="text-xs text-muted">Visite virtuelle de la Villa Boucau</span>
         </div>
+
+        {/* Hidden until real video exists */}
+        {false && <div style={{ marginTop: 24 }}>
+          <VideoPlaceholder title="Visite de la villa" subtitle="Vidéo promotionnelle bientôt disponible" aspectRatio="16/9" />
+        </div>}
       </section>
 
       {/* PHOTO GALLERY */}
@@ -215,21 +238,35 @@ export default function VillaPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="text-center" style={{ padding: '0 16px 80px' }}>
-        <div className="card-gold" style={{ maxWidth: 500, margin: '0 auto', padding: '48px 24px' }}>
-          <h3 className="heading-md mb-8">Tentez votre chance</h3>
-          <p className="text-sm text-muted mb-24">
-            Inscription gratuite · 1 ticket offert
+      {/* PARTICIPEZ AU TIRAGE */}
+      <section style={{ padding: '0 16px 80px' }}>
+        <div style={{ maxWidth: 560, margin: '0 auto', textAlign: 'center' }}>
+          <h2 className="heading-lg" style={{ marginBottom: 12 }}>Participez au tirage</h2>
+          <p className="text-muted text-sm" style={{ maxWidth: 420, margin: '0 auto 28px', lineHeight: 1.7 }}>
+            Inscrivez-vous gratuitement et recevez votre premier ticket.
           </p>
-          <div className="flex flex-wrap gap-10 justify-center">
-            <Link href="/login" className="btn-primary">
-              S&apos;inscrire gratuitement
-            </Link>
-            <Link href="/credits" className="btn-secondary">
-              Acheter des crédits
-            </Link>
+
+          {/* Gauge */}
+          <div style={{ marginBottom: 28 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 10 }}>
+              <div className="glow-dot" />
+              <span className="text-muted text-xs" style={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1 }}>Tirage en cours</span>
+            </div>
+            <div style={{ marginBottom: 10 }}>
+              <span className="counter-num text-gold" style={{ fontSize: 24 }}>{gaugeCount.toLocaleString()}</span>
+              <span className="mono text-muted" style={{ fontSize: 14 }}> / {TOTAL.toLocaleString()} tickets</span>
+            </div>
+            <div className="gauge-bar" style={{ height: 10, marginBottom: 10 }}>
+              <div className="gauge-fill" style={{ width: `${gaugePct}%` }} />
+            </div>
+            <p className="mono" style={{ fontSize: 12, color: '#f472b6', fontWeight: 700 }}>
+              Plus que {remaining.toLocaleString()} tickets avant le tirage
+            </p>
           </div>
+
+          <Link href="/login" className="btn-primary btn-shine" style={{ padding: '16px 40px', fontSize: 15 }}>
+            S&apos;inscrire — c&apos;est gratuit
+          </Link>
         </div>
       </section>
 

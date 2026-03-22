@@ -3,10 +3,11 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { STANDARD_PACKS, PRO_PACKS } from '@/lib/stripe'
+import VideoPlaceholder from '@/components/VideoPlaceholder'
 
 /* ═══ CONSTANTS ═══ */
 const TOTAL = 200000
-const INIT = 4283
+const INIT = 47382
 
 const TICKER_MESSAGES = [
   'PLATEFORME D\'ANNONCES IMMOBILIÈRES AVEC MATCHING',
@@ -217,6 +218,11 @@ export default function Home() {
               </div>
             </div>
           </div>
+
+          {/* Video teaser — hidden until real video exists */}
+          {false && <div style={{ maxWidth: 480, margin: '24px auto 0' }}>
+            <VideoPlaceholder title="Découvrez le projet" subtitle="Vidéo bientôt disponible" aspectRatio="16/9" />
+          </div>}
         </div>
       </section>
 
@@ -244,6 +250,31 @@ export default function Home() {
         </section>
       </Reveal>
 
+
+      {/* ════════ COMMENT GAGNER LA VILLA ════════ */}
+      <Reveal>
+        <section style={{ padding: '32px 0 40px' }}>
+          <div className="container">
+            <h2 className="heading-lg text-center" style={{ marginBottom: 24 }}>Comment gagner la villa</h2>
+            <div className="grid-3">
+              {[
+                { num: '01', title: 'Inscrivez-vous gratuitement', desc: '1 ticket offert dès votre inscription.' },
+                { num: '02', title: 'Achetez des crédits', desc: 'Pour vos annonces — 1 ticket offert par crédit.' },
+                { num: '03', title: '200 000 tickets distribués', desc: 'Tirage en direct par huissier de justice.' },
+              ].map(s => (
+                <div key={s.num} className="card-glass text-center" style={{ padding: '20px 16px' }}>
+                  <div className="mono text-gold" style={{ fontSize: 48, fontWeight: 800, opacity: 0.18, lineHeight: 1, marginBottom: 6 }}>{s.num}</div>
+                  <h3 style={{ fontSize: 14, fontWeight: 700, color: '#fff', marginBottom: 6, fontFamily: 'var(--d)' }}>{s.title}</h3>
+                  <p className="text-muted text-xs" style={{ lineHeight: 1.5 }}>{s.desc}</p>
+                </div>
+              ))}
+            </div>
+            <p className="text-center" style={{ marginTop: 18, fontStyle: 'italic', fontSize: 14, color: 'var(--a)', fontWeight: 600 }}>
+              Le gagnant repart avec la Villa Boucau — 695 000€
+            </p>
+          </div>
+        </section>
+      </Reveal>
 
       {/* ════════════════════════════════════════════════════════════
           VOUS CHERCHEZ — Chaque persona trouve sa réponse

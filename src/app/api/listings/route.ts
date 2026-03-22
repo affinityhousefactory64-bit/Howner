@@ -8,18 +8,35 @@ export async function GET(req: NextRequest) {
   const subcategory = searchParams.get('subcategory')
   const location = searchParams.get('location')
   const boosted = searchParams.get('boosted')
+  const userId = searchParams.get('userId')
 
   let query = supabase
     .from('listings')
     .select('*')
+    .eq('is_active', true)
     .order('is_boosted', { ascending: false })
     .order('created_at', { ascending: false })
     .limit(50)
 
+  const priceMin = searchParams.get('price_min')
+  const priceMax = searchParams.get('price_max')
+  const surfaceMin = searchParams.get('surface_min')
+  const surfaceMax = searchParams.get('surface_max')
+  const propertyType = searchParams.get('property_type')
+  const urgency = searchParams.get('urgency')
+  const proCategory = searchParams.get('pro_category')
+
+  if (userId) query = query.eq('user_id', userId)
   if (category) query = query.eq('category', category)
   if (subcategory) query = query.eq('subcategory', subcategory)
   if (location) query = query.ilike('location', `%${location}%`)
   if (boosted === 'true') query = query.eq('is_boosted', true)
+  if (priceMin) query = query.gte('price', Number(priceMin))
+  if (priceMax) query = query.lte('price', Number(priceMax))
+  if (surfaceMin) query = query.gte('surface', Number(surfaceMin))
+  if (surfaceMax) query = query.lte('surface', Number(surfaceMax))
+  if (propertyType) query = query.eq('property_type', propertyType)
+  if (urgency) query = query.eq('urgency', urgency)
 
   const { data: listings, error } = await query
 
@@ -39,7 +56,11 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json()
-    const { category, subcategory, title, description, location, price, surface, rooms } = body
+    const {
+      category, subcategory, title, description, location, price, surface, rooms, external_link,
+      property_type, bedrooms, floor, dpe, pro_tariff, pro_availability, urgency,
+      photos, video,
+    } = body
 
     if (!category || !subcategory || !title || !location) {
       return NextResponse.json({ error: 'Champs obligatoires manquants' }, { status: 400 })
@@ -90,6 +111,16 @@ export async function POST(req: NextRequest) {
         price: price || null,
         surface: surface || null,
         rooms: rooms || null,
+        external_link: external_link || null,
+        property_type: property_type || null,
+        bedrooms: bedrooms || null,
+        floor: floor != null ? floor : null,
+        dpe: dpe || null,
+        pro_tariff: pro_tariff || null,
+        pro_availability: pro_availability || null,
+        urgency: urgency || null,
+        photos: photos || null,
+        video: video || null,
       })
       .select()
       .single()

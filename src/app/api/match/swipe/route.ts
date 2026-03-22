@@ -39,6 +39,16 @@ export async function POST(req: NextRequest) {
         user_b: profileId,
         status: 'matched',
       })
+
+      // Auto-create conversation on match
+      const userA = session.userId < profileId ? session.userId : profileId
+      const userB = session.userId < profileId ? profileId : session.userId
+      await supabase.from('conversations').insert({
+        user_a: userA,
+        user_b: userB,
+        listing_id: null,
+        source: 'match',
+      })
     }
   }
 

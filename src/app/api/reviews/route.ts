@@ -5,15 +5,22 @@ import { supabase } from '@/lib/supabase'
 export async function GET(req: NextRequest) {
   try {
     const userId = req.nextUrl.searchParams.get('userId')
+    const listingId = req.nextUrl.searchParams.get('listingId')
     if (!userId) {
       return NextResponse.json({ error: 'userId requis' }, { status: 400 })
     }
 
-    const { data: reviews, error } = await supabase
+    let query = supabase
       .from('reviews')
       .select('*, reviewer:users!reviewer_id(name)')
       .eq('reviewed_id', userId)
       .order('created_at', { ascending: false })
+
+    if (listingId) {
+      query = query.eq('listing_id', listingId)
+    }
+
+    const { data: reviews, error } = await query
 
     if (error) {
       console.error('Reviews fetch error:', error)
@@ -25,6 +32,7 @@ export async function GET(req: NextRequest) {
       id: r.id,
       reviewer_id: r.reviewer_id,
       reviewed_id: r.reviewed_id,
+      listing_id: r.listing_id,
       rating: r.rating,
       comment: r.comment,
       created_at: r.created_at,
@@ -45,7 +53,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Non connecté' }, { status: 401 })
     }
 
-    const { reviewed_id, rating, comment } = await req.json()
+    const { reviewed_id, rating, comment, listing_id } = await req.json()
 
     if (!reviewed_id || !rating) {
       return NextResponse.json({ error: 'reviewed_id et rating requis' }, { status: 400 })
@@ -78,6 +86,7 @@ export async function POST(req: NextRequest) {
       .insert({
         reviewer_id: session.userId,
         reviewed_id,
+        listing_id: listing_id || null,
         rating,
         comment: comment || null,
       })
@@ -99,7 +108,10 @@ export async function POST(req: NextRequest) {
       const avg = allReviews.reduce((sum: number, r: { rating: number }) => sum + r.rating, 0) / allReviews.length
       await supabase
         .from('users')
-        .update({ pro_rating: Math.round(avg * 10) / 10 })
+        .update({
+          pro_rating: Math.round(avg * 10) / 10,
+          review_count: allReviews.length
+        })
         .eq('id', reviewed_id)
     }
 
