@@ -4,12 +4,12 @@ import { AuthProvider } from "@/lib/context";
 import ProfilePopup from "@/components/ProfilePopup";
 
 export const metadata: Metadata = {
-  title: 'Howner — Le matching immobilier + gagnez une villa à 695 000€',
-  description: 'Plateforme d\'annonces immobilières avec matching. Trouvez le bon bien, le bon agent, le bon artisan. Chaque crédit acheté = 1 ticket offert pour gagner une villa au Pays Basque.',
-  keywords: 'immobilier, annonces, matching, villa, Pays Basque, Bayonne, Biarritz, agent immobilier, artisan, courtier',
+  title: 'Howner — Gagnez une villa à 695 000€ au Pays Basque',
+  description: 'Participez au tirage d\'une villa à 695 000€. Inscription gratuite, 1 participation offerte. Carte de membre ou pack. Tirage par huissier de justice.',
+  keywords: 'villa, tirage, Pays Basque, Boucau, immobilier, jeu concours, gagner maison',
   openGraph: {
-    title: 'Howner — Devenez propriétaire',
-    description: 'Le 1er matching immobilier en France. Gagnez une villa à 695 000€.',
+    title: 'Howner — Gagnez une villa à 695 000€ au Pays Basque',
+    description: 'Participez au tirage d\'une villa à 695 000€ au Pays Basque. À partir de 9€.',
     url: 'https://howner.vercel.app',
     siteName: 'Howner',
     type: 'website',
@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Howner — Devenez propriétaire',
-    description: 'Le matching immobilier + gagnez une villa à 695 000€',
+    title: 'Howner — Gagnez une villa à 695 000€ au Pays Basque',
+    description: 'Participez au tirage d\'une villa à 695 000€ au Pays Basque. À partir de 9€.',
     images: ['/villa/exterior-1.jpg'],
   },
 };

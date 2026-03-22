@@ -1,33 +1,27 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import { useUser } from '@/lib/context'
-import Nav from '@/components/Nav'
 import Link from 'next/link'
+import Nav from '@/components/Nav'
 
 const TOTAL = 200000
+const INIT = 47382
 
-const STANDARD = [
-  { id: 'standard_1', credits: 1, tickets: 1, price: '9€', perCredit: '9€', discount: '' },
-  { id: 'standard_5', credits: 5, tickets: 5, price: '39€', perCredit: '7,80€', discount: '-13%' },
-  { id: 'standard_10', credits: 10, tickets: 10, price: '69€', perCredit: '6,90€', discount: '-23%', popular: true },
-  { id: 'standard_20', credits: 20, tickets: 20, price: '119€', perCredit: '5,95€', discount: '-34%' },
-]
-
-const PRO = [
-  { id: 'pro_10', credits: 10, tickets: 10, price: '59€', perCredit: '5,90€', discount: '-34%' },
-  { id: 'pro_30', credits: 30, tickets: 30, price: '149€', perCredit: '4,97€', discount: '-45%' },
-  { id: 'pro_50', credits: 50, tickets: 50, price: '229€', perCredit: '4,58€', discount: '-49%', popular: true },
-  { id: 'pro_100', credits: 100, tickets: 100, price: '399€', perCredit: '3,99€', discount: '-56%' },
+const PACKS = [
+  { id: 'standard_1', n: 1, price: '9', per: '9', tickets: 1 },
+  { id: 'standard_5', n: 5, price: '39', per: '7,80', tickets: 5, save: 13 },
+  { id: 'standard_10', n: 10, price: '69', per: '6,90', tickets: 10, save: 23, pop: true },
+  { id: 'standard_20', n: 20, price: '119', per: '5,95', tickets: 20, save: 34 },
 ]
 
 export default function CreditsPage() {
-  const { user, loading } = useUser()
-  const router = useRouter()
-  const [tab, setTab] = useState<'standard' | 'pro'>('standard')
+  const [gauge, setGauge] = useState(INIT)
   const [buying, setBuying] = useState<string | null>(null)
   const [cancelled, setCancelled] = useState(false)
+
+  /* Mock balance */
+  const credits = 3
+  const tickets = 4
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -39,17 +33,18 @@ export default function CreditsPage() {
     }
   }, [])
 
-  if (loading) return (
-    <div className="loading-page">
-      <div className="loading-text">Chargement...</div>
-    </div>
-  )
+  /* Live gauge tick */
+  useEffect(() => {
+    const tick = () => setGauge(p => Math.min(TOTAL, p + Math.floor(Math.random() * 3) + 1))
+    const go = (): ReturnType<typeof setTimeout> => {
+      const d = 5000 + Math.random() * 3000
+      return setTimeout(() => { tick(); id = go() }, d)
+    }
+    let id = go()
+    return () => clearTimeout(id)
+  }, [])
 
-  if (!user) { router.push('/login'); return null }
-
-  const packs = tab === 'standard' ? STANDARD : PRO
-  const gaugeN = user.tickets || 0
-  const ticketsRemaining = TOTAL - gaugeN
+  const pct = (gauge / TOTAL) * 100
 
   async function handleBuy(packId: string) {
     setBuying(packId)
@@ -61,111 +56,125 @@ export default function CreditsPage() {
       })
       const data = await res.json()
       if (data.url) window.location.href = data.url
-    } catch { /* */ } finally { setBuying(null) }
+    } catch {
+      /* silent */
+    } finally {
+      setBuying(null)
+    }
   }
 
   return (
-    <div className="page">
+    <>
       <Nav />
-      <div className="content-narrow">
 
-        <h1 className="heading-lg text-center mb-8">Acheter des crédits</h1>
-        <p className="text-xs text-muted text-center mb-20">
-          Chaque crédit = 1 action (poster, booster, alerter) + 1 ticket OFFERT pour le jeu concours
-        </p>
-
-        {cancelled && (
-          <div className="info-banner warning text-center mb-16">
-            <span className="text-xs" style={{ color: '#fbbf24', fontWeight: 600 }}>Paiement annulé — pas de souci !</span>
+      {/* ══ MINI GAUGE BAR ══ */}
+      <div style={{ background: 'linear-gradient(90deg, rgba(207,175,75,.08), rgba(207,175,75,.03))', borderBottom: '1px solid rgba(207,175,75,.1)', padding: '10px 20px' }}>
+        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
+          <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#34d399', boxShadow: '0 0 12px #34d399', animation: 'pulse 2s infinite', flexShrink: 0 }} />
+          <span style={{ fontSize: 11, fontWeight: 700, color: '#34d399' }}>Tirage en cours</span>
+          <div style={{ width: 120, height: 4, borderRadius: 10, background: 'rgba(255,255,255,.06)', overflow: 'hidden', flexShrink: 0 }}>
+            <div style={{ height: '100%', borderRadius: 10, background: 'linear-gradient(90deg, var(--a), #e8d282)', width: `${pct}%`, transition: 'width 1s' }} />
           </div>
-        )}
-
-        {/* Current balance */}
-        <div className="flex gap-10 justify-center mb-20">
-          <div className="balance-card gold">
-            <div className="balance-value gold">{user.credits}</div>
-            <div className="balance-label">CRÉDITS</div>
-          </div>
-          <div className="balance-card purple">
-            <div className="balance-value purple">{user.tickets}</div>
-            <div className="balance-label">TICKETS</div>
-          </div>
-        </div>
-
-        {/* Gauge */}
-        <div className="fomo-bar mb-24">
-          <div className="flex justify-between mb-8">
-            <span className="text-xs text-muted" style={{ fontWeight: 600 }}>Villa 695 000€ · Tirage en cours</span>
-            <span className="mono text-xs text-gold">{gaugeN.toLocaleString()} / {TOTAL.toLocaleString()}</span>
-          </div>
-          <div className="gauge-bar" style={{ height: 6 }}>
-            <div className="gauge-fill" style={{ width: `${(gaugeN / TOTAL) * 100}%` }} />
-          </div>
-          <div className="text-xs text-muted" style={{ marginTop: 6 }}>
-            Il reste {ticketsRemaining.toLocaleString('fr-FR')} tickets avant le tirage.
-          </div>
-        </div>
-
-        {/* Tabs */}
-        <div className="tabs-bar mb-20">
-          <button onClick={() => setTab('standard')} className={`tab-btn ${tab === 'standard' ? 'active' : ''}`}>
-            Standard
-          </button>
-          <button onClick={() => setTab('pro')} className={`tab-btn ${tab === 'pro' ? 'active' : ''}`}>
-            Pro
-          </button>
-        </div>
-
-        {/* Packs */}
-        <div className="packs-grid mb-24">
-          {packs.map(p => {
-            const hl = 'popular' in p && p.popular
-            return (
-              <div key={p.id} className={hl ? 'pack-card popular' : 'pack-card'}>
-                {hl && <div className="pack-badge">TOP</div>}
-                <div style={{ fontWeight: 700, fontSize: 13, color: '#fff', marginBottom: 6 }}>{p.credits} crédit{p.credits > 1 ? 's' : ''}</div>
-                <div className="mono" style={{ fontSize: 28, color: 'var(--a)', fontWeight: 700, marginBottom: 4 }}>{p.price}</div>
-                {p.discount && <div className="text-xs" style={{ color: '#34d399', fontWeight: 700, marginBottom: 2 }}>{p.perCredit}/cr · {p.discount}</div>}
-                <div className="text-xs text-muted mb-12">+{p.tickets} ticket{p.tickets > 1 ? 's' : ''}</div>
-                <button onClick={() => handleBuy(p.id)} disabled={buying === p.id}
-                  className={hl ? 'btn-primary full-width' : 'btn-secondary full-width'}
-                  style={{ padding: '10px 0', fontSize: 11 }}>
-                  {buying === p.id ? '...' : 'Acheter'}
-                </button>
-              </div>
-            )
-          })}
-        </div>
-
-        {/* What credits do */}
-        <h3 className="heading-md text-center mb-12">À quoi servent les crédits ?</h3>
-        <div className="flex flex-col gap-6 mb-20">
-          {[
-            { title: 'Poster une annonce', desc: 'Au-delà de la 1re gratuite', bonus: '+1 ticket' },
-            { title: 'Booster une annonce', desc: 'Passe en tête pendant 24h', bonus: '+1 ticket' },
-            { title: 'Alerte prioritaire', desc: 'Notification immédiate pendant 30 jours', bonus: '+1 ticket' },
-          ].map((item, i) => (
-            <div key={i} className="card flex items-center gap-10" style={{ padding: '12px 14px', borderRadius: 10 }}>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontWeight: 700, fontSize: 12, color: '#fff' }}>{item.title}</div>
-                <div className="text-xs text-muted">{item.desc}</div>
-              </div>
-              <span className="text-xs" style={{ color: '#34d399', fontWeight: 700 }}>{item.bonus} offert</span>
-            </div>
-          ))}
-        </div>
-
-        {/* Trust line */}
-        <div className="trust-line">
-          Paiement sécurisé Stripe · Crédits sans expiration · 1 crédit = 1 ticket
-        </div>
-
-        <div className="text-center">
-          <Link href="/villa" className="text-xs text-gold" style={{ textDecoration: 'none', fontWeight: 600 }}>
-            Voir la villa à gagner →
-          </Link>
+          <span className="mono text-gold" style={{ fontSize: 10, flexShrink: 0 }}>{gauge.toLocaleString()}/{TOTAL / 1000}K</span>
         </div>
       </div>
-    </div>
+
+      {/* ══ HEADER ══ */}
+      <section className="section" style={{ paddingTop: 48, paddingBottom: 0 }}>
+        <div className="container text-center">
+          <h1 className="heading-lg" style={{ marginBottom: 8 }}>Acheter des cr&#233;dits</h1>
+          <p className="text-muted text-sm" style={{ marginBottom: 8 }}>
+            1 cr&#233;dit = 1 comparaison, 1 analyse de devis, ou 1 recherche de pro
+          </p>
+          <p className="text-gold text-xs" style={{ fontWeight: 700, marginBottom: 32 }}>
+            + 1 ticket OFFERT par cr&#233;dit pour le tirage de la villa &#224; 695 000&#8364;
+          </p>
+
+          {cancelled && (
+            <div style={{ display: 'inline-block', padding: '8px 20px', borderRadius: 10, background: 'rgba(251,191,36,.06)', border: '1px solid rgba(251,191,36,.15)', marginBottom: 24 }}>
+              <span className="text-xs" style={{ color: '#fbbf24', fontWeight: 600 }}>Paiement annul&#233; — pas de souci !</span>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ══ BALANCE ══ */}
+      <section style={{ paddingTop: 0, paddingBottom: 0 }}>
+        <div className="container">
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 16, marginBottom: 40 }}>
+            <div style={{ background: 'rgba(207,175,75,.06)', border: '1px solid rgba(207,175,75,.15)', borderRadius: 14, padding: '20px 32px', textAlign: 'center', minWidth: 120 }}>
+              <div className="mono text-gold" style={{ fontSize: 36, fontWeight: 700, lineHeight: 1 }}>{credits}</div>
+              <div style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,.4)', letterSpacing: 2, textTransform: 'uppercase', marginTop: 6 }}>Cr&#233;dits</div>
+            </div>
+            <div style={{ background: 'rgba(168,85,247,.06)', border: '1px solid rgba(168,85,247,.15)', borderRadius: 14, padding: '20px 32px', textAlign: 'center', minWidth: 120 }}>
+              <div className="mono" style={{ fontSize: 36, fontWeight: 700, lineHeight: 1, color: '#a855f7' }}>{tickets}</div>
+              <div style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,.4)', letterSpacing: 2, textTransform: 'uppercase', marginTop: 6 }}>Tickets</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══ PACKS ══ */}
+      <section className="section section-mid" style={{ paddingTop: 48, paddingBottom: 48 }}>
+        <div className="container text-center">
+          <div className="packs-grid" style={{ maxWidth: 900, margin: '0 auto' }}>
+            {PACKS.map(pk => (
+              <div key={pk.id} className={`pack-card${pk.pop ? ' popular' : ''}`}>
+                {pk.pop && <div className="pack-badge">Populaire</div>}
+                <div className="mono" style={{ fontSize: 40, fontWeight: 700 }}>{pk.n}</div>
+                <div className="text-muted text-sm" style={{ marginBottom: 8 }}>cr&#233;dit{pk.n > 1 ? 's' : ''}</div>
+                <div className="text-gold" style={{ fontSize: 28, fontWeight: 700, fontFamily: 'var(--d)', marginBottom: 4 }}>{pk.price}&#8364;</div>
+                <div className="text-muted text-xs" style={{ marginBottom: 8 }}>{pk.per}&#8364;/cr&#233;dit</div>
+                {pk.save && (
+                  <div style={{ display: 'inline-block', padding: '3px 10px', borderRadius: 6, background: 'rgba(52,211,153,.08)', border: '1px solid rgba(52,211,153,.15)', fontSize: 11, fontWeight: 700, color: '#34d399', marginBottom: 8 }}>
+                    -{pk.save}%
+                  </div>
+                )}
+                <div style={{ marginBottom: 12 }}>
+                  <span className="badge text-gold" style={{ background: 'rgba(207,175,75,.1)', fontSize: 12 }}>+{pk.tickets} ticket{pk.tickets > 1 ? 's' : ''} offert{pk.tickets > 1 ? 's' : ''}</span>
+                </div>
+                <button
+                  onClick={() => handleBuy(pk.id)}
+                  disabled={buying === pk.id}
+                  className="btn-primary"
+                  style={{ width: '100%', padding: '10px 0', fontSize: 13 }}
+                >
+                  {buying === pk.id ? '...' : 'Acheter'}
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-muted text-xs" style={{ marginTop: 20 }}>
+            Les cr&#233;dits n&apos;expirent jamais. Utilisez-les quand vous voulez.
+          </p>
+        </div>
+      </section>
+
+      {/* ══ TRUST ══ */}
+      <section style={{ padding: '24px 0', textAlign: 'center' }}>
+        <div className="container">
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 32 }}>
+            {[
+              { t: 'Paiement Stripe', d: 'S\u00e9curis\u00e9 et chiffr\u00e9' },
+              { t: 'Sans expiration', d: 'Vos cr\u00e9dits restent' },
+              { t: '1 cr\u00e9dit = 1 ticket', d: 'Toujours offert en bonus' },
+            ].map((x, i) => (
+              <div key={i} style={{ minWidth: 120, maxWidth: 160 }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#fff', marginBottom: 2 }}>{x.t}</div>
+                <div className="text-muted text-xs">{x.d}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══ FOOTER LINK ══ */}
+      <section style={{ paddingBottom: 48, textAlign: 'center' }}>
+        <Link href="/villa" className="text-xs text-gold" style={{ textDecoration: 'none', fontWeight: 600 }}>
+          Voir la villa &#224; gagner →
+        </Link>
+      </section>
+    </>
   )
 }

@@ -132,10 +132,10 @@ export default function VillaPage() {
           <span className="text-xs text-muted">Visite virtuelle de la Villa Boucau</span>
         </div>
 
-        {/* Hidden until real video exists */}
-        {false && <div style={{ marginTop: 24 }}>
-          <VideoPlaceholder title="Visite de la villa" subtitle="Vidéo promotionnelle bientôt disponible" aspectRatio="16/9" />
-        </div>}
+        {/* Video placeholder — remplacer par YouTube/vidéo quand disponible */}
+        <div style={{ marginTop: 24 }}>
+          <VideoPlaceholder title="Visite de la Villa Boucau" subtitle="Vidéo promo — bientôt disponible" aspectRatio="16/9" />
+        </div>
       </section>
 
       {/* PHOTO GALLERY */}

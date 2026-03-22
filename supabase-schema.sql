@@ -220,6 +220,15 @@ create table alerts (
   created_at timestamptz default now()
 );
 
+create table cards (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references users(id),
+  card_number int not null unique,
+  cycle int not null default 1,
+  purchase_id uuid references credit_purchases(id),
+  created_at timestamptz default now()
+);
+
 -- ═══ INDEXES ═══
 create index idx_users_phone on users(phone);
 create index idx_users_referral on users(referral_code);

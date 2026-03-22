@@ -2,35 +2,13 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { useUser } from '@/lib/context'
 
 export default function Nav() {
   const { user, loading, logout } = useUser()
   const pathname = usePathname()
-  const [unreadCount, setUnreadCount] = useState(0)
   const [menuOpen, setMenuOpen] = useState(false)
-
-  const fetchUnread = useCallback(async () => {
-    try {
-      const res = await fetch('/api/conversations')
-      if (res.ok) {
-        const data = await res.json()
-        const total = (data.conversations || []).reduce(
-          (sum: number, c: { unread_count?: number }) => sum + (c.unread_count || 0),
-          0
-        )
-        setUnreadCount(total)
-      }
-    } catch { /* */ }
-  }, [])
-
-  useEffect(() => {
-    if (!user) return
-    fetchUnread()
-    const interval = setInterval(fetchUnread, 15000)
-    return () => clearInterval(interval)
-  }, [user, fetchUnread])
 
   // Close menu on route change
   useEffect(() => {
@@ -78,36 +56,16 @@ export default function Nav() {
 
         {/* Desktop links */}
         <div className="nav-links">
-          <Link href="/annonces" style={linkStyle('/annonces')}>Annonces</Link>
-          <Link href="/feed" style={linkStyle('/feed')}>Feed</Link>
-          <Link href="/estimation" style={linkStyle('/estimation')}>Estimation</Link>
+          <Link href="/#offres" style={linkStyle('/#offres')}>Villa</Link>
           {!loading && user ? (
             <>
-              <Link href="/match" style={linkStyle('/match')}>Match</Link>
-              <Link href="/messages" style={{ ...linkStyle('/messages'), position: 'relative' as const }}>
-                Messages
-                {unreadCount > 0 && (
-                  <span style={{
-                    position: 'absolute', top: -4, right: -6,
-                    background: 'var(--a)', color: '#0a0e1a',
-                    fontSize: 8, fontWeight: 800, fontFamily: 'var(--b)',
-                    padding: '1px 5px', borderRadius: 8,
-                    lineHeight: '13px', minWidth: 14, textAlign: 'center',
-                  }}>
-                    {unreadCount > 99 ? '99+' : unreadCount}
-                  </span>
-                )}
-              </Link>
               <Link href="/compte" style={linkStyle('/compte')}>
-                Compte{user.type === 'pro' && <span style={{ marginLeft: 4, padding: '1px 5px', borderRadius: 4, background: 'rgba(207,175,75,.12)', fontFamily: 'var(--b)', fontSize: 8, fontWeight: 700, color: 'var(--a)', verticalAlign: 'middle' }}>PRO</span>}
+                Mon compte{user.type === 'pro' && <span style={{ marginLeft: 4, padding: '1px 5px', borderRadius: 4, background: 'rgba(207,175,75,.12)', fontFamily: 'var(--b)', fontSize: 8, fontWeight: 700, color: 'var(--a)', verticalAlign: 'middle' }}>PRO</span>}
               </Link>
-              <Link href="/credits" style={{ ...linkStyle('/credits'), background: pathname === '/credits' ? 'rgba(207,175,75,.06)' : 'rgba(207,175,75,.04)', border: '1px solid rgba(207,175,75,.08)' }}>
-                {user.credits}cr · {user.tickets}tk
-              </Link>
-              <button onClick={logout} style={{ padding: '4px 8px', background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.06)', borderRadius: 6, fontFamily: 'var(--b)', fontSize: 9, color: 'rgba(255,255,255,.3)', cursor: 'pointer' }}>✕</button>
+              <button onClick={logout} style={{ padding: '4px 8px', background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.06)', borderRadius: 6, fontFamily: 'var(--b)', fontSize: 9, color: 'rgba(255,255,255,.3)', cursor: 'pointer' }}>Se d{'\u00e9'}connecter</button>
             </>
           ) : !loading ? (
-            <Link href="/login" className="btn-primary" style={{ padding: '6px 14px', fontSize: 10 }}>Commencer</Link>
+            <Link href="/login" className="btn-primary" style={{ padding: '6px 14px', fontSize: 10 }}>Participer</Link>
           ) : null}
         </div>
 
@@ -183,39 +141,18 @@ export default function Nav() {
                 fontFamily: 'var(--b)',
               }}
             >
-              ✕
+              {'\u2715'}
             </button>
           </div>
 
           {/* Links */}
           <div style={{ padding: '20px 24px', flex: 1 }}>
-            <Link href="/annonces" onClick={() => setMenuOpen(false)} style={mobileLinkStyle('/annonces')}>Annonces</Link>
-            <Link href="/feed" onClick={() => setMenuOpen(false)} style={mobileLinkStyle('/feed')}>Feed</Link>
-            <Link href="/estimation" onClick={() => setMenuOpen(false)} style={mobileLinkStyle('/estimation')}>Estimation</Link>
+            <Link href="/#offres" onClick={() => setMenuOpen(false)} style={mobileLinkStyle('/#offres')}>Villa</Link>
 
             {!loading && user ? (
               <>
-                <Link href="/messages" onClick={() => setMenuOpen(false)} style={{ ...mobileLinkStyle('/messages'), position: 'relative' as const }}>
-                  Messages
-                  {unreadCount > 0 && (
-                    <span style={{
-                      marginLeft: 8,
-                      background: 'var(--a)', color: '#0a0e1a',
-                      fontSize: 9, fontWeight: 800, fontFamily: 'var(--b)',
-                      padding: '2px 6px', borderRadius: 8,
-                    }}>
-                      {unreadCount > 99 ? '99+' : unreadCount}
-                    </span>
-                  )}
-                </Link>
-                <Link href="/credits" onClick={() => setMenuOpen(false)} style={mobileLinkStyle('/credits')}>
-                  Cr{'\u00e9'}dits
-                  <span style={{ marginLeft: 8, fontSize: 12, color: 'var(--a)', fontWeight: 700 }}>
-                    {user.credits}cr · {user.tickets}tk
-                  </span>
-                </Link>
                 <Link href="/compte" onClick={() => setMenuOpen(false)} style={mobileLinkStyle('/compte')}>
-                  Compte
+                  Mon compte
                   {user.type === 'pro' && <span style={{ marginLeft: 8, padding: '2px 6px', borderRadius: 4, background: 'rgba(207,175,75,.12)', fontSize: 9, fontWeight: 700, color: 'var(--a)' }}>PRO</span>}
                 </Link>
 
@@ -243,7 +180,7 @@ export default function Nav() {
                   className="btn-primary btn-shine"
                   style={{ display: 'block', textAlign: 'center', padding: '14px 0', fontSize: 15 }}
                 >
-                  Commencer — gratuit
+                  Participer — gratuit
                 </Link>
                 <div style={{ textAlign: 'center', marginTop: 12 }}>
                   <Link href="/login" onClick={() => setMenuOpen(false)} style={{ fontSize: 13, color: 'rgba(255,255,255,.4)', textDecoration: 'none', fontFamily: 'var(--b)' }}>
