@@ -94,8 +94,28 @@ export default function Home() {
 
   const pct = (gauge / TOTAL) * 100
 
+  const TICKER_MESSAGES = [
+    'VILLA 695 000€ A GAGNER',
+    '1 CREDIT + 1 TICKET OFFERTS A L\'INSCRIPTION',
+    'COMPAREZ TOUTES LES OFFRES IMMO',
+    'ANALYSEZ VOS DEVIS EN 1 CLIC',
+    'TROUVEZ LE BON PRO INSTANTANEMENT',
+    'TICKETS OFFERTS · JAMAIS VENDUS',
+    'TIRAGE SOUS CONTROLE D\'HUISSIER',
+    'CONFORME DIRECTIVE EU 2005/29/CE',
+  ]
+
   return (
     <>
+      {/* ══ TICKER BAR ══ */}
+      <div className="ticker-bar">
+        <div className="ticker-content">
+          {[...TICKER_MESSAGES, ...TICKER_MESSAGES].map((msg, i) => (
+            <span className="ticker-item" key={i}>{msg}</span>
+          ))}
+        </div>
+      </div>
+
       {/* ══ NAV ══ */}
       <nav className="nav">
         <Link href="/" style={{ textDecoration: 'none' }}><span className="heading-md text-gold" style={{ fontSize: 20 }}>HOWNER</span></Link>
