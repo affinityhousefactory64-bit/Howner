@@ -162,7 +162,7 @@ function HeroChat() {
         {step >= 1 && (
           <div style={{ display: 'flex', justifyContent: 'flex-end', animation: 'fadeUp .4s ease' }}>
             <div style={bubbleUser}>
-              Je cherche un T3 à Bayonne, max 250 000\u20ac, proche écoles
+              Je cherche un T3 à Bayonne, max 250 000€, proche écoles
             </div>
           </div>
         )}
