@@ -8,11 +8,11 @@ const TOTAL = 200000
 const INIT = 47382
 
 const FAQ_DATA = [
-  { q: 'C\u2019est quoi Howner ?', a: 'Howner est un agent IA conversationnel dédié à l\u2019immobilier. Il scrape tous les portails, analyse vos devis, trouve le bon professionnel et vous guide dans votre projet. Chaque crédit acheté vous offre un ticket pour participer au tirage d\u2019une villa à 695 000\u202F\u20ac.' },
+  { q: 'C\u2019est quoi Howner ?', a: 'Howner est un agent IA conversationnel dédié à l\u2019immobilier. Il scrape tous les portails, analyse vos devis, trouve le bon professionnel et vous guide dans votre projet. Chaque crédit acheté vous offre un ticket pour participer au tirage d\u2019une villa à 695 000\u202F€.' },
   { q: 'Comment fonctionnent les crédits ?', a: '1 crédit = 1 action. Recherche de biens, analyse de devis, mise en relation avec un pro, estimation ou assistance projet. Chaque crédit acheté vous offre aussi 1 ticket pour le tirage de la villa. Votre premier crédit est offert à l\u2019inscription.' },
   { q: 'C\u2019est quoi le tirage de la villa ?', a: 'Quand 200 000 tickets sont distribués, un tirage au sort a lieu en direct, filmé, sous le contrôle d\u2019un huissier de justice. Le gagnant repart avec la villa. Puis un nouveau cycle démarre avec une nouvelle villa.' },
   { q: 'C\u2019est légal ?', a: 'Oui. Jeu concours promotionnel conforme à la Directive Européenne 2005/29/CE. On vend des crédits pour des services réels (recherche, analyse, mise en relation). Les tickets sont offerts en bonus. Participation gratuite possible via inscription et parrainage.' },
-  { q: 'La villa est réelle ?', a: 'Oui. Villa Boucau — 149m², 4 chambres, piscine, R+1, Boucau Haut, Pays Basque. Construite par Affinity House Factory SAS (SIRET 982 581 506 00010). Finitions Porcelanosa, construction LSF, clé en main. Valeur : 695 000\u202F\u20ac.' },
+  { q: 'La villa est réelle ?', a: 'Oui. Villa Boucau — 149m², 4 chambres, piscine, R+1, Boucau Haut, Pays Basque. Construite par Affinity House Factory SAS (SIRET 982 581 506 00010). Finitions Porcelanosa, construction LSF, clé en main. Valeur : 695 000\u202F€.' },
   { q: 'Je peux participer gratuitement ?', a: 'Oui. L\u2019inscription est gratuite et vous offre 1 crédit + 1 ticket. Le parrainage vous donne 1 crédit + 1 ticket pour chaque ami inscrit, sans limite.' },
 ]
 
@@ -81,7 +81,7 @@ function StickyCTA() {
   }, [])
   return (
     <div className={`sticky-cta${v ? ' visible' : ''}`}>
-      <span className="text-muted text-xs" style={{ fontWeight: 600 }}>Villa 695 000\u20ac à gagner</span>
+      <span className="text-muted text-xs" style={{ fontWeight: 600 }}>Villa 695 000€ à gagner</span>
       <a href="#packs" className="btn-primary btn-shine" style={{ padding: '10px 24px', fontSize: 13 }}>Acheter des crédits</a>
     </div>
   )
@@ -132,9 +132,9 @@ function HeroChat() {
   }
 
   const properties = [
-    { name: 'T3 Bayonne Centre', price: '235 000\u20ac', size: '68m\u00b2', score: '9.2/10' },
-    { name: 'T3 St-Esprit', price: '219 000\u20ac', size: '62m\u00b2', score: '8.7/10' },
-    { name: 'T3 Mousserolles', price: '242 000\u20ac', size: '71m\u00b2', score: '8.4/10' },
+    { name: 'T3 Bayonne Centre', price: '235 000€', size: '68m\u00b2', score: '9.2/10' },
+    { name: 'T3 St-Esprit', price: '219 000€', size: '62m\u00b2', score: '8.7/10' },
+    { name: 'T3 Mousserolles', price: '242 000€', size: '71m\u00b2', score: '8.4/10' },
   ]
 
   return (
@@ -237,7 +237,7 @@ export default function Home() {
     'TOUS LES BIENS, TOUS LES PORTAILS',
     'ANALYSE DE DEVIS EN 10 SECONDES',
     'TROUVEZ LE BON PRO INSTANTANEMENT',
-    'VILLA 695 000\u20ac A GAGNER',
+    'VILLA 695 000€ A GAGNER',
     '1 CREDIT OFFERT A L\'INSCRIPTION',
   ]
 
@@ -417,15 +417,15 @@ export default function Home() {
               1 crédit = 1 recherche, 1 analyse, ou 1 mise en relation
             </p>
             <p className="text-gold text-xs" style={{ fontWeight: 700, marginBottom: 32 }}>
-              + 1 ticket OFFERT par crédit pour le tirage de la villa à 695 000\u20ac
+              + 1 ticket OFFERT par crédit pour le tirage de la villa à 695 000€
             </p>
 
             <div className="packs-grid" style={{ maxWidth: 900, margin: '0 auto' }}>
               {[
-                { n: 1, price: '9\u20ac', per: '9\u20ac', t: 1 },
-                { n: 5, price: '39\u20ac', per: '7,80\u20ac', t: 5, save: 13 },
-                { n: 10, price: '69\u20ac', per: '6,90\u20ac', t: 10, save: 23, pop: true },
-                { n: 20, price: '119\u20ac', per: '5,95\u20ac', t: 20, save: 34 },
+                { n: 1, price: '9€', per: '9€', t: 1 },
+                { n: 5, price: '39€', per: '7,80€', t: 5, save: 13 },
+                { n: 10, price: '69€', per: '6,90€', t: 10, save: 23, pop: true },
+                { n: 20, price: '119€', per: '5,95€', t: 20, save: 34 },
               ].map((pk, i) => (
                 <div key={i} className={`pack-card${pk.pop ? ' popular' : ''}`}>
                   {pk.pop && <div className="pack-badge">Populaire</div>}
@@ -455,9 +455,9 @@ export default function Home() {
               Villa Boucau — 149m\u00b2 · 4 chambres · Piscine · Pays Basque
             </p>
             <div style={{ maxWidth: 700, margin: '0 auto', borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(207,175,75,.12)', position: 'relative' }}>
-              <img src="/villa/exterior-1.jpg" alt="Villa Boucau — 695 000\u20ac" style={{ width: '100%', height: 'auto', display: 'block' }} />
+              <img src="/villa/exterior-1.jpg" alt="Villa Boucau — 695 000€" style={{ width: '100%', height: 'auto', display: 'block' }} />
               <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'linear-gradient(transparent, rgba(0,0,0,.85))', padding: '50px 20px 20px', textAlign: 'center' }}>
-                <div className="mono text-gold" style={{ fontSize: 24, fontWeight: 700, marginBottom: 4 }}>695 000\u20ac</div>
+                <div className="mono text-gold" style={{ fontSize: 24, fontWeight: 700, marginBottom: 4 }}>695 000€</div>
                 <p className="text-muted text-xs">Construite par Affinity House Factory</p>
               </div>
             </div>
@@ -484,7 +484,7 @@ export default function Home() {
               <p className="text-muted text-sm" style={{ marginBottom: 24 }}>
                 Votre profil personnel, pas celui de votre agence.
               </p>
-              <Link href="/login" className="btn-primary" style={{ padding: '12px 36px', fontSize: 14 }}>Devenir Pro Howner — dès 39\u20ac/mois</Link>
+              <Link href="/login" className="btn-primary" style={{ padding: '12px 36px', fontSize: 14 }}>Devenir Pro Howner — dès 39€/mois</Link>
             </div>
           </div>
         </section>

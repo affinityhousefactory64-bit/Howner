@@ -319,7 +319,7 @@ export default function RecherchePage() {
                       fontSize: 18, fontWeight: 700, color: 'var(--a)',
                       fontFamily: 'var(--m)', whiteSpace: 'nowrap',
                     }}>
-                      {listing.price} EUR
+                      {listing.price} €
                     </span>
                   </div>
 

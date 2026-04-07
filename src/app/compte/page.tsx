@@ -54,12 +54,12 @@ export default function ComptePage() {
   }
 
   function shareWhatsApp() {
-    const text = encodeURIComponent(`Rejoignez Howner et gagnez 1 ticket pour la villa a 695 000EUR ! ${referralUrl}`)
+    const text = encodeURIComponent(`Rejoignez Howner et gagnez 1 ticket pour la villa a 695 000€ ! ${referralUrl}`)
     window.open(`https://wa.me/?text=${text}`, '_blank')
   }
 
   function shareSMS() {
-    const text = encodeURIComponent(`Rejoignez Howner et gagnez 1 ticket pour la villa a 695 000EUR ! ${referralUrl}`)
+    const text = encodeURIComponent(`Rejoignez Howner et gagnez 1 ticket pour la villa a 695 000€ ! ${referralUrl}`)
     window.open(`sms:?body=${text}`, '_blank')
   }
 
@@ -133,7 +133,7 @@ export default function ComptePage() {
               type="text"
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              placeholder="Ex : T3 Bayonne max 800EUR/mois"
+              placeholder="Ex : T3 Bayonne max 800€/mois"
               style={{
                 width: '100%',
                 padding: '10px 14px',
@@ -161,7 +161,7 @@ export default function ComptePage() {
             <textarea
               value={devisText}
               onChange={e => setDevisText(e.target.value)}
-              placeholder="Ex : Salle de bain complete 8 500EUR a Bayonne, pose + fourniture"
+              placeholder="Ex : Salle de bain complete 8 500€ a Bayonne, pose + fourniture"
               rows={3}
               style={{
                 width: '100%',
@@ -193,7 +193,7 @@ export default function ComptePage() {
               type="text"
               value={findQuery}
               onChange={e => setFindQuery(e.target.value)}
-              placeholder="Ex : Plombier Anglet chauffe-eau max 2 000EUR"
+              placeholder="Ex : Plombier Anglet chauffe-eau max 2 000€"
               style={{
                 width: '100%',
                 padding: '10px 14px',
@@ -285,7 +285,7 @@ export default function ComptePage() {
                 Vous avez {user.tickets} ticket{user.tickets > 1 ? 's' : ''}
               </div>
               <div style={{ fontSize: 12, color: 'rgba(255,255,255,.35)', marginTop: 4 }}>
-                pour le tirage de la villa a 695 000EUR
+                pour le tirage de la villa a 695 000€
               </div>
             </div>
 

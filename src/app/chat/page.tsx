@@ -211,7 +211,7 @@ function PropertyCards({ items }: { items: PropertyCard[] }) {
             <span>{p.surface}</span>
             <span>{p.rooms}</span>
           </div>
-          <div style={{ fontFamily: C.fontM, fontSize: 18, fontWeight: 700, color: C.gold }}>{p.price} EUR</div>
+          <div style={{ fontFamily: C.fontM, fontSize: 18, fontWeight: 700, color: C.gold }}>{p.price} €</div>
         </div>
       ))}
     </div>
@@ -282,9 +282,9 @@ function DevisCard({ d }: { d: DevisResult }) {
           }} />
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6, fontSize: 12, fontFamily: C.fontM }}>
-          <span style={{ color: '#4bcf78' }}>{d.low} EUR</span>
-          <span style={{ color: C.gold, fontWeight: 700 }}>Devis: {d.estimated} EUR</span>
-          <span style={{ color: '#cf6a4b' }}>{d.high} EUR</span>
+          <span style={{ color: '#4bcf78' }}>{d.low} €</span>
+          <span style={{ color: C.gold, fontWeight: 700 }}>Devis: {d.estimated} €</span>
+          <span style={{ color: '#cf6a4b' }}>{d.high} €</span>
         </div>
       </div>
 
@@ -306,21 +306,21 @@ function EstimationCard({ e }: { e: EstimationResult }) {
     <div style={{ background: C.bg3, borderRadius: 14, padding: '18px 18px', border: `1px solid ${C.border}`, marginTop: 12 }}>
       <div style={{ fontSize: 13, color: C.muted, marginBottom: 4 }}>{e.address}</div>
       <div style={{ fontFamily: C.fontD, fontSize: 28, fontWeight: 700, color: C.gold, marginBottom: 12 }}>
-        {e.estimation} EUR
+        {e.estimation} €
       </div>
 
       <div style={{ display: 'flex', gap: 20, marginBottom: 14 }}>
         <div>
           <div style={{ fontSize: 11, color: C.muted, textTransform: 'uppercase' as const, letterSpacing: '.5px' }}>Fourchette basse</div>
-          <div style={{ fontFamily: C.fontM, fontSize: 15, color: C.white }}>{e.low} EUR</div>
+          <div style={{ fontFamily: C.fontM, fontSize: 15, color: C.white }}>{e.low} €</div>
         </div>
         <div>
           <div style={{ fontSize: 11, color: C.muted, textTransform: 'uppercase' as const, letterSpacing: '.5px' }}>Fourchette haute</div>
-          <div style={{ fontFamily: C.fontM, fontSize: 15, color: C.white }}>{e.high} EUR</div>
+          <div style={{ fontFamily: C.fontM, fontSize: 15, color: C.white }}>{e.high} €</div>
         </div>
         <div>
           <div style={{ fontSize: 11, color: C.muted, textTransform: 'uppercase' as const, letterSpacing: '.5px' }}>Prix / m2</div>
-          <div style={{ fontFamily: C.fontM, fontSize: 15, color: C.white }}>{e.pricePerM2} EUR</div>
+          <div style={{ fontFamily: C.fontM, fontSize: 15, color: C.white }}>{e.pricePerM2} €</div>
         </div>
       </div>
 

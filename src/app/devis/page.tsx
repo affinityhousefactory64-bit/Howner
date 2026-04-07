@@ -143,8 +143,8 @@ export default function DevisPage() {
     return (
       <div style={{ marginTop: 20, marginBottom: 8 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-          <span style={{ fontSize: 11, color: 'rgba(255,255,255,.4)' }}>{fmt(Math.round(visualLow))} EUR</span>
-          <span style={{ fontSize: 11, color: 'rgba(255,255,255,.4)' }}>{fmt(Math.round(visualHigh))} EUR</span>
+          <span style={{ fontSize: 11, color: 'rgba(255,255,255,.4)' }}>{fmt(Math.round(visualLow))} €</span>
+          <span style={{ fontSize: 11, color: 'rgba(255,255,255,.4)' }}>{fmt(Math.round(visualHigh))} €</span>
         </div>
         <div style={{ position: 'relative', height: 32, background: 'rgba(255,255,255,.04)', borderRadius: 8, overflow: 'visible' }}>
           {/* Market range zone */}
@@ -164,8 +164,8 @@ export default function DevisPage() {
           }} />
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
-          <span style={{ fontSize: 11, color: 'rgba(52,211,153,.7)' }}>Fourchette marche : {fmt(low)} - {fmt(high)} EUR</span>
-          <span style={{ fontSize: 11, color: verdictCfg.color, fontWeight: 700 }}>Votre devis : {fmt(amountNum)} EUR</span>
+          <span style={{ fontSize: 11, color: 'rgba(52,211,153,.7)' }}>Fourchette marche : {fmt(low)} - {fmt(high)} €</span>
+          <span style={{ fontSize: 11, color: verdictCfg.color, fontWeight: 700 }}>Votre devis : {fmt(amountNum)} €</span>
         </div>
       </div>
     )
@@ -260,7 +260,7 @@ export default function DevisPage() {
               {/* Amount */}
               <div style={{ marginBottom: 20 }}>
                 <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 6, color: 'rgba(255,255,255,.7)' }}>
-                  Montant du devis (EUR)
+                  Montant du devis (€)
                 </label>
                 <input
                   type="number"
@@ -415,7 +415,7 @@ export default function DevisPage() {
                       </div>
                     </div>
                     <div style={{ textAlign: 'right' }}>
-                      <div className="mono text-gold" style={{ fontSize: 15, fontWeight: 700 }}>{fmt(c.avg_price)} EUR</div>
+                      <div className="mono text-gold" style={{ fontSize: 15, fontWeight: 700 }}>{fmt(c.avg_price)} €</div>
                       <div className="text-muted text-xs">prix moyen</div>
                     </div>
                   </div>
