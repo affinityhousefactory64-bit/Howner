@@ -275,7 +275,8 @@ export default function Home() {
         </div>
 
         <div style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ textAlign: 'center', padding: '0 20px', marginBottom: 48 }}>
+          {/* VILLA = LE HERO */}
+          <div style={{ textAlign: 'center', padding: '0 20px', marginBottom: 40 }}>
             <div style={{
               display: 'inline-block',
               padding: '6px 16px',
@@ -286,35 +287,72 @@ export default function Home() {
               fontWeight: 700,
               color: 'var(--a)',
               letterSpacing: 1.5,
-              textTransform: 'uppercase',
               marginBottom: 32,
               backdropFilter: 'blur(12px)',
             }}>
-              Marketplace immobilière IA
+              CYCLE 1 — TIRAGE EN COURS
             </div>
             <h1 className="hero-massive" style={{ marginBottom: 0 }}>
-              Votre agent
+              Cette villa peut
             </h1>
             <h1 className="hero-massive gradient-text" style={{ marginBottom: 24 }}>
-              immobilier IA.
+              {'être à vous.'}
             </h1>
-            <p style={{ fontSize: 'clamp(15px, 2.5vw, 20px)', color: '#6b7280', marginBottom: 0, lineHeight: 1.7, maxWidth: 560, margin: '0 auto' }}>
-              Dites-lui ce que vous cherchez. Il scrape tous les portails et trouve en 10 secondes.
+
+            {/* Villa image */}
+            <div style={{
+              maxWidth: 760, margin: '0 auto 24px', borderRadius: 20, overflow: 'hidden',
+              border: '1px solid rgba(207,175,75,.15)',
+              boxShadow: '0 20px 60px rgba(0,0,0,.5)',
+              position: 'relative',
+            }}>
+              <img
+                src="/villa/exterior-1.jpg"
+                alt="Villa Boucau — 695 000€"
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+              />
+              <div style={{
+                position: 'absolute', bottom: 0, left: 0, right: 0,
+                background: 'linear-gradient(transparent, rgba(0,0,0,.8))',
+                padding: '60px 24px 20px',
+                display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center',
+              }}>
+                {['149m²', '4 chambres', 'Piscine', 'R+1', 'Boucau, Pays Basque'].map(spec => (
+                  <span key={spec} style={{
+                    padding: '4px 14px', borderRadius: 20,
+                    background: 'rgba(255,255,255,.12)', backdropFilter: 'blur(8px)',
+                    color: '#fff', fontSize: 12, fontWeight: 600,
+                  }}>{spec}</span>
+                ))}
+              </div>
+            </div>
+
+            {/* Prix */}
+            <div className="price-hero" style={{ marginBottom: 16 }}>695 000€</div>
+            <p style={{ fontSize: 15, color: '#6b7280', marginBottom: 8 }}>
+              Construite par Affinity House Factory · Finitions Porcelanosa
+            </p>
+            <p style={{ fontSize: 'clamp(15px, 2.5vw, 18px)', color: '#9ca3af', lineHeight: 1.7, maxWidth: 520, margin: '0 auto 16px' }}>
+              Achetez des credits pour utiliser nos outils IA immobiliers. Chaque credit vous offre 1 ticket pour le tirage.
             </p>
           </div>
 
-          {/* Fake chat interface */}
-          <div style={{ padding: '0 20px' }}>
-            <HeroChat />
-          </div>
-
-          <div style={{ textAlign: 'center', marginTop: 48 }}>
+          {/* CTA */}
+          <div style={{ textAlign: 'center', marginBottom: 32 }}>
             <Link href="/login" className="btn-primary btn-shine" style={{ padding: '18px 52px', fontSize: 17 }}>
-              Essayer gratuitement — 1 crédit offert
+              Participer au tirage
             </Link>
             <p style={{ fontSize: 12, color: '#4a4a5a', marginTop: 16 }}>
-              Inscription gratuite · 1 crédit + 1 ticket offerts · Aucun engagement
+              Inscription gratuite · 1 credit + 1 ticket offerts · Aucun engagement
             </p>
+          </div>
+
+          {/* Chat demo — plus petit, en dessous */}
+          <div style={{ padding: '0 20px', maxWidth: 680, margin: '0 auto' }}>
+            <p style={{ textAlign: 'center', fontSize: 13, color: '#6b7280', marginBottom: 12, fontWeight: 600 }}>
+              Nos outils IA trouvent le bon bien, le bon pro, le bon prix
+            </p>
+            <HeroChat />
           </div>
         </div>
       </section>
