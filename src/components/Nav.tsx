@@ -56,7 +56,9 @@ export default function Nav() {
 
         {/* Desktop links */}
         <div className="nav-links">
-          <Link href="/#offres" style={linkStyle('/#offres')}>Villa</Link>
+          <Link href="/chat" style={linkStyle('/chat')}>Agent IA</Link>
+          <Link href="/recherche" style={linkStyle('/recherche')}>Recherche</Link>
+          <Link href="/devis" style={linkStyle('/devis')}>Devis</Link>
           {!loading && user ? (
             <>
               <Link href="/compte" style={linkStyle('/compte')}>
@@ -65,7 +67,7 @@ export default function Nav() {
               <button onClick={logout} style={{ padding: '4px 8px', background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.06)', borderRadius: 6, fontFamily: 'var(--b)', fontSize: 9, color: 'rgba(255,255,255,.3)', cursor: 'pointer' }}>Se d{'\u00e9'}connecter</button>
             </>
           ) : !loading ? (
-            <Link href="/login" className="btn-primary" style={{ padding: '6px 14px', fontSize: 10 }}>Participer</Link>
+            <Link href="/login" className="btn-primary" style={{ padding: '6px 14px', fontSize: 10 }}>Essayer gratuit</Link>
           ) : null}
         </div>
 
@@ -147,7 +149,9 @@ export default function Nav() {
 
           {/* Links */}
           <div style={{ padding: '20px 24px', flex: 1 }}>
-            <Link href="/#offres" onClick={() => setMenuOpen(false)} style={mobileLinkStyle('/#offres')}>Villa</Link>
+            <Link href="/chat" onClick={() => setMenuOpen(false)} style={mobileLinkStyle('/chat')}>Agent IA</Link>
+            <Link href="/recherche" onClick={() => setMenuOpen(false)} style={mobileLinkStyle('/recherche')}>Recherche</Link>
+            <Link href="/devis" onClick={() => setMenuOpen(false)} style={mobileLinkStyle('/devis')}>Devis</Link>
 
             {!loading && user ? (
               <>
@@ -180,7 +184,7 @@ export default function Nav() {
                   className="btn-primary btn-shine"
                   style={{ display: 'block', textAlign: 'center', padding: '14px 0', fontSize: 15 }}
                 >
-                  Participer — gratuit
+                  Essayer gratuitement
                 </Link>
                 <div style={{ textAlign: 'center', marginTop: 12 }}>
                   <Link href="/login" onClick={() => setMenuOpen(false)} style={{ fontSize: 13, color: 'rgba(255,255,255,.4)', textDecoration: 'none', fontFamily: 'var(--b)' }}>
