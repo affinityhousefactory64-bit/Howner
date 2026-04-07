@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
   try {
     const session = await getSession()
     if (!session) {
-      return NextResponse.json({ error: 'Non connect\u00e9' }, { status: 401 })
+      return NextResponse.json({ error: 'Non connecté' }, { status: 401 })
     }
 
     const body = await req.json()
@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
 
     if (error) {
       console.error('Post creation error:', error)
-      return NextResponse.json({ error: 'Erreur cr\u00e9ation post' }, { status: 500 })
+      return NextResponse.json({ error: 'Erreur création post' }, { status: 500 })
     }
 
     // Log activity

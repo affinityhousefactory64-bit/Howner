@@ -143,10 +143,10 @@ export default function DevisPage() {
     return (
       <div style={{ marginTop: 20, marginBottom: 8 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-          <span style={{ fontSize: 11, color: 'rgba(255,255,255,.4)' }}>{fmt(Math.round(visualLow))} €</span>
-          <span style={{ fontSize: 11, color: 'rgba(255,255,255,.4)' }}>{fmt(Math.round(visualHigh))} €</span>
+          <span style={{ fontSize: 11, color: '#9ca3af' }}>{fmt(Math.round(visualLow))} €</span>
+          <span style={{ fontSize: 11, color: '#9ca3af' }}>{fmt(Math.round(visualHigh))} €</span>
         </div>
-        <div style={{ position: 'relative', height: 32, background: 'rgba(255,255,255,.04)', borderRadius: 8, overflow: 'visible' }}>
+        <div style={{ position: 'relative', height: 32, background: 'rgba(255,255,255,.05)', borderRadius: 8, overflow: 'visible' }}>
           {/* Market range zone */}
           <div style={{
             position: 'absolute', top: 4, bottom: 4,
@@ -194,8 +194,8 @@ export default function DevisPage() {
           <span style={{ fontSize: 13, color: 'var(--a)', fontWeight: 600 }}>
             1 credit + 1 ticket offerts a l&apos;inscription
           </span>
-          <span style={{ fontSize: 12, color: 'rgba(255,255,255,.4)', marginLeft: 8 }}>—</span>
-          <Link href="/login" style={{ fontSize: 13, color: '#fff', fontWeight: 700, marginLeft: 8, textDecoration: 'underline', textUnderlineOffset: 3 }}>
+          <span style={{ fontSize: 12, color: '#9ca3af', marginLeft: 8 }}>—</span>
+          <Link href="/login" style={{ fontSize: 13, color: 'var(--a)', fontWeight: 700, marginLeft: 8, textDecoration: 'underline', textUnderlineOffset: 3 }}>
             S&apos;inscrire gratuitement
           </Link>
         </div>
@@ -218,7 +218,7 @@ export default function DevisPage() {
             <div className="card" style={{ padding: '28px 24px' }}>
               {/* Category */}
               <div style={{ marginBottom: 20 }}>
-                <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 6, color: 'rgba(255,255,255,.7)' }}>
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 6, color: '#9ca3af' }}>
                   Categorie de travaux
                 </label>
                 <select
@@ -226,13 +226,13 @@ export default function DevisPage() {
                   onChange={e => setCategory(e.target.value as Category)}
                   style={{
                     width: '100%', padding: '12px 14px', borderRadius: 10,
-                    background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.1)',
-                    color: '#fff', fontSize: 14, fontFamily: 'var(--b)',
+                    background: 'rgba(255,255,255,.05)', border: '1px solid rgba(255,255,255,.1)',
+                    color: '#e4e4e7', fontSize: 14, fontFamily: 'var(--b)',
                     outline: 'none', appearance: 'none', cursor: 'pointer',
                   }}
                 >
                   {CATEGORIES.map(c => (
-                    <option key={c.value} value={c.value} style={{ background: '#1E2228', color: '#fff' }}>
+                    <option key={c.value} value={c.value} style={{ background: 'rgba(255,255,255,.05)', color: '#e4e4e7' }}>
                       {c.label}
                     </option>
                   ))}
@@ -241,7 +241,7 @@ export default function DevisPage() {
 
               {/* Location */}
               <div style={{ marginBottom: 20 }}>
-                <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 6, color: 'rgba(255,255,255,.7)' }}>
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 6, color: '#9ca3af' }}>
                   Ville
                 </label>
                 <input
@@ -251,15 +251,15 @@ export default function DevisPage() {
                   onChange={e => setLocation(e.target.value)}
                   style={{
                     width: '100%', padding: '12px 14px', borderRadius: 10,
-                    background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.1)',
-                    color: '#fff', fontSize: 14, fontFamily: 'var(--b)', outline: 'none',
+                    background: 'rgba(255,255,255,.05)', border: '1px solid rgba(255,255,255,.1)',
+                    color: '#e4e4e7', fontSize: 14, fontFamily: 'var(--b)', outline: 'none',
                   }}
                 />
               </div>
 
               {/* Amount */}
               <div style={{ marginBottom: 20 }}>
-                <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 6, color: 'rgba(255,255,255,.7)' }}>
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 6, color: '#9ca3af' }}>
                   Montant du devis (€)
                 </label>
                 <input
@@ -270,15 +270,15 @@ export default function DevisPage() {
                   min={1}
                   style={{
                     width: '100%', padding: '12px 14px', borderRadius: 10,
-                    background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.1)',
-                    color: '#fff', fontSize: 14, fontFamily: 'var(--b)', outline: 'none',
+                    background: 'rgba(255,255,255,.05)', border: '1px solid rgba(255,255,255,.1)',
+                    color: '#e4e4e7', fontSize: 14, fontFamily: 'var(--b)', outline: 'none',
                   }}
                 />
               </div>
 
               {/* Description */}
               <div style={{ marginBottom: 24 }}>
-                <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 6, color: 'rgba(255,255,255,.7)' }}>
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 6, color: '#9ca3af' }}>
                   Decrivez les travaux
                 </label>
                 <textarea
@@ -288,8 +288,8 @@ export default function DevisPage() {
                   rows={4}
                   style={{
                     width: '100%', padding: '12px 14px', borderRadius: 10,
-                    background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.1)',
-                    color: '#fff', fontSize: 14, fontFamily: 'var(--b)', outline: 'none',
+                    background: 'rgba(255,255,255,.05)', border: '1px solid rgba(255,255,255,.1)',
+                    color: '#e4e4e7', fontSize: 14, fontFamily: 'var(--b)', outline: 'none',
                     resize: 'vertical', lineHeight: 1.6,
                   }}
                 />
@@ -387,26 +387,26 @@ export default function DevisPage() {
 
             {/* Analysis */}
             <div className="card" style={{ padding: '24px' }}>
-              <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 12, color: '#fff' }}>Analyse</h3>
+              <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 12, color: '#e4e4e7' }}>Analyse</h3>
               <p className="text-muted text-sm" style={{ lineHeight: 1.8 }}>{result.analysis}</p>
             </div>
 
             {/* Top companies */}
             <div className="card" style={{ padding: '24px' }}>
-              <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 16, color: '#fff' }}>Entreprises recommandees</h3>
+              <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 16, color: '#e4e4e7' }}>Entreprises recommandees</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 {result.top_companies.map((c, i) => (
                   <div key={i} style={{
                     display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                     padding: '12px 16px', borderRadius: 10,
-                    background: 'rgba(255,255,255,.02)', border: '1px solid rgba(255,255,255,.05)',
+                    background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.08)',
                   }}>
                     <div>
-                      <div style={{ fontSize: 14, fontWeight: 600, color: '#fff' }}>{c.name}</div>
+                      <div style={{ fontSize: 14, fontWeight: 600, color: '#e4e4e7' }}>{c.name}</div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 4 }}>
                         <div style={{ display: 'flex', gap: 2 }}>
                           {[1, 2, 3, 4, 5].map(s => (
-                            <span key={s} style={{ fontSize: 11, color: s <= Math.round(c.rating) ? 'var(--a)' : 'rgba(255,255,255,.15)' }}>
+                            <span key={s} style={{ fontSize: 11, color: s <= Math.round(c.rating) ? 'var(--a)' : '#d1d5db' }}>
                               &#9733;
                             </span>
                           ))}
@@ -425,7 +425,7 @@ export default function DevisPage() {
 
             {/* Recommendations */}
             <div className="card" style={{ padding: '24px' }}>
-              <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 12, color: '#fff' }}>Recommandations</h3>
+              <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 12, color: '#e4e4e7' }}>Recommandations</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {result.recommendations.map((r, i) => (
                   <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>

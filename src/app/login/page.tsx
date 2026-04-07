@@ -15,7 +15,6 @@ export default function LoginPage() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
-  // Store referral code in localStorage on mount
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const ref = params.get('ref')
@@ -105,13 +104,22 @@ export default function LoginPage() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#191C1F',
+      background: 'var(--bg)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       padding: '40px 16px',
+      position: 'relative',
+      overflow: 'hidden',
     }}>
-      <div style={{ maxWidth: 400, width: '100%' }}>
+      {/* Gradient mesh background */}
+      <div className="gradient-mesh">
+        <div className="blob blob-1" />
+        <div className="blob blob-2" />
+        <div className="blob blob-4" />
+      </div>
+
+      <div style={{ maxWidth: 400, width: '100%', position: 'relative', zIndex: 1 }}>
 
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
@@ -144,13 +152,11 @@ export default function LoginPage() {
           </p>
         </div>
 
-        {/* Main — 3 auth buttons */}
+        {/* Main -- 3 auth buttons */}
         {step === 'main' && (
-          <div style={{
-            background: '#1E2228',
-            borderRadius: 16,
-            border: '1px solid rgba(255,255,255,.06)',
+          <div className="glass" style={{
             padding: '28px 24px',
+            boxShadow: '0 8px 48px rgba(0,0,0,.4)',
           }}>
             {/* Google */}
             <button
@@ -165,7 +171,7 @@ export default function LoginPage() {
                 fontSize: 15,
                 fontWeight: 700,
                 fontFamily: "'Syne', sans-serif",
-                color: '#191C1F',
+                color: '#0a0b0d',
                 background: 'linear-gradient(135deg, #cfaf4b, #e8d58c)',
                 border: 'none',
                 borderRadius: 12,
@@ -196,16 +202,16 @@ export default function LoginPage() {
                 fontSize: 15,
                 fontWeight: 700,
                 fontFamily: "'Syne', sans-serif",
-                color: '#fff',
-                background: '#000',
-                border: '1px solid rgba(255,255,255,.12)',
+                color: '#000',
+                background: '#fff',
+                border: 'none',
                 borderRadius: 12,
                 cursor: 'pointer',
                 marginBottom: 12,
                 letterSpacing: '-0.01em',
               }}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="white" style={{ flexShrink: 0 }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="black" style={{ flexShrink: 0 }}>
                 <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.32 2.32-2.12 4.53-3.74 4.25z"/>
               </svg>
               Continuer avec Apple
@@ -224,7 +230,7 @@ export default function LoginPage() {
                 fontSize: 15,
                 fontWeight: 600,
                 fontFamily: "'Syne', sans-serif",
-                color: 'rgba(255,255,255,.7)',
+                color: '#9ca3af',
                 background: 'transparent',
                 border: '1px solid rgba(255,255,255,.12)',
                 borderRadius: 12,
@@ -232,7 +238,7 @@ export default function LoginPage() {
                 letterSpacing: '-0.01em',
               }}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
               </svg>
               Continuer avec mon numero
@@ -255,7 +261,7 @@ export default function LoginPage() {
 
             <p style={{
               fontSize: 11,
-              color: 'rgba(255,255,255,.3)',
+              color: '#4a4a5a',
               textAlign: 'center',
               marginTop: 20,
               lineHeight: 1.6,
@@ -267,19 +273,17 @@ export default function LoginPage() {
           </div>
         )}
 
-        {/* SMS — phone input */}
+        {/* SMS -- phone input */}
         {step === 'sms-phone' && (
-          <div style={{
-            background: '#1E2228',
-            borderRadius: 16,
-            border: '1px solid rgba(255,255,255,.06)',
+          <div className="glass" style={{
             padding: '28px 24px',
+            boxShadow: '0 8px 48px rgba(0,0,0,.4)',
           }}>
             <label style={{
               display: 'block',
               fontSize: 13,
               fontWeight: 600,
-              color: 'rgba(255,255,255,.5)',
+              color: '#6b7280',
               marginBottom: 8,
               fontFamily: "'Syne', sans-serif",
               textTransform: 'uppercase',
@@ -299,8 +303,8 @@ export default function LoginPage() {
                 padding: '14px 16px',
                 fontSize: 16,
                 fontFamily: "'JetBrains Mono', monospace",
-                color: '#fff',
-                background: 'rgba(255,255,255,.04)',
+                color: '#e4e4e7',
+                background: 'rgba(255,255,255,.05)',
                 border: '1px solid rgba(255,255,255,.1)',
                 borderRadius: 10,
                 outline: 'none',
@@ -311,21 +315,14 @@ export default function LoginPage() {
             <button
               onClick={sendSmsCode}
               disabled={loading || !phone}
+              className="btn-primary"
               style={{
                 width: '100%',
                 padding: '14px 20px',
                 fontSize: 15,
-                fontWeight: 700,
-                fontFamily: "'Syne', sans-serif",
-                color: '#191C1F',
-                background: loading || !phone
-                  ? 'rgba(207,175,75,.4)'
-                  : 'linear-gradient(135deg, #cfaf4b, #e8d58c)',
-                border: 'none',
-                borderRadius: 12,
-                cursor: loading || !phone ? 'not-allowed' : 'pointer',
                 marginBottom: 12,
                 opacity: loading || !phone ? 0.5 : 1,
+                cursor: loading || !phone ? 'not-allowed' : 'pointer',
               }}
             >
               {loading ? 'Envoi...' : 'Envoyer le code'}
@@ -338,7 +335,7 @@ export default function LoginPage() {
                 fontSize: 13,
                 fontWeight: 500,
                 fontFamily: "'Syne', sans-serif",
-                color: 'rgba(255,255,255,.3)',
+                color: '#6b7280',
                 background: 'transparent',
                 border: 'none',
                 cursor: 'pointer',
@@ -363,19 +360,17 @@ export default function LoginPage() {
           </div>
         )}
 
-        {/* SMS — code verification */}
+        {/* SMS -- code verification */}
         {step === 'sms-code' && (
-          <div style={{
-            background: '#1E2228',
-            borderRadius: 16,
-            border: '1px solid rgba(255,255,255,.06)',
+          <div className="glass" style={{
             padding: '28px 24px',
+            boxShadow: '0 8px 48px rgba(0,0,0,.4)',
           }}>
             <label style={{
               display: 'block',
               fontSize: 13,
               fontWeight: 600,
-              color: 'rgba(255,255,255,.5)',
+              color: '#6b7280',
               marginBottom: 6,
               fontFamily: "'Syne', sans-serif",
               textTransform: 'uppercase',
@@ -385,7 +380,7 @@ export default function LoginPage() {
             </label>
             <p style={{
               fontSize: 13,
-              color: 'rgba(255,255,255,.4)',
+              color: '#6b7280',
               marginBottom: 16,
             }}>
               Code envoye au {normalizedPhone}
@@ -403,8 +398,8 @@ export default function LoginPage() {
                 padding: '14px 16px',
                 fontSize: 24,
                 fontFamily: "'JetBrains Mono', monospace",
-                color: '#fff',
-                background: 'rgba(255,255,255,.04)',
+                color: '#e4e4e7',
+                background: 'rgba(255,255,255,.05)',
                 border: '1px solid rgba(255,255,255,.1)',
                 borderRadius: 10,
                 outline: 'none',
@@ -417,21 +412,14 @@ export default function LoginPage() {
             <button
               onClick={verifySmsCode}
               disabled={loading || code.length < 4}
+              className="btn-primary"
               style={{
                 width: '100%',
                 padding: '14px 20px',
                 fontSize: 15,
-                fontWeight: 700,
-                fontFamily: "'Syne', sans-serif",
-                color: '#191C1F',
-                background: loading || code.length < 4
-                  ? 'rgba(207,175,75,.4)'
-                  : 'linear-gradient(135deg, #cfaf4b, #e8d58c)',
-                border: 'none',
-                borderRadius: 12,
-                cursor: loading || code.length < 4 ? 'not-allowed' : 'pointer',
                 marginBottom: 12,
                 opacity: loading || code.length < 4 ? 0.5 : 1,
+                cursor: loading || code.length < 4 ? 'not-allowed' : 'pointer',
               }}
             >
               {loading ? 'Verification...' : 'Verifier'}
@@ -444,7 +432,7 @@ export default function LoginPage() {
                 fontSize: 13,
                 fontWeight: 500,
                 fontFamily: "'Syne', sans-serif",
-                color: 'rgba(255,255,255,.3)',
+                color: '#6b7280',
                 background: 'transparent',
                 border: 'none',
                 cursor: 'pointer',
@@ -473,7 +461,7 @@ export default function LoginPage() {
         <div style={{
           textAlign: 'center',
           fontSize: 11,
-          color: 'rgba(255,255,255,.2)',
+          color: '#3a3a4a',
           marginTop: 20,
           fontFamily: "'JetBrains Mono', monospace",
           letterSpacing: '0.02em',

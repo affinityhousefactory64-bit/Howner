@@ -32,15 +32,15 @@ const rules = [
   },
   {
     title: 'Mécanique du tirage',
-    content: 'Le tirage au sort est déclenché automatiquement lorsque le seuil de 200\u202F000 tickets est atteint. Chaque ticket dispose d\u2019une chance égale.',
+    content: 'Le tirage au sort est déclenché automatiquement lorsque le seuil de 200 000 tickets est atteint. Chaque ticket dispose d’une chance égale.',
   },
   {
     title: 'Contrôle et vérification',
-    content: 'Le tirage est supervisé par un huissier de justice. Le gagnant devra fournir une pièce d\u2019identité valide pour la vérification de son éligibilité.',
+    content: 'Le tirage est supervisé par un huissier de justice. Le gagnant devra fournir une pièce d’identité valide pour la vérification de son éligibilité.',
   },
   {
     title: 'Participation gratuite',
-    content: '1 ticket offert à l\u2019inscription. Parrainage illimité : chaque ami inscrit via votre lien vous rapporte 1 ticket supplémentaire.',
+    content: '1 ticket offert à l’inscription. Parrainage illimité : chaque ami inscrit via votre lien vous rapporte 1 ticket supplémentaire.',
   },
   {
     title: 'Conformité européenne',
@@ -113,7 +113,7 @@ export default function VillaPage() {
 
         {/* PRICE */}
         <div className="price-hero">695 000€</div>
-        <p className="mono text-xs" style={{ color: 'rgba(255,255,255,.25)', letterSpacing: 1, marginTop: 0 }}>
+        <p className="mono text-xs" style={{ color: '#9ca3af', letterSpacing: 1, marginTop: 0 }}>
           Valeur estimée du lot
         </p>
       </section>
@@ -154,7 +154,7 @@ export default function VillaPage() {
           <img src="/villa/terrain.jpg" alt="Terrain à Boucau" className="gallery-thumb" style={{ border: '2px solid rgba(207,175,75,.2)' }} />
         </div>
         <div className="text-center" style={{ marginTop: 8 }}>
-          <span className="text-xs" style={{ color: 'rgba(255,255,255,.25)' }}>Terrain + Construction neuve par Affinity Home · Boucau Haut, Pays Basque</span>
+          <span className="text-xs" style={{ color: '#9ca3af' }}>Terrain + Construction neuve par Affinity Home · Boucau Haut, Pays Basque</span>
         </div>
       </section>
 
@@ -165,7 +165,7 @@ export default function VillaPage() {
       <section className="content-medium text-center" style={{ paddingBottom: 60 }}>
         <div className="flex flex-wrap justify-center gap-10">
           {construction.map(item => (
-            <span key={item} className="card" style={{ padding: '10px 18px', borderRadius: 10, fontSize: 13, color: 'rgba(255,255,255,.6)' }}>
+            <span key={item} className="card" style={{ padding: '10px 18px', borderRadius: 10, fontSize: 13, color: '#6b7280' }}>
               {item}
             </span>
           ))}
@@ -188,7 +188,7 @@ export default function VillaPage() {
               }}>
                 <span className="mono" style={{ fontSize: 16, color: 'var(--a)' }}>{step.num}</span>
               </div>
-              <h3 style={{ fontSize: 16, fontWeight: 700, color: '#fff', margin: '0 0 8px' }}>
+              <h3 style={{ fontSize: 16, fontWeight: 700, color: '#e4e4e7', margin: '0 0 8px' }}>
                 {step.title}
               </h3>
               <p className="mono text-xs text-gold" style={{ margin: 0, letterSpacing: 0.3 }}>
@@ -208,7 +208,7 @@ export default function VillaPage() {
             { label: 'Remboursement', desc: 'Annulation si seuil non atteint' },
           ].map((s, i) => (
             <div key={i} className="card text-center" style={{ padding: '20px 16px' }}>
-              <div style={{ fontWeight: 700, fontSize: 13, color: '#fff', marginBottom: 4 }}>{s.label}</div>
+              <div style={{ fontWeight: 700, fontSize: 13, color: '#e4e4e7', marginBottom: 4 }}>{s.label}</div>
               <div className="text-xs text-muted">{s.desc}</div>
             </div>
           ))}
@@ -279,7 +279,7 @@ export default function VillaPage() {
           <br />
           Règlement complet disponible sur demande · Données traitées conformément au RGPD
         </p>
-        <p style={{ fontSize: 9, color: 'rgba(255,255,255,.1)', marginTop: 16 }}>
+        <p style={{ fontSize: 9, color: '#d1d5db', marginTop: 16 }}>
           &copy; {new Date().getFullYear()} Howner
         </p>
       </footer>

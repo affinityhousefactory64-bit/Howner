@@ -28,18 +28,18 @@ export default function Nav() {
   const linkStyle = (path: string) => ({
     fontFamily: 'var(--b)' as const,
     fontSize: 11,
-    color: pathname === path ? 'var(--a)' : 'rgba(255,255,255,.4)',
+    color: pathname === path ? 'var(--a)' : '#6b7280',
     textDecoration: 'none' as const,
     fontWeight: (pathname === path ? 700 : 500) as number,
     padding: '4px 8px',
     borderRadius: 6,
-    background: pathname === path ? 'rgba(207,175,75,.06)' : 'transparent',
+    background: pathname === path ? 'rgba(207,175,75,.08)' : 'transparent',
   })
 
   const mobileLinkStyle = (path: string) => ({
     fontFamily: 'var(--b)' as const,
     fontSize: 15,
-    color: pathname === path ? 'var(--a)' : 'rgba(255,255,255,.6)',
+    color: pathname === path ? 'var(--a)' : '#9ca3af',
     textDecoration: 'none' as const,
     fontWeight: (pathname === path ? 700 : 500) as number,
     padding: '14px 0',
@@ -62,9 +62,9 @@ export default function Nav() {
           {!loading && user ? (
             <>
               <Link href="/compte" style={linkStyle('/compte')}>
-                Mon compte{user.type === 'pro' && <span style={{ marginLeft: 4, padding: '1px 5px', borderRadius: 4, background: 'rgba(207,175,75,.12)', fontFamily: 'var(--b)', fontSize: 8, fontWeight: 700, color: 'var(--a)', verticalAlign: 'middle' }}>PRO</span>}
+                Mon compte{user.type === 'pro' && <span style={{ marginLeft: 4, padding: '1px 5px', borderRadius: 4, background: 'rgba(127,132,246,.12)', fontFamily: 'var(--b)', fontSize: 8, fontWeight: 700, color: 'var(--accent)', verticalAlign: 'middle' }}>PRO</span>}
               </Link>
-              <button onClick={logout} style={{ padding: '4px 8px', background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.06)', borderRadius: 6, fontFamily: 'var(--b)', fontSize: 9, color: 'rgba(255,255,255,.3)', cursor: 'pointer' }}>Se d{'\u00e9'}connecter</button>
+              <button onClick={logout} style={{ padding: '4px 8px', background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.08)', borderRadius: 6, fontFamily: 'var(--b)', fontSize: 9, color: '#6b7280', cursor: 'pointer' }}>Se d{'é'}connecter</button>
             </>
           ) : !loading ? (
             <Link href="/login" className="btn-primary" style={{ padding: '6px 14px', fontSize: 10 }}>Essayer gratuit</Link>
@@ -93,15 +93,15 @@ export default function Nav() {
           }}
         >
           <span style={{
-            display: 'block', width: 16, height: 1.5, background: 'rgba(255,255,255,.6)', borderRadius: 2,
+            display: 'block', width: 16, height: 1.5, background: '#9ca3af', borderRadius: 2,
             transition: 'all .3s', transform: menuOpen ? 'rotate(45deg) translateY(2.75px)' : 'none',
           }} />
           <span style={{
-            display: 'block', width: 16, height: 1.5, background: 'rgba(255,255,255,.6)', borderRadius: 2,
+            display: 'block', width: 16, height: 1.5, background: '#9ca3af', borderRadius: 2,
             transition: 'all .3s', opacity: menuOpen ? 0 : 1,
           }} />
           <span style={{
-            display: 'block', width: 16, height: 1.5, background: 'rgba(255,255,255,.6)', borderRadius: 2,
+            display: 'block', width: 16, height: 1.5, background: '#9ca3af', borderRadius: 2,
             transition: 'all .3s', transform: menuOpen ? 'rotate(-45deg) translateY(-2.75px)' : 'none',
           }} />
         </button>
@@ -116,8 +116,9 @@ export default function Nav() {
           right: 0,
           bottom: 0,
           zIndex: 100,
-          background: 'rgba(10,14,26,.98)',
+          background: 'rgba(10,11,13,.98)',
           backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
           display: 'flex',
           flexDirection: 'column',
           overflowY: 'auto',
@@ -139,7 +140,7 @@ export default function Nav() {
                 border: '1px solid rgba(255,255,255,.08)',
                 borderRadius: 8, cursor: 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: 'rgba(255,255,255,.6)', fontSize: 18,
+                color: '#9ca3af', fontSize: 18,
                 fontFamily: 'var(--b)',
               }}
             >
@@ -157,7 +158,7 @@ export default function Nav() {
               <>
                 <Link href="/compte" onClick={() => setMenuOpen(false)} style={mobileLinkStyle('/compte')}>
                   Mon compte
-                  {user.type === 'pro' && <span style={{ marginLeft: 8, padding: '2px 6px', borderRadius: 4, background: 'rgba(207,175,75,.12)', fontSize: 9, fontWeight: 700, color: 'var(--a)' }}>PRO</span>}
+                  {user.type === 'pro' && <span style={{ marginLeft: 8, padding: '2px 6px', borderRadius: 4, background: 'rgba(127,132,246,.12)', fontSize: 9, fontWeight: 700, color: 'var(--accent)' }}>PRO</span>}
                 </Link>
 
                 <div style={{ marginTop: 24 }}>
@@ -169,10 +170,10 @@ export default function Nav() {
                       border: '1px solid rgba(255,255,255,.08)',
                       borderRadius: 10,
                       fontFamily: 'var(--b)', fontSize: 13, fontWeight: 600,
-                      color: 'rgba(255,255,255,.4)', cursor: 'pointer',
+                      color: '#6b7280', cursor: 'pointer',
                     }}
                   >
-                    Se d{'\u00e9'}connecter
+                    Se d{'é'}connecter
                   </button>
                 </div>
               </>
@@ -187,7 +188,7 @@ export default function Nav() {
                   Essayer gratuitement
                 </Link>
                 <div style={{ textAlign: 'center', marginTop: 12 }}>
-                  <Link href="/login" onClick={() => setMenuOpen(false)} style={{ fontSize: 13, color: 'rgba(255,255,255,.4)', textDecoration: 'none', fontFamily: 'var(--b)' }}>
+                  <Link href="/login" onClick={() => setMenuOpen(false)} style={{ fontSize: 13, color: '#6b7280', textDecoration: 'none', fontFamily: 'var(--b)' }}>
                     Se connecter
                   </Link>
                 </div>

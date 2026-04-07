@@ -67,13 +67,13 @@ export default function CreditsPage() {
     <>
       <Nav />
 
-      {/* ══ MINI GAUGE BAR ══ */}
-      <div style={{ background: 'linear-gradient(90deg, rgba(207,175,75,.08), rgba(207,175,75,.03))', borderBottom: '1px solid rgba(207,175,75,.1)', padding: '10px 20px' }}>
+      {/* == MINI GAUGE BAR == */}
+      <div style={{ background: 'rgba(127,132,246,.04)', borderBottom: '1px solid rgba(255,255,255,.06)', padding: '10px 20px' }}>
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
           <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#34d399', boxShadow: '0 0 12px #34d399', animation: 'pulse 2s infinite', flexShrink: 0 }} />
           <span style={{ fontSize: 11, fontWeight: 700, color: '#34d399' }}>Tirage en cours</span>
           <div style={{ width: 120, height: 4, borderRadius: 10, background: 'rgba(255,255,255,.06)', overflow: 'hidden', flexShrink: 0 }}>
-            <div style={{ height: '100%', borderRadius: 10, background: 'linear-gradient(90deg, var(--a), #e8d282)', width: `${pct}%`, transition: 'width 1s' }} />
+            <div style={{ height: '100%', borderRadius: 10, background: 'linear-gradient(90deg, var(--accent), var(--a))', width: `${pct}%`, transition: 'width 1s' }} />
           </div>
           <span className="mono text-gold" style={{ fontSize: 10, flexShrink: 0 }}>{gauge.toLocaleString()}/{TOTAL / 1000}K</span>
         </div>
@@ -102,13 +102,13 @@ export default function CreditsPage() {
       <section style={{ paddingTop: 0, paddingBottom: 0 }}>
         <div className="container">
           <div style={{ display: 'flex', justifyContent: 'center', gap: 16, marginBottom: 40 }}>
-            <div style={{ background: 'rgba(207,175,75,.06)', border: '1px solid rgba(207,175,75,.15)', borderRadius: 14, padding: '20px 32px', textAlign: 'center', minWidth: 120 }}>
+            <div className="glass" style={{ padding: '20px 32px', textAlign: 'center', minWidth: 120, background: 'rgba(207,175,75,.06)', borderColor: 'rgba(207,175,75,.15)' }}>
               <div className="mono text-gold" style={{ fontSize: 36, fontWeight: 700, lineHeight: 1 }}>{credits}</div>
-              <div style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,.4)', letterSpacing: 2, textTransform: 'uppercase', marginTop: 6 }}>Cr&#233;dits</div>
+              <div style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', letterSpacing: 2, textTransform: 'uppercase', marginTop: 6 }}>Cr&#233;dits</div>
             </div>
-            <div style={{ background: 'rgba(168,85,247,.06)', border: '1px solid rgba(168,85,247,.15)', borderRadius: 14, padding: '20px 32px', textAlign: 'center', minWidth: 120 }}>
-              <div className="mono" style={{ fontSize: 36, fontWeight: 700, lineHeight: 1, color: '#a855f7' }}>{tickets}</div>
-              <div style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,.4)', letterSpacing: 2, textTransform: 'uppercase', marginTop: 6 }}>Tickets</div>
+            <div className="glass" style={{ padding: '20px 32px', textAlign: 'center', minWidth: 120, background: 'rgba(127,132,246,.06)', borderColor: 'rgba(127,132,246,.15)' }}>
+              <div className="mono" style={{ fontSize: 36, fontWeight: 700, lineHeight: 1, color: 'var(--accent)' }}>{tickets}</div>
+              <div style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', letterSpacing: 2, textTransform: 'uppercase', marginTop: 6 }}>Tickets</div>
             </div>
           </div>
         </div>
@@ -156,12 +156,12 @@ export default function CreditsPage() {
         <div className="container">
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 32 }}>
             {[
-              { t: 'Paiement Stripe', d: 'S\u00e9curis\u00e9 et chiffr\u00e9' },
-              { t: 'Sans expiration', d: 'Vos cr\u00e9dits restent' },
-              { t: '1 cr\u00e9dit = 1 ticket', d: 'Toujours offert en bonus' },
+              { t: 'Paiement Stripe', d: 'Sécurisé et chiffré' },
+              { t: 'Sans expiration', d: 'Vos crédits restent' },
+              { t: '1 crédit = 1 ticket', d: 'Toujours offert en bonus' },
             ].map((x, i) => (
               <div key={i} style={{ minWidth: 120, maxWidth: 160 }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: '#fff', marginBottom: 2 }}>{x.t}</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#e4e4e7', marginBottom: 2 }}>{x.t}</div>
                 <div className="text-muted text-xs">{x.d}</div>
               </div>
             ))}

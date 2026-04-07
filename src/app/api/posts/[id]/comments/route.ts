@@ -49,7 +49,7 @@ export async function POST(
   try {
     const session = await getSession()
     if (!session) {
-      return NextResponse.json({ error: 'Non connect\u00e9' }, { status: 401 })
+      return NextResponse.json({ error: 'Non connecté' }, { status: 401 })
     }
 
     const { id: postId } = await params
@@ -71,7 +71,7 @@ export async function POST(
 
     if (error) {
       console.error('Comment creation error:', error)
-      return NextResponse.json({ error: 'Erreur cr\u00e9ation commentaire' }, { status: 500 })
+      return NextResponse.json({ error: 'Erreur création commentaire' }, { status: 500 })
     }
 
     // Increment comments_count

@@ -9,7 +9,7 @@ export async function POST(
   try {
     const session = await getSession()
     if (!session) {
-      return NextResponse.json({ error: 'Non connect\u00e9' }, { status: 401 })
+      return NextResponse.json({ error: 'Non connecté' }, { status: 401 })
     }
 
     const { id: postId } = await params

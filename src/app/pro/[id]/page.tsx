@@ -268,7 +268,7 @@ export default function ProProfilePage() {
                           background: 'rgba(207,175,75,.08)',
                           fontSize: 8, fontWeight: 700, color: 'var(--a)',
                         }}>
-                          BOOST\u00c9
+                          BOOSTÉ
                         </span>
                       )}
                     </div>
@@ -278,14 +278,14 @@ export default function ProProfilePage() {
                     <div className="text-xs text-muted">{l.location}</div>
                     {l.surface && (
                       <div className="text-xs" style={{ color: 'rgba(255,255,255,.22)', marginTop: 2 }}>
-                        {l.surface} m\u00b2{l.rooms ? ` \u00b7 ${l.rooms} pi\u00e8ce${l.rooms > 1 ? 's' : ''}` : ''}
+                        {l.surface} m²{l.rooms ? ` · ${l.rooms} pièce${l.rooms > 1 ? 's' : ''}` : ''}
                       </div>
                     )}
                     {l.price && (
                       <div className="mono text-gold" style={{ fontSize: 15, fontWeight: 700, marginTop: 8 }}>
                         {l.subcategory === 'location'
-                          ? `${l.price.toLocaleString('fr-FR')}\u20ac/mois`
-                          : `${l.price.toLocaleString('fr-FR')}\u20ac`}
+                          ? `${l.price.toLocaleString('fr-FR')}€/mois`
+                          : `${l.price.toLocaleString('fr-FR')}€`}
                       </div>
                     )}
                   </div>
@@ -364,7 +364,7 @@ export default function ProProfilePage() {
               borderRadius: 8, color: 'rgba(255,255,255,.5)', fontFamily: 'var(--b)', fontWeight: 600,
             }}
           >
-            R\u00e9server un RDV \u2014 1 cr\u00e9dit
+            Réserver un RDV — 1 crédit
           </Link>
         </div>
 

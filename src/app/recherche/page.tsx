@@ -68,10 +68,10 @@ export default function RecherchePage() {
 
   const selectStyle: React.CSSProperties = {
     padding: '8px 12px',
-    background: 'rgba(255,255,255,.04)',
-    border: '1px solid rgba(255,255,255,.08)',
+    background: 'rgba(255,255,255,.05)',
+    border: '1px solid rgba(255,255,255,.1)',
     borderRadius: 8,
-    color: '#fff',
+    color: '#e4e4e7',
     fontSize: 13,
     fontFamily: 'var(--b)',
     outline: 'none',
@@ -79,7 +79,7 @@ export default function RecherchePage() {
     minWidth: 110,
     appearance: 'none' as const,
     WebkitAppearance: 'none' as const,
-    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.4)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`,
+    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.3)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`,
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'right 10px center',
     paddingRight: 30,
@@ -87,10 +87,10 @@ export default function RecherchePage() {
 
   const inputFilterStyle: React.CSSProperties = {
     padding: '8px 12px',
-    background: 'rgba(255,255,255,.04)',
-    border: '1px solid rgba(255,255,255,.08)',
+    background: 'rgba(255,255,255,.05)',
+    border: '1px solid rgba(255,255,255,.1)',
     borderRadius: 8,
-    color: '#fff',
+    color: '#e4e4e7',
     fontSize: 13,
     fontFamily: 'var(--b)',
     outline: 'none',
@@ -103,7 +103,8 @@ export default function RecherchePage() {
       {/* ===== TOP BAR ===== */}
       <header style={{
         position: 'sticky', top: 0, zIndex: 50,
-        background: 'rgba(25,28,31,.95)', backdropFilter: 'blur(12px)',
+        background: 'rgba(10,11,13,.9)', backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
         borderBottom: '1px solid rgba(255,255,255,.06)',
       }}>
         {/* Logo + Search */}
@@ -127,21 +128,21 @@ export default function RecherchePage() {
               style={{
                 width: '100%',
                 padding: '12px 20px 12px 44px',
-                background: 'rgba(255,255,255,.04)',
-                border: '1px solid rgba(255,255,255,.08)',
+                background: 'rgba(255,255,255,.05)',
+                border: '1px solid rgba(255,255,255,.1)',
                 borderRadius: 12,
-                color: '#fff',
+                color: '#e4e4e7',
                 fontSize: 15,
                 fontFamily: 'var(--b)',
                 outline: 'none',
                 transition: 'border-color .2s',
               }}
-              onFocus={e => e.currentTarget.style.borderColor = 'rgba(207,175,75,.3)'}
-              onBlur={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,.08)'}
+              onFocus={e => e.currentTarget.style.borderColor = 'rgba(127,132,246,.5)'}
+              onBlur={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,.1)'}
             />
             <svg
               style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', opacity: 0.35 }}
-              width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+              width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
             >
               <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
             </svg>
@@ -151,7 +152,7 @@ export default function RecherchePage() {
             textDecoration: 'none', flexShrink: 0,
             padding: '8px 20px', borderRadius: 8,
             border: '1px solid rgba(255,255,255,.1)',
-            color: 'rgba(255,255,255,.7)', fontSize: 13, fontFamily: 'var(--b)',
+            color: '#9ca3af', fontSize: 13, fontFamily: 'var(--b)',
             transition: 'border-color .2s',
           }}>
             Mon compte
@@ -172,39 +173,15 @@ export default function RecherchePage() {
           </select>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-            <input
-              type="number"
-              placeholder="Budget min (K)"
-              value={budgetMin}
-              onChange={e => setBudgetMin(e.target.value)}
-              style={inputFilterStyle}
-            />
-            <span style={{ color: 'rgba(255,255,255,.25)', fontSize: 12 }}>-</span>
-            <input
-              type="number"
-              placeholder="Budget max (K)"
-              value={budgetMax}
-              onChange={e => setBudgetMax(e.target.value)}
-              style={inputFilterStyle}
-            />
+            <input type="number" placeholder="Budget min (K)" value={budgetMin} onChange={e => setBudgetMin(e.target.value)} style={inputFilterStyle} />
+            <span style={{ color: '#3a3a4a', fontSize: 12 }}>-</span>
+            <input type="number" placeholder="Budget max (K)" value={budgetMax} onChange={e => setBudgetMax(e.target.value)} style={inputFilterStyle} />
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-            <input
-              type="number"
-              placeholder="Surf. min"
-              value={surfaceMin}
-              onChange={e => setSurfaceMin(e.target.value)}
-              style={{ ...inputFilterStyle, width: 80 }}
-            />
-            <span style={{ color: 'rgba(255,255,255,.25)', fontSize: 12 }}>-</span>
-            <input
-              type="number"
-              placeholder="Surf. max"
-              value={surfaceMax}
-              onChange={e => setSurfaceMax(e.target.value)}
-              style={{ ...inputFilterStyle, width: 80 }}
-            />
+            <input type="number" placeholder="Surf. min" value={surfaceMin} onChange={e => setSurfaceMin(e.target.value)} style={{ ...inputFilterStyle, width: 80 }} />
+            <span style={{ color: '#3a3a4a', fontSize: 12 }}>-</span>
+            <input type="number" placeholder="Surf. max" value={surfaceMax} onChange={e => setSurfaceMax(e.target.value)} style={{ ...inputFilterStyle, width: 80 }} />
           </div>
 
           <select value={filterPieces} onChange={e => setFilterPieces(e.target.value)} style={selectStyle}>
@@ -216,13 +193,7 @@ export default function RecherchePage() {
             <option value="5+">5+ pieces</option>
           </select>
 
-          <input
-            type="text"
-            placeholder="Ville..."
-            value={ville}
-            onChange={e => setVille(e.target.value)}
-            style={{ ...inputFilterStyle, width: 120 }}
-          />
+          <input type="text" placeholder="Ville..." value={ville} onChange={e => setVille(e.target.value)} style={{ ...inputFilterStyle, width: 120 }} />
         </div>
       </header>
 
@@ -232,11 +203,11 @@ export default function RecherchePage() {
         padding: '16px 24px', maxWidth: 1600, margin: '0 auto', width: '100%',
         flexWrap: 'wrap', gap: 12,
       }}>
-        <p style={{ fontSize: 14, fontWeight: 600, color: 'rgba(255,255,255,.8)', fontFamily: 'var(--b)' }}>
+        <p style={{ fontSize: 14, fontWeight: 600, color: '#e4e4e7', fontFamily: 'var(--b)' }}>
           {sorted.length} bien{sorted.length > 1 ? 's' : ''} trouve{sorted.length > 1 ? 's' : ''} a Bayonne et environs
         </p>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ fontSize: 12, color: 'rgba(255,255,255,.4)', fontFamily: 'var(--b)' }}>Trier par:</span>
+          <span style={{ fontSize: 12, color: '#6b7280', fontFamily: 'var(--b)' }}>Trier par:</span>
           <select value={sortBy} onChange={e => setSortBy(e.target.value)} style={{ ...selectStyle, minWidth: 140 }}>
             {SORT_OPTIONS.map(o => (
               <option key={o.value} value={o.value}>{o.label}</option>
@@ -263,38 +234,42 @@ export default function RecherchePage() {
               <div
                 key={i}
                 style={{
-                  background: 'rgba(255,255,255,.025)',
-                  border: '1px solid rgba(255,255,255,.06)',
-                  borderRadius: 14,
+                  background: 'rgba(255,255,255,.04)',
+                  border: '1px solid rgba(255,255,255,.08)',
+                  boxShadow: '0 4px 20px rgba(0,0,0,.3)',
+                  borderRadius: 16,
                   overflow: 'hidden',
-                  transition: 'border-color .25s, box-shadow .25s',
+                  transition: 'border-color .25s, box-shadow .25s, transform .25s',
                   cursor: 'pointer',
+                  backdropFilter: 'blur(12px)',
                 }}
                 onMouseEnter={e => {
                   e.currentTarget.style.borderColor = 'rgba(207,175,75,.25)'
-                  e.currentTarget.style.boxShadow = '0 0 20px rgba(207,175,75,.06)'
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,.4)'
+                  e.currentTarget.style.transform = 'translateY(-2px)'
                 }}
                 onMouseLeave={e => {
-                  e.currentTarget.style.borderColor = 'rgba(255,255,255,.06)'
-                  e.currentTarget.style.boxShadow = 'none'
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,.08)'
+                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,.3)'
+                  e.currentTarget.style.transform = 'translateY(0)'
                 }}
               >
                 {/* Photo placeholder */}
                 <div style={{
-                  height: 120, background: 'rgba(255,255,255,.03)',
+                  height: 120, background: 'var(--bg2)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  borderBottom: '1px solid rgba(255,255,255,.04)',
+                  borderBottom: '1px solid rgba(255,255,255,.06)',
                   position: 'relative',
                 }}>
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.12)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                     <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><path d="m21 15-5-5L5 21" />
                   </svg>
-                  {/* Source badge */}
                   <span style={{
                     position: 'absolute', top: 10, right: 10,
                     fontSize: 10, fontFamily: 'var(--b)', fontWeight: 600,
-                    color: 'rgba(255,255,255,.35)', background: 'rgba(0,0,0,.5)',
+                    color: '#6b7280', background: 'rgba(255,255,255,.06)',
                     padding: '3px 8px', borderRadius: 6,
+                    border: '1px solid rgba(255,255,255,.06)',
                   }}>
                     via {listing.source}
                   </span>
@@ -302,66 +277,35 @@ export default function RecherchePage() {
 
                 {/* Card content */}
                 <div style={{ padding: '16px 20px' }}>
-                  {/* Title row */}
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
                     <div style={{ flex: 1, marginRight: 12 }}>
-                      <h3 style={{
-                        fontSize: 15, fontWeight: 700, color: '#fff',
-                        fontFamily: 'var(--b)', lineHeight: 1.3, marginBottom: 4,
-                      }}>
+                      <h3 style={{ fontSize: 15, fontWeight: 700, color: '#fff', fontFamily: 'var(--b)', lineHeight: 1.3, marginBottom: 4 }}>
                         {listing.title}
                       </h3>
-                      <p style={{ fontSize: 13, color: 'rgba(255,255,255,.45)', fontFamily: 'var(--b)' }}>
-                        {listing.location}
-                      </p>
+                      <p style={{ fontSize: 13, color: '#6b7280', fontFamily: 'var(--b)' }}>{listing.location}</p>
                     </div>
-                    <span style={{
-                      fontSize: 18, fontWeight: 700, color: 'var(--a)',
-                      fontFamily: 'var(--m)', whiteSpace: 'nowrap',
-                    }}>
+                    <span style={{ fontSize: 18, fontWeight: 700, color: 'var(--a)', fontFamily: 'var(--m)', whiteSpace: 'nowrap' }}>
                       {listing.price} €
                     </span>
                   </div>
 
-                  {/* Details row */}
-                  <div style={{
-                    display: 'flex', alignItems: 'center', gap: 12,
-                    marginBottom: 12, flexWrap: 'wrap',
-                  }}>
-                    <span style={{
-                      fontSize: 12, color: 'rgba(255,255,255,.5)', fontFamily: 'var(--b)',
-                      background: 'rgba(255,255,255,.04)', padding: '3px 10px', borderRadius: 6,
-                    }}>
-                      {listing.surface} m2
-                    </span>
-                    <span style={{
-                      fontSize: 12, color: 'rgba(255,255,255,.5)', fontFamily: 'var(--b)',
-                      background: 'rgba(255,255,255,.04)', padding: '3px 10px', borderRadius: 6,
-                    }}>
-                      {listing.pieces}p
-                    </span>
-                    <span style={{
-                      fontSize: 12, color: 'rgba(255,255,255,.5)', fontFamily: 'var(--b)',
-                      background: 'rgba(255,255,255,.04)', padding: '3px 10px', borderRadius: 6,
-                    }}>
-                      DPE C
-                    </span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12, flexWrap: 'wrap' }}>
+                    {[`${listing.surface} m2`, `${listing.pieces}p`, 'DPE C'].map((tag, ti) => (
+                      <span key={ti} style={{ fontSize: 12, color: '#6b7280', fontFamily: 'var(--b)', background: 'rgba(255,255,255,.05)', padding: '3px 10px', borderRadius: 6, border: '1px solid rgba(255,255,255,.06)' }}>
+                        {tag}
+                      </span>
+                    ))}
                   </div>
 
-                  {/* Score + CTA row */}
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <div style={{
-                      display: 'flex', alignItems: 'center', gap: 8,
+                    <span style={{
+                      fontSize: 11, fontWeight: 700, fontFamily: 'var(--m)',
+                      color: badge.color, background: badge.bg,
+                      border: `1px solid ${badge.border}`,
+                      padding: '4px 10px', borderRadius: 6,
                     }}>
-                      <span style={{
-                        fontSize: 11, fontWeight: 700, fontFamily: 'var(--m)',
-                        color: badge.color, background: badge.bg,
-                        border: `1px solid ${badge.border}`,
-                        padding: '4px 10px', borderRadius: 6,
-                      }}>
-                        Score Howner: {listing.score}/10
-                      </span>
-                    </div>
+                      Score Howner: {listing.score}/10
+                    </span>
                     <button style={{
                       padding: '7px 16px', borderRadius: 8, fontSize: 12, fontWeight: 600,
                       fontFamily: 'var(--b)', cursor: 'pointer',
@@ -370,7 +314,7 @@ export default function RecherchePage() {
                       transition: 'background .2s, border-color .2s',
                     }}
                     onMouseEnter={e => {
-                      e.currentTarget.style.background = 'rgba(207,175,75,.08)'
+                      e.currentTarget.style.background = 'rgba(207,175,75,.1)'
                       e.currentTarget.style.borderColor = 'rgba(207,175,75,.5)'
                     }}
                     onMouseLeave={e => {
@@ -387,54 +331,40 @@ export default function RecherchePage() {
           })}
 
           {sorted.length === 0 && (
-            <div style={{
-              textAlign: 'center', padding: '60px 20px',
-              color: 'rgba(255,255,255,.35)', fontSize: 14, fontFamily: 'var(--b)',
-            }}>
+            <div style={{ textAlign: 'center', padding: '60px 20px', color: '#6b7280', fontSize: 14, fontFamily: 'var(--b)' }}>
               Aucun bien ne correspond a vos criteres. Ajustez les filtres.
             </div>
           )}
         </div>
 
-        {/* RIGHT: Map placeholder (hidden on mobile via CSS) */}
+        {/* RIGHT: Map placeholder */}
         <div className="recherche-map" style={{
           flex: '0 0 40%',
-          background: 'rgba(255,255,255,.02)',
-          border: '1px solid rgba(255,255,255,.06)',
-          borderRadius: 14,
+          background: 'var(--bg2)',
+          border: '1px solid rgba(255,255,255,.08)',
+          borderRadius: 16,
           display: 'flex', flexDirection: 'column',
           alignItems: 'center', justifyContent: 'center',
           minHeight: 400,
           position: 'sticky', top: 180, alignSelf: 'flex-start',
           maxHeight: 'calc(100vh - 220px)',
+          backdropFilter: 'blur(12px)',
         }}>
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.1)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginBottom: 16 }}>
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
             <circle cx="12" cy="10" r="3" />
           </svg>
-          <p style={{
-            fontSize: 15, fontWeight: 600, color: 'rgba(255,255,255,.25)',
-            fontFamily: 'var(--b)', textAlign: 'center', lineHeight: 1.5,
-            maxWidth: 240,
-          }}>
+          <p style={{ fontSize: 15, fontWeight: 600, color: '#6b7280', fontFamily: 'var(--b)', textAlign: 'center', lineHeight: 1.5, maxWidth: 240 }}>
             Carte interactive
           </p>
-          <p style={{
-            fontSize: 12, color: 'rgba(255,255,255,.15)',
-            fontFamily: 'var(--b)', marginTop: 6,
-          }}>
-            bientot disponible
-          </p>
-          <div style={{
-            marginTop: 24, display: 'flex', flexWrap: 'wrap', gap: 6,
-            justifyContent: 'center', padding: '0 20px',
-          }}>
+          <p style={{ fontSize: 12, color: '#4a4a5a', fontFamily: 'var(--b)', marginTop: 6 }}>bientot disponible</p>
+          <div style={{ marginTop: 24, display: 'flex', flexWrap: 'wrap', gap: 6, justifyContent: 'center', padding: '0 20px' }}>
             {['Bayonne', 'Anglet', 'Biarritz', 'Boucau'].map(v => (
               <span key={v} style={{
                 fontSize: 10, fontFamily: 'var(--b)', fontWeight: 600,
-                color: 'rgba(255,255,255,.2)', background: 'rgba(255,255,255,.03)',
+                color: '#6b7280', background: 'rgba(255,255,255,.04)',
                 padding: '4px 10px', borderRadius: 20,
-                border: '1px solid rgba(255,255,255,.05)',
+                border: '1px solid rgba(255,255,255,.08)',
               }}>
                 {v}
               </span>
@@ -446,7 +376,7 @@ export default function RecherchePage() {
       {/* ===== BOTTOM BAR ===== */}
       <div style={{
         borderTop: '1px solid rgba(255,255,255,.06)',
-        background: 'rgba(25,28,31,.95)', backdropFilter: 'blur(12px)',
+        background: 'rgba(10,11,13,.9)', backdropFilter: 'blur(24px)',
         padding: '16px 24px',
       }}>
         <div style={{
@@ -455,9 +385,7 @@ export default function RecherchePage() {
           flexWrap: 'wrap', gap: 12,
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: 13, color: 'rgba(255,255,255,.5)', fontFamily: 'var(--b)' }}>
-              Vous ne trouvez pas ?
-            </span>
+            <span style={{ fontSize: 13, color: '#6b7280', fontFamily: 'var(--b)' }}>Vous ne trouvez pas ?</span>
             <Link href="/chat" style={{
               fontSize: 13, fontWeight: 600, color: 'var(--a)',
               fontFamily: 'var(--b)', textDecoration: 'none',
@@ -467,10 +395,7 @@ export default function RecherchePage() {
               Demandez a l&apos;agent IA
             </Link>
           </div>
-          <span style={{
-            fontSize: 12, fontWeight: 600, color: 'var(--a)',
-            fontFamily: 'var(--b)', opacity: 0.7,
-          }}>
+          <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--a)', fontFamily: 'var(--b)', opacity: 0.7 }}>
             1 credit offert a l&apos;inscription
           </span>
         </div>
@@ -490,22 +415,10 @@ export default function RecherchePage() {
           }
         }
 
-        select option {
-          background: #1E2228;
-          color: #fff;
-        }
-
         .recherche-list::-webkit-scrollbar { width: 4px; }
         .recherche-list::-webkit-scrollbar-track { background: transparent; }
-        .recherche-list::-webkit-scrollbar-thumb { background: rgba(207,175,75,.12); border-radius: 4px; }
-        .recherche-list::-webkit-scrollbar-thumb:hover { background: rgba(207,175,75,.2); }
-
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-          -webkit-appearance: none;
-          margin: 0;
-        }
-        input[type="number"] { -moz-appearance: textfield; }
+        .recherche-list::-webkit-scrollbar-thumb { background: rgba(127,132,246,.25); border-radius: 4px; }
+        .recherche-list::-webkit-scrollbar-thumb:hover { background: rgba(127,132,246,.4); }
       `}</style>
     </div>
   )

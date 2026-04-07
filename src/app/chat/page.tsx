@@ -59,12 +59,13 @@ interface Message {
 const C = {
   gold: '#cfaf4b',
   gold2: '#e8d58c',
-  bg: '#191C1F',
-  bg2: '#1E2228',
-  bg3: '#242930',
-  white: '#ffffff',
-  muted: 'rgba(255,255,255,.5)',
-  border: 'rgba(207,175,75,.12)',
+  accent: '#7F84F6',
+  bg: '#0a0b0d',
+  bg2: '#111214',
+  bg3: '#181a1e',
+  white: '#e4e4e7',
+  muted: '#6b7280',
+  border: 'rgba(255,255,255,.08)',
   fontD: "'Fraunces', serif",
   fontB: "'Syne', sans-serif",
   fontM: "'JetBrains Mono', monospace",
@@ -174,7 +175,7 @@ function TypingIndicator() {
         fontSize: 14, fontWeight: 700, fontFamily: C.fontD, color: C.bg, flexShrink: 0,
       }}>H</div>
       <div style={{
-        background: C.bg2, borderRadius: '18px 18px 18px 4px', padding: '14px 20px',
+        background: C.bg3, border: `1px solid ${C.border}`, borderRadius: '18px 18px 18px 4px', padding: '14px 20px',
         display: 'flex', gap: 5, alignItems: 'center',
       }}>
         {[0, 1, 2].map(i => (
@@ -194,8 +195,8 @@ function PropertyCards({ items }: { items: PropertyCard[] }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 12 }}>
       {items.map((p, i) => (
         <div key={i} style={{
-          background: C.bg3, borderRadius: 14, padding: '16px 18px',
-          border: `1px solid ${C.border}`, transition: 'border-color .2s',
+          background: 'rgba(255,255,255,.04)', borderRadius: 14, padding: '16px 18px',
+          border: `1px solid ${C.border}`, backdropFilter: 'blur(12px)', transition: 'border-color .2s',
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
             <div>
@@ -203,11 +204,11 @@ function PropertyCards({ items }: { items: PropertyCard[] }) {
               <div style={{ fontSize: 13, color: C.muted, marginTop: 2 }}>{p.location}</div>
             </div>
             <div style={{
-              background: `rgba(207,175,75,.15)`, color: C.gold, fontSize: 13, fontWeight: 700,
+              background: `rgba(207,175,75,.1)`, color: C.gold, fontSize: 13, fontWeight: 700,
               fontFamily: C.fontM, padding: '4px 10px', borderRadius: 8,
             }}>{p.score}/100</div>
           </div>
-          <div style={{ display: 'flex', gap: 16, fontSize: 13, color: 'rgba(255,255,255,.7)', marginBottom: 10 }}>
+          <div style={{ display: 'flex', gap: 16, fontSize: 13, color: '#9ca3af', marginBottom: 10 }}>
             <span>{p.surface}</span>
             <span>{p.rooms}</span>
           </div>
@@ -232,11 +233,11 @@ function ProCards({ items }: { items: ProCard[] }) {
               <div style={{ fontSize: 13, color: C.gold, marginTop: 2 }}>{p.specialty}</div>
             </div>
             <div style={{
-              background: `rgba(207,175,75,.15)`, color: C.gold, fontSize: 13, fontWeight: 700,
+              background: `rgba(207,175,75,.1)`, color: C.gold, fontSize: 13, fontWeight: 700,
               fontFamily: C.fontM, padding: '4px 10px', borderRadius: 8,
             }}>{p.rating}/5</div>
           </div>
-          <div style={{ display: 'flex', gap: 16, fontSize: 13, color: 'rgba(255,255,255,.7)' }}>
+          <div style={{ display: 'flex', gap: 16, fontSize: 13, color: '#9ca3af' }}>
             <span>{p.zone}</span>
             <span>{p.experience}</span>
           </div>
@@ -258,7 +259,7 @@ function DevisCard({ d }: { d: DevisResult }) {
   const pct = Math.min(100, Math.max(0, (est / range) * 100))
 
   return (
-    <div style={{ background: C.bg3, borderRadius: 14, padding: '18px 18px', border: `1px solid ${C.border}`, marginTop: 12 }}>
+    <div style={{ background: 'rgba(255,255,255,.04)', borderRadius: 14, padding: '18px 18px', border: `1px solid ${C.border}`, backdropFilter: 'blur(12px)', marginTop: 12 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
         <span style={{
           background: vc.bg, color: vc.text, fontSize: 12, fontWeight: 700,
@@ -269,7 +270,7 @@ function DevisCard({ d }: { d: DevisResult }) {
 
       <div style={{ marginBottom: 14 }}>
         <div style={{ fontSize: 13, color: C.muted, marginBottom: 6 }}>Fourchette du marche</div>
-        <div style={{ position: 'relative' as const, height: 8, background: 'rgba(255,255,255,.08)', borderRadius: 4 }}>
+        <div style={{ position: 'relative' as const, height: 8, background: 'rgba(0,0,0,.06)', borderRadius: 4 }}>
           <div style={{
             position: 'absolute' as const, top: 0, left: 0, height: '100%',
             width: '100%', background: `linear-gradient(90deg, #4bcf78, ${C.gold}, #cf6a4b)`,
@@ -291,7 +292,7 @@ function DevisCard({ d }: { d: DevisResult }) {
       <div>
         <div style={{ fontSize: 13, color: C.muted, marginBottom: 8 }}>Recommandations</div>
         {d.recommendations.map((r, i) => (
-          <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 6, fontSize: 13, color: 'rgba(255,255,255,.8)' }}>
+          <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 6, fontSize: 13, color: '#9ca3af' }}>
             <span style={{ color: C.gold, flexShrink: 0 }}>--</span>
             <span>{r}</span>
           </div>
@@ -303,7 +304,7 @@ function DevisCard({ d }: { d: DevisResult }) {
 
 function EstimationCard({ e }: { e: EstimationResult }) {
   return (
-    <div style={{ background: C.bg3, borderRadius: 14, padding: '18px 18px', border: `1px solid ${C.border}`, marginTop: 12 }}>
+    <div style={{ background: 'rgba(255,255,255,.04)', borderRadius: 14, padding: '18px 18px', border: `1px solid ${C.border}`, backdropFilter: 'blur(12px)', marginTop: 12 }}>
       <div style={{ fontSize: 13, color: C.muted, marginBottom: 4 }}>{e.address}</div>
       <div style={{ fontFamily: C.fontD, fontSize: 28, fontWeight: 700, color: C.gold, marginBottom: 12 }}>
         {e.estimation} €
@@ -326,7 +327,7 @@ function EstimationCard({ e }: { e: EstimationResult }) {
 
       <div>
         <div style={{ fontSize: 13, color: C.muted, marginBottom: 6 }}>Indice de confiance</div>
-        <div style={{ position: 'relative' as const, height: 6, background: 'rgba(255,255,255,.08)', borderRadius: 3 }}>
+        <div style={{ position: 'relative' as const, height: 6, background: 'rgba(0,0,0,.06)', borderRadius: 3 }}>
           <div style={{
             height: '100%', width: `${e.confidence}%`, borderRadius: 3,
             background: `linear-gradient(90deg, ${C.gold}, ${C.gold2})`,
@@ -430,7 +431,7 @@ export default function ChatPage() {
       <div style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '12px 20px', borderBottom: `1px solid ${C.border}`,
-        background: C.bg2, flexShrink: 0, zIndex: 10,
+        background: 'rgba(17,18,20,.9)', backdropFilter: 'blur(24px)', flexShrink: 0, zIndex: 10,
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           <Link href="/" style={{
@@ -441,7 +442,7 @@ export default function ChatPage() {
         </div>
 
         <div style={{
-          fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,.7)',
+          fontSize: 13, fontWeight: 600, color: '#9ca3af',
           letterSpacing: '.5px', position: 'absolute' as const, left: '50%', transform: 'translateX(-50%)',
         }}>
           Agent IA Immobilier
@@ -518,7 +519,7 @@ export default function ChatPage() {
               ].map((cap, i) => (
                 <div key={i} style={{
                   display: 'flex', alignItems: 'flex-start', gap: 10,
-                  fontSize: 14, color: 'rgba(255,255,255,.75)', lineHeight: 1.5,
+                  fontSize: 14, color: '#9ca3af', lineHeight: 1.5,
                 }}>
                   <span style={{ color: C.gold, fontFamily: C.fontM, fontSize: 12, marginTop: 2, flexShrink: 0 }}>{'>'}</span>
                   <span>{cap}</span>
@@ -526,7 +527,7 @@ export default function ChatPage() {
               ))}
             </div>
 
-            <p style={{ fontSize: 14, color: 'rgba(255,255,255,.6)', marginBottom: 20 }}>
+            <p style={{ fontSize: 14, color: '#6b7280', marginBottom: 20 }}>
               Que puis-je faire pour vous ?
             </p>
 
@@ -582,7 +583,9 @@ export default function ChatPage() {
               {/* Text bubble */}
               {msg.text && (
                 <div style={{
-                  background: msg.role === 'user' ? C.gold : C.bg2,
+                  background: msg.role === 'user' ? C.gold : 'rgba(255,255,255,.05)',
+                  backdropFilter: msg.role === 'assistant' ? 'blur(12px)' : 'none',
+                  border: msg.role === 'assistant' ? `1px solid ${C.border}` : 'none',
                   color: msg.role === 'user' ? C.bg : C.white,
                   borderRadius: msg.role === 'user' ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
                   padding: '12px 18px', fontSize: 14, lineHeight: 1.6,
@@ -616,7 +619,7 @@ export default function ChatPage() {
       {/* ============================================================ */}
       <div style={{
         flexShrink: 0, borderTop: `1px solid ${C.border}`,
-        background: C.bg2, padding: '12px 16px 16px',
+        background: 'rgba(17,18,20,.9)', backdropFilter: 'blur(24px)', padding: '12px 16px 16px',
       }}>
         {/* Quick chips (when messages exist) */}
         {hasMessages && (
@@ -631,7 +634,7 @@ export default function ChatPage() {
                 style={{
                   background: 'rgba(207,175,75,.06)', border: `1px solid rgba(207,175,75,.1)`,
                   borderRadius: 16, padding: '6px 12px', fontSize: 12,
-                  color: 'rgba(255,255,255,.5)', cursor: 'pointer', fontFamily: C.fontB,
+                  color: '#6b7280', cursor: 'pointer', fontFamily: C.fontB,
                   whiteSpace: 'nowrap' as const, flexShrink: 0, transition: 'all .2s',
                 }}
                 onMouseEnter={e => {
@@ -639,7 +642,7 @@ export default function ChatPage() {
                   e.currentTarget.style.borderColor = C.gold
                 }}
                 onMouseLeave={e => {
-                  e.currentTarget.style.color = 'rgba(255,255,255,.5)'
+                  e.currentTarget.style.color = '#6b7280'
                   e.currentTarget.style.borderColor = 'rgba(207,175,75,.1)'
                 }}
               >
@@ -652,8 +655,8 @@ export default function ChatPage() {
         {/* Input row */}
         <div style={{
           display: 'flex', gap: 10, alignItems: 'flex-end',
-          background: C.bg3, borderRadius: 16, padding: '10px 12px 10px 18px',
-          border: `1px solid ${C.border}`,
+          background: 'rgba(255,255,255,.04)', borderRadius: 16, padding: '10px 12px 10px 18px',
+          border: `1px solid ${C.border}`, backdropFilter: 'blur(12px)',
         }}>
           <textarea
             ref={inputRef}
@@ -681,7 +684,7 @@ export default function ChatPage() {
               width: 40, height: 40, borderRadius: 12, border: 'none', cursor: 'pointer',
               background: input.trim() && !typing && credits > 0
                 ? `linear-gradient(135deg, ${C.gold}, ${C.gold2})`
-                : 'rgba(255,255,255,.08)',
+                : 'rgba(255,255,255,.06)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               flexShrink: 0, transition: 'all .2s',
             }}
@@ -699,7 +702,7 @@ export default function ChatPage() {
           marginTop: 10, fontSize: 12, color: C.muted, fontFamily: C.fontM,
         }}>
           <span>1 credit par message</span>
-          <span style={{ color: 'rgba(255,255,255,.2)' }}>|</span>
+          <span style={{ color: '#d1d5db' }}>|</span>
           <span style={{ color: credits > 0 ? C.gold : '#cf6a4b' }}>
             {credits} credit{credits !== 1 ? 's' : ''} restant{credits !== 1 ? 's' : ''}
           </span>
